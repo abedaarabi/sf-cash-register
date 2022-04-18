@@ -24,7 +24,7 @@ async function handler(req: any, res: any) {
     const input = {
       userId,
       done: false,
-
+      date,
       sales: {
         productSales: payload.productSales,
         other: payload.other,
@@ -49,12 +49,7 @@ async function handler(req: any, res: any) {
         "100s": +payload["100s"] * 100,
         "50s": +payload["50s"] * 50,
       },
-      comments: {
-        comments: payload.comments,
-      },
-      date: {
-        date,
-      },
+      comments: payload.comments,
     };
 
     try {

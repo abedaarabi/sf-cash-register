@@ -20,10 +20,13 @@ export const GetCloseRegister = () => {
     fetch("/api/register-hours/" + user.uid)
       .then((res) => res.json())
       .then(({ response }) => {
-        setDailyReport(response[response.length - 1]);
+        setDailyReport(
+          user.email === "abedaarabi@gmail.com" && response[response.length - 1]
+        );
         setLoading(false);
       });
-  }, [user.uid]);
+  }, [user]);
+  console.log(dailyReport);
 
   if (loading) {
     return <h2 className={styles.container}>Loading...</h2>;
@@ -32,13 +35,13 @@ export const GetCloseRegister = () => {
   const { countCoins } = dailyReport;
   const { card28, card43, mobilePay, invoices } = dailyReport.payments;
   const { productSales } = dailyReport;
+  const { comments } = dailyReport;
   console.log(dailyReport);
 
   const note = getTotal(countNote);
   const coins = getTotal(countCoins);
   const payment = getTotal(dailyReport.payments);
 
-  const yy = true;
   return (
     <div
       style={{
@@ -53,7 +56,7 @@ export const GetCloseRegister = () => {
     >
       <div>
         <ul>
-          <li>{`Date: ${dailyReport.date.date}`}</li>
+          <li>{`Date: ${dailyReport.date}`}</li>
           <pre>___________________________ </pre>
           <h4>Payments</h4>
           <li>{`card 28: ${card28}.0 kr.`}</li>
@@ -66,6 +69,19 @@ export const GetCloseRegister = () => {
           <li>{`Note: ${note}.0 kr.`}</li>
           <li>{`Coins: ${coins}.0 kr.`}</li>
         </ul>
+        <pre>___________________________ </pre>
+        <div
+          style={{
+            backgroundColor: "#40916c",
+            width: "80%",
+            height: "90px",
+            color: "white",
+            margin: "1rem",
+          }}
+        >
+          <h4>Comments</h4>
+          <p>{comments}</p>
+        </div>
       </div>
       <Button onClick={() => setDone(!done)}>
         {done ? "Not Done" : "Done"}
@@ -76,6 +92,7 @@ export const GetCloseRegister = () => {
 
 const getTotal = (obj: any) => {
   let total = 0;
+
   for (const key in obj) {
     const element = obj[key];
     total += element;
