@@ -9,20 +9,30 @@ export async function connectDatabase() {
   );
 }
 
-export async function insertDocument(client: any, collection: any, document:any) {
+export async function insertDocument(
+  client: any,
+  collection: any,
+  document: any
+) {
   const db = await client.db();
   const result = await db.collection(collection).insertOne(document);
   console.log(result);
   return result;
 }
 
-export async function getAllDocuments(client:any, collection:any, sort:any, filter:any) {
-  const db = client.db();
-  const documents = await db
-    .collection(collection)
-    // .find(filter)
-    .sort(sort)
-    .toArray();
+export async function getAllDocuments(
+  client: any,
+  collection: any,
+  filter?: any
+  // sort: any,
+) {
+  const db = await client.db();
+
+  const documents = await db.collection(collection).find().toArray();
+
+  // .find(filter);
+  // .sort(sort)
+  // .toArray();
 
   return documents;
 }

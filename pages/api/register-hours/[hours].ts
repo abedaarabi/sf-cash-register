@@ -1,26 +1,39 @@
-import { connectDatabase, insertDocument } from "../../../helper/db-util";
+import {
+  connectDatabase,
+  insertDocument,
+  getAllDocuments,
+} from "../../../helper/db-util";
+import { uuid } from "uuidv4";
 
 async function handler(req: any, res: any) {
+  const { hours: userId } = req.query;
+  const date = new Date();
+  const postId = uuid();
+
+  let client;
+  try {
+    client = await connectDatabase();
+  } catch (error) {
+    res.status(500).json({ message: "Failed to connect to db!" });
+    return;
+  }
+
   if (req.method === "POST") {
     const payload = req.body;
 
-    const { hours: userId } = req.query;
-
-    const date = new Date();
-    // let input = { ...payload, userId, date } as any;
-    // console.log(input);
-
     const input = {
-      userId: {
-        userId,
-      },
-      salse: {
+      userId,
+      done: false,
+
+      sales: {
         productSales: payload.productSales,
         other: payload.other,
       },
       payments: {
         card28: payload.card28,
         card43: payload.card43,
+        mobilePay: payload.mobilePay,
+        invoices: payload.invoices,
       },
       countCoins: {
         "20s": +payload["20s"] * 20,
@@ -43,16 +56,6 @@ async function handler(req: any, res: any) {
         date,
       },
     };
-    console.log(input);
-
-    let client;
-
-    try {
-      client = await connectDatabase();
-    } catch (error) {
-      res.status(500).json({ message: "Failed to connect to db!" });
-      return;
-    }
 
     try {
       await insertDocument(client, "cash-register", input);
@@ -62,6 +65,17 @@ async function handler(req: any, res: any) {
       return;
     }
 
+    client.close();
+  }
+
+  if (req.method === "GET") {
+    try {
+      const documents = await getAllDocuments(client, "cash-register");
+
+      res.status(200).json({ response: documents });
+    } catch (error) {
+      res.status(500).json({ message: "Getting data failed" });
+    }
     client.close();
   }
 }

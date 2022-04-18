@@ -2,8 +2,6 @@ import React from "react";
 // import { Button, Icon } from "@mui/material";
 import { Button } from "../components/ui/Button";
 import { Field, Form, Formik } from "formik";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
 import { MyField } from "../components/MyField";
 import { useAuth } from "../context/AuthContext";
@@ -15,14 +13,16 @@ import {
   payments,
   sales,
 } from "../helper/inputshelper";
+import { route } from "next/dist/server/router";
+import { useRouter } from "next/router";
 
 export const RegisterHours = () => {
-  const { user, setUser, logIn, signInWithGoogle } = useAuth();
-
-  function addCommentHandler(commentData: any) {
+  const { user } = useAuth();
+  const router = useRouter();
+  function addCommentHandler(inputsValue: any) {
     fetch("/api/register-hours/" + user.uid, {
       method: "POST",
-      body: JSON.stringify(commentData),
+      body: JSON.stringify(inputsValue),
       headers: {
         "Content-Type": "application/json",
       },
@@ -37,8 +37,6 @@ export const RegisterHours = () => {
         <Formik
           initialValues={formikvalues}
           onSubmit={(value) => {
-            console.log(value);
-
             try {
               if (
                 value.card28 === 0 ||
@@ -48,9 +46,7 @@ export const RegisterHours = () => {
                 alert("fill the inputs");
               } else {
                 addCommentHandler(value);
-                // setTimeout(() => {
-                //   setUser(null);
-                // }, 2000);
+                router.push("/dataresult");
               }
             } catch (error) {
               console.log(error);

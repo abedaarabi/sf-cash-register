@@ -10,20 +10,12 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
-import {
-  getFirestore,
-  query,
-  getDocs,
-  collection,
-  where,
-  addDoc,
-  doc,
-  setDoc,
-} from "firebase/firestore";
+import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.apiKey,
   authDomain: process.env.authDomain,
+  databaseURL: "https://register-hours-default-rtdb.firebaseio.com/",
   projectId: process.env.projectId,
   storageBucket: process.env.storageBucket,
   messagingSenderId: process.env.messagingSenderId,
@@ -41,22 +33,28 @@ export const db = getFirestore(app);
 export const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
-
     const user = res.user;
 
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    const { docs } = await getDocs(q);
+    // const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const userDoc = doc(db, "users", user.uid);
 
-    console.log(docs, user.email, user.uid, "docs");
+    const docSnap = await getDoc(userDoc);
 
-    if (docs.length === 0) {
-      await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name: user.displayName,
-        authProvider: "google",
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+
+      await setDoc(userDoc, {
+        userId: user.uid,
         email: user.email,
+        displayName: user.displayName,
       });
     }
+
+    console.log(docSnap);
+
+    console.log("Document written with ID: ", user.uid);
   } catch (err) {
     console.error(err);
   }
@@ -73,20 +71,6 @@ export const signUp = async (
       email,
       password
     );
-
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    const docs = await getDocs(q);
-    console.log(docs, "docs");
-
-    if (docs.docs.length === 0) {
-      await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name: displayName,
-        authProvider: "google",
-        email: user.email,
-      });
-    }
-    console.log(user);
   } catch (error) {
     console.log(error);
   }
