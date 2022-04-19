@@ -5,7 +5,7 @@ import {
   updateDocument,
 } from "../../../helper/db-util";
 import { uuid } from "uuidv4";
-var ObjectID = require("mongodb").ObjectID;
+const ObjectID = require("mongodb").ObjectID;
 async function handler(req: any, res: any) {
   const { hours: userId } = req.query;
   const date = new Date().toLocaleDateString();

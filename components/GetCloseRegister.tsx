@@ -3,17 +3,20 @@ import React from "react";
 import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
 import { admin } from "../helper/emailAdmin";
+import { async } from "@firebase/util";
 
 export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const { user } = useAuth();
-  const [done, setDone] = React.useState(false);
+  const { comments, done, _id } = dailyReport;
+  const [isDone, setISDone] = React.useState(done);
+  const [loading, setLoading] = React.useState(false);
   const { countNote } = dailyReport;
   // const { done } = dailyReport;
   const { productSales } = dailyReport.sales;
   const { countCoins } = dailyReport;
   const { card28, card43, mobilePay, invoices } = dailyReport.payments;
 
-  const { comments } = dailyReport;
+  console.log(done);
 
   const note = getTotal(countNote);
   const coins = getTotal(countCoins);
@@ -21,10 +24,27 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const neededCash = payment - prevFDC - productSales;
   const totalCash = coins + note;
   const incomeCash = coins + note - prevFDC;
+
+  async function updateDone() {
+    try {
+      setLoading(false);
+      await doneNotDone(user.id, _id, isDone);
+      setLoading(true);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(user.uid, _id, isDone);
+  }
+  console.log(loading);
+
+  React.useEffect(() => {
+    updateDone();
+  }, [isDone]);
+
   return (
     <div
       style={{
-        backgroundColor: done ? "#ffb3c1" : "#e9ecef",
+        backgroundColor: isDone ? "#ffb3c1" : "#e9ecef",
         display: "flex",
         width: "20rem",
         alignItems: "center",
@@ -116,7 +136,12 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
         </div>
 
         {admin.includes(user.email) && (
-          <Button onClick={() => setDone(!done)}>
+          <Button
+            // disabled={loading}
+            onClick={() => {
+              setISDone(!isDone);
+            }}
+          >
             {done ? "Done" : "Not Done"}
           </Button>
         )}
@@ -147,12 +172,18 @@ const getTotal = (obj: any) => {
   return total;
 };
 
-async function DoneNotDone(id: string, userId: string) {
-  fetch("/api/register-hours/" + userId, {
-    method: "POST",
-    body: JSON.stringify(id),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+async function doneNotDone(id: string, _id: string, isDone: boolean) {
+  try {
+    await fetch("/api/editdone/" + id, {
+      method: "POST",
+      body: JSON.stringify({ done: isDone, id: _id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  } catch (error) {
+    console.log(error);
+  }
 }

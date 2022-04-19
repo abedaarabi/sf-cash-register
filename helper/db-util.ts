@@ -27,8 +27,6 @@ export async function updateDocument(
   document?: any
 ) {
   try {
-    console.log(filter, document);
-
     const db = await client.db();
     return await db.collection(collection).updateOne(filter, document);
   } catch (error) {

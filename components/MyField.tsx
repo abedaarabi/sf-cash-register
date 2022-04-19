@@ -18,22 +18,6 @@ export const MyField: React.FC<(FieldProps & TextFieldProps) | any> = ({
   rows,
   required,
 }) => {
-  console.log({
-    placeholder,
-    label,
-    field,
-    variant,
-    color,
-    type,
-    size,
-    value,
-    width,
-    marginBottom,
-    defaultValue,
-    multiline,
-    rows,
-    required,
-  });
   return (
     <TextField
       {...field}
