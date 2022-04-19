@@ -14,6 +14,8 @@ export const AllDailyReports = () => {
     fetch("/api/register-hours/" + user.uid)
       .then((res) => res.json())
       .then(({ response }) => {
+        // console.log(response);
+
         setDailyReport(
           admin.includes(user.email)
             ? response
@@ -27,7 +29,9 @@ export const AllDailyReports = () => {
     return <h2 className={styles.container}>Loading...</h2>;
   }
 
-  const fakeArr = dailyReport.splice(0, 1);
+  const fakeArr = dailyReport.slice(1);
+  console.log
+
   return (
     <div
       style={{
