@@ -1,16 +1,11 @@
 import React from "react";
 import { AllDailyReports } from "../components/AllDailyReports";
 
-import { useAuth } from "../context/AuthContext";
-
-const DataResult = () => {
-  const { user } = useAuth();
-
+const Reports = () => {
   return (
     <div>
       <AllDailyReports />
     </div>
   );
 };
-
-export default DataResult;
+export default Reports;

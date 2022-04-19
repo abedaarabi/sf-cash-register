@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button } from "../../components/ui/Button";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/AuthContext";
@@ -22,6 +22,25 @@ const MainHeader = () => {
       <div className={classes.logo}>
         <Link href={user ? "/dashboard" : "/login"}>Sorte Firkant</Link>
       </div>
+      <p style={{ color: "white" }}> {user ? `Hello ${user?.email}` : ""}</p>
+      {user?.email === "abedaarabi@gmail.com" && (
+        <>
+          <Button
+            onClick={() => {
+              router.push("/reports");
+            }}
+          >
+            Reports
+          </Button>
+          <Button
+            onClick={() => {
+              router.push("/dashboard");
+            }}
+          >
+            Home
+          </Button>
+        </>
+      )}
       <nav className={classes.navigation}>
         <ul>
           {user ? (
@@ -29,7 +48,6 @@ const MainHeader = () => {
           ) : (
             <Link href={""}>{user ? "Log out" : "Log in"}</Link>
           )}
-          <p style={{ color: "gray" }}> {user ? `Hello ${user.email}` : ""}</p>
         </ul>
       </nav>
     </header>

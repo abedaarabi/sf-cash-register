@@ -55,7 +55,6 @@ export const RegisterHours = () => {
         >
           {() => (
             <Form>
-              <h2>Incomes</h2>
               <div style={{ display: "flex" }}>
                 <div style={{ paddingLeft: "5px" }}>
                   <p>Sales</p>
@@ -69,7 +68,7 @@ export const RegisterHours = () => {
                         color="success"
                         type="number"
                         width={"8rem"}
-                        marginBottom={"2rem"}
+                        marginBottom={"1rem"}
                         component={MyField}
                         defaultValue={0}
                       />
@@ -88,7 +87,7 @@ export const RegisterHours = () => {
                         color="success"
                         type="number"
                         width={"8rem"}
-                        marginBottom={"2rem"}
+                        marginBottom={"1rem"}
                         component={MyField}
                         defaultValue={0}
                       />
@@ -107,7 +106,7 @@ export const RegisterHours = () => {
                         color="success"
                         type="number"
                         width={"8rem"}
-                        marginBottom={"2rem"}
+                        marginBottom={"1rem"}
                         component={MyField}
                         defaultValue={0}
                       />
@@ -126,7 +125,7 @@ export const RegisterHours = () => {
                         color="success"
                         type="number"
                         width={"8rem"}
-                        marginBottom={"2rem"}
+                        marginBottom={"1rem"}
                         component={MyField}
                         defaultValue={0}
                       />
@@ -151,7 +150,7 @@ export const RegisterHours = () => {
                   color="success"
                   type="textArea"
                   width={"33rem"}
-                  marginBottom={"2rem"}
+                  marginBottom={"1rem"}
                   component={MyField}
                   required={false}
                 />
