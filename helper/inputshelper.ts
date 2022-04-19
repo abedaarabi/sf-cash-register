@@ -27,7 +27,7 @@ export const sales = [
   { label: "other", name: "other", placeholder: "other" },
 ] as any;
 
-export const formikvalues = {
+export const Statevalues = {
   card28: 0,
   card43: 0,
   mobilePay: 0,

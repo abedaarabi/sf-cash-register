@@ -7,7 +7,7 @@ import { GetCloseRegister } from "./GetCloseRegister";
 export const AllDailyReports = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);
-  const [done, setDone] = React.useState(false);
+
   const { user } = useAuth();
 
   React.useEffect(() => {

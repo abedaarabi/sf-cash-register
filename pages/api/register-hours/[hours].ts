@@ -2,12 +2,14 @@ import {
   connectDatabase,
   insertDocument,
   getAllDocuments,
+  updateDocument,
 } from "../../../helper/db-util";
 import { uuid } from "uuidv4";
-
+var ObjectID = require("mongodb").ObjectID;
 async function handler(req: any, res: any) {
   const { hours: userId } = req.query;
-  const date = new Date();
+  const date = new Date().toLocaleDateString();
+  const time = new Date().toLocaleTimeString();
   const postId = uuid();
 
   let client;
@@ -25,6 +27,7 @@ async function handler(req: any, res: any) {
       userId,
       done: false,
       date,
+      time,
       sales: {
         productSales: payload.productSales,
         other: payload.other,
@@ -53,8 +56,23 @@ async function handler(req: any, res: any) {
     };
 
     try {
-      await insertDocument(client, "cash-register", input);
-      res.status(201).json({ message: "Signed Up!" });
+      if (!payload.id) {
+        await insertDocument(client, "cash-register", input);
+        res.status(201).json({ message: "Signed Up!" });
+      } else {
+        const { id } = payload;
+
+        const result = await updateDocument(
+          client,
+          "cash-register",
+          { _id: ObjectID(id) },
+          { $set: input }
+        );
+
+        res
+          .status(200)
+          .json({ message: "Document Updated successfully!", result });
+      }
     } catch (error) {
       res.status(500).json({ message: "Failed to insert to db!" });
       return;

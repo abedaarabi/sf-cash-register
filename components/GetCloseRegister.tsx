@@ -37,6 +37,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
       <div>
         <ul>
           <li>{`Date: ${dailyReport.date}`}</li>
+          <li>{`Time: ${dailyReport.time}`}</li>
 
           <li
             style={{ color: "#4a4e69", listStyle: "none", marginLeft: "-2rem" }}
@@ -74,7 +75,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
         <ul>
           <li
             style={{
-              color: incomeCash <= 0 ? "#d90429" : "#0a9396",
+              color: totalCash + neededCash <= 0 ? "#d90429" : "#0a9396",
             }}
           >{`Cash difference ${totalCash + neededCash}.0 kr.`}</li>
           <li
@@ -120,7 +121,16 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
           </Button>
         )}
         <div>
-          <Button onClick={() => {}}>Edit</Button>
+          <Button
+            href={{
+              pathname: `/dashboard`,
+              query: {
+                id: dailyReport._id,
+              },
+            }}
+          >
+            Edit
+          </Button>
         </div>
       </div>
     </div>
@@ -136,3 +146,13 @@ const getTotal = (obj: any) => {
   }
   return total;
 };
+
+async function DoneNotDone(id: string, userId: string) {
+  fetch("/api/register-hours/" + userId, {
+    method: "POST",
+    body: JSON.stringify(id),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}

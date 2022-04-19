@@ -20,6 +20,22 @@ export async function insertDocument(
   return result;
 }
 
+export async function updateDocument(
+  client: any,
+  collection: any,
+  filter?: any,
+  document?: any
+) {
+  try {
+    console.log(filter, document);
+
+    const db = await client.db();
+    return await db.collection(collection).updateOne(filter, document);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getAllDocuments(
   client: any,
   collection: any,
