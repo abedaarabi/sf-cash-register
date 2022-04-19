@@ -27,6 +27,7 @@ export const AllDailyReports = () => {
     return <h2 className={styles.container}>Loading...</h2>;
   }
 
+  const fakeArr = dailyReport.splice(0, 1);
   return (
     <div
       style={{
@@ -36,7 +37,7 @@ export const AllDailyReports = () => {
         justifyContent: "space-around",
       }}
     >
-      {dailyReport.map((reporet: any, index: any) => {
+      {fakeArr.map((reporet: any, index: any) => {
         const { countCoins, countNote } =
           index >= 1 ? dailyReport[index - 1] : 0;
 
