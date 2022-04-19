@@ -10,6 +10,7 @@ export const countCoins = [
   { label: "5s", name: "5s", placeholder: "5s" },
   { label: "2s", name: "2s", placeholder: "2s" },
   { label: "1s", name: "1s", placeholder: "1s" },
+  { label: "0.5s", name: "half", placeholder: "0.5s" },
 ] as any;
 export const countNote = [
   { label: "1000s", name: "1000s", placeholder: "1000s" },
@@ -42,6 +43,7 @@ export const Statevalues = {
   "5s": 0,
   "2s": 0,
   "1s": 0,
+  half: 0,
   comments: "",
   productSales: 0,
   other: 0,

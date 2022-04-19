@@ -35,7 +35,7 @@ export const RegisterHours = ({ id }: any) => {
         setDailyUpdate(byId);
         setLoading(false);
       });
-  }, [user]);
+  }, [user, id]);
 
   function addCommentHandler(inputsValue: any) {
     fetch("/api/register-hours/" + user.uid, {
@@ -56,29 +56,31 @@ export const RegisterHours = ({ id }: any) => {
   let formikvalues;
 
   if (id) {
-    const { countCoins: conis } = dailyUpdate;
+    const { countCoins: coins } = dailyUpdate;
     const { comments } = dailyUpdate;
     const { countNote: note } = dailyUpdate;
     const { productSales, other } = dailyUpdate.sales;
     const { card28, card43, mobilePay, invoices } = dailyUpdate.payments;
+
     formikvalues = {
-      card28: card28 || 0,
-      card43: card43 || 0,
-      mobilePay: mobilePay || 0,
-      invoices: invoices || 0,
-      "1000s": note["1000s"] || 0,
-      "500s": note["500s"] || 0,
-      "200s": note["200s"] || 0,
-      "100s": note["100s"] || 0,
-      "50s": note["50s"] || 0,
-      "20s": conis["20s"] || 0,
-      "10s": conis["10s"] || 0,
-      "5s": conis["5s"] || 0,
-      "2s": conis["2s"] || 0,
-      "1s": conis["1s"] || 0,
-      comments: comments || "",
-      productSales: productSales || 0,
-      other: other || 0,
+      card28: card28,
+      card43: card43,
+      mobilePay: mobilePay,
+      invoices: invoices,
+      "1000s": note["1000s"],
+      "500s": note["500s"],
+      "200s": note["200s"],
+      "100s": note["100s"],
+      "50s": note["50s"],
+      "20s": coins["20s"],
+      "10s": coins["10s"],
+      "5s": coins["5s"],
+      "2s": coins["2s"],
+      "1s": coins["1s"],
+      half: coins.half,
+      comments: comments,
+      productSales: productSales,
+      other: other,
     };
   } else {
     formikvalues = Statevalues;
@@ -91,11 +93,7 @@ export const RegisterHours = ({ id }: any) => {
           initialValues={formikvalues}
           onSubmit={(value) => {
             try {
-              if (
-                value.card28 === 0 ||
-                value.card43 === 0 ||
-                value.productSales === 0
-              ) {
+              if (value.card28 <= 0 || value.productSales === 0) {
                 alert("fill the inputs");
               } else {
                 addCommentHandler(value);
@@ -149,6 +147,7 @@ export const RegisterHours = ({ id }: any) => {
 
                 <div style={{ paddingLeft: "5px" }}>
                   <p>Count Coins</p>
+
                   {countCoins.map(({ label, name, placeholder }: any) => {
                     return (
                       <div key={name.toString()}>

@@ -44,6 +44,7 @@ async function handler(req: any, res: any) {
         "5s": +payload["5s"] * 5,
         "2s": +payload["2s"] * 2,
         "1s": +payload["1s"] * 1,
+        half: +payload.half * 0.5,
       },
       countNote: {
         "1000s": +payload["1000s"] * 1000,
