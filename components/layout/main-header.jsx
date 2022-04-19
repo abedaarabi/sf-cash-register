@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "../../context/AuthContext";
 import classes from "./main-header.module.css";
+import { admin } from "../../helper/emailAdmin";
 
 const MainHeader = () => {
   const { user, logout, signInWithGoogle } = useAuth();
@@ -23,7 +24,7 @@ const MainHeader = () => {
         <Link href={user ? "/dashboard" : "/login"}>Sorte Firkant</Link>
       </div>
       <p style={{ color: "white" }}> {user ? `Hello ${user?.email}` : ""}</p>
-      {user?.email === "abedaarabi@gmail.com" && (
+      {admin.includes(user.email) && (
         <>
           <Button
             onClick={() => {
