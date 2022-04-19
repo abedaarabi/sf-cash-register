@@ -24,7 +24,7 @@ const MainHeader = () => {
         <Link href={user ? "/dashboard" : "/login"}>Sorte Firkant</Link>
       </div>
       <p style={{ color: "white" }}> {user ? `Hello ${user?.email}` : ""}</p>
-      {admin.includes(user.email) && (
+      {admin.includes(user?.email) && (
         <>
           <Button
             onClick={() => {
@@ -33,7 +33,7 @@ const MainHeader = () => {
           >
             Reports
           </Button>
-          
+
           <Button
             onClick={() => {
               router.push("/dashboard");
