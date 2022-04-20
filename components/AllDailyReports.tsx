@@ -14,15 +14,14 @@ export const AllDailyReports = () => {
     fetch("/api/register-hours/" + user.uid)
       .then((res) => res.json())
       .then(({ response }) => {
-        // console.log(response);
-
         setDailyReport(
           admin.includes(user.email)
             ? response
-            : [response[response.length - 1]]
+            : [response[response.length - 1]] || []
         );
         setLoading(false);
-      });
+      })
+      .catch((err) => console.log(err));
   }, [user]);
 
   if (loading) {
@@ -30,7 +29,6 @@ export const AllDailyReports = () => {
   }
 
   const fakeArr = dailyReport.slice(1);
-  console.log(fakeArr);
 
   return (
     <div
@@ -41,9 +39,9 @@ export const AllDailyReports = () => {
         justifyContent: "space-around",
       }}
     >
-      {fakeArr.map((reporet: any, index: any) => {
-        const { countCoins, countNote } =
-          index >= 1 ? dailyReport[index - 1] : 0;
+      {fakeArr.map((report: any, index: any) => {
+        const { countCoins, countNote } = index >= 1 && dailyReport[index - 1];
+        console.log({ countCoins, countNote, report });
 
         const coins = getTotal(countCoins);
 
@@ -51,8 +49,8 @@ export const AllDailyReports = () => {
         const prevFDC = coins + notes;
 
         return (
-          <div key={reporet._id}>
-            <GetCloseRegister dailyReport={reporet} prevFDC={prevFDC} />
+          <div key={report._id}>
+            <GetCloseRegister dailyReport={report} prevFDC={prevFDC} />
           </div>
         );
       })}

@@ -47,4 +47,5 @@ export const Statevalues = {
   comments: "",
   productSales: 0,
   other: 0,
+  closingDate: "",
 };

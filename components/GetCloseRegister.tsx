@@ -16,7 +16,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const { countCoins } = dailyReport;
   const { card28, card43, mobilePay, invoices } = dailyReport.payments;
 
-  console.log(done);
+  // console.log(done, "done", loading, "loading", isDone, "isDone");
 
   const note = getTotal(countNote);
   const coins = getTotal(countCoins);
@@ -24,7 +24,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const neededCash = payment - prevFDC - productSales;
   const totalCash = coins + note;
   const incomeCash = coins + note - prevFDC;
-
+  const cashDiff = totalCash + neededCash;
   async function updateDone() {
     try {
       setLoading(false);
@@ -33,9 +33,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
     } catch (error) {
       console.log(error);
     }
-    console.log(user.uid, _id, isDone);
   }
-  console.log(loading);
 
   React.useEffect(() => {
     updateDone();
@@ -56,53 +54,64 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
     >
       <div>
         <ul>
+          <li
+            style={{
+              color: "tomato",
+              listStyle: "none",
+              fontStyle: "italic",
+            }}
+          >{`Closing Date: ${dailyReport.closingDate}`}</li>
           <li>{`Date: ${dailyReport.date}`}</li>
           <li>{`Time: ${dailyReport.time}`}</li>
 
           <li
-            style={{ color: "#4a4e69", listStyle: "none", marginLeft: "-2rem" }}
+            style={{
+              color: "#4a4e69",
+              listStyle: "none",
+              marginLeft: "-2rem",
+            }}
           >
             Payments:
           </li>
-          <li>{`card 28: ${card28}.0 kr.`}</li>
-          <li>{`card 43: ${card43}.0 kr.`}</li>
-          <li>{`Mobile Pay: ${mobilePay}.0 kr.`}</li>
-          <li>{`Invoices: ${invoices}.0 kr.`}</li>
-          <li>{`Opening FDC ${prevFDC}.0kr`}</li>
+          <li>{`card 28: ${card28.toFixed(2)}kr.`}</li>
+          <li>{`card 43: ${card43.toFixed(2)}kr.`}</li>
+          <li>{`Mobile Pay: ${mobilePay.toFixed(2)}kr.`}</li>
+          <li>{`Invoices: ${invoices.toFixed(2)}kr.`}</li>
+          <li>{`Opening FDC ${prevFDC.toFixed(2)}kr`}</li>
           <li
             style={{ color: "#52b788", listStyle: "none", margin: "5% -2rem " }}
-          >{`Total Sales: ${payment}.0 kr.`}</li>
+          >{`Total Sales: ${payment}kr.`}</li>
           <li
             style={{ color: "#4a4e69", listStyle: "none", marginLeft: "-2rem" }}
           >
             Sales:
           </li>
-          <li>{`Product Sales: ${productSales}.0 kr.`}</li>
+          <li>{`Product Sales: ${productSales.toFixed(2)}kr.`}</li>
           <li
             style={{ color: "#4a4e69", listStyle: "none", marginLeft: "-2rem" }}
           >
             Cash:
           </li>
-          <li>{`Note: ${note}.0 kr.`}</li>
-          <li>{`Coins: ${coins}.0 kr.`}</li>
+          <li>{`Note: ${note.toFixed(2)}kr.`}</li>
+          <li>{`Coins: ${coins.toFixed(2)}kr.`}</li>
           <li
             style={{ color: "#61a5c2", listStyle: "none", marginLeft: "-2rem" }}
-          >{`Total: ${totalCash}.0 kr.`}</li>
+          >{`Total: ${totalCash.toFixed(2)}kr.`}</li>
           <li
             style={{ color: "#577590", listStyle: "none", marginLeft: "-2rem" }}
-          >{`Needed Cash ${neededCash}.0 kr.`}</li>
+          >{`Needed Cash ${neededCash.toFixed(2)}kr.`}</li>
         </ul>
         <ul>
           <li
             style={{
               color: totalCash + neededCash <= 0 ? "#d90429" : "#0a9396",
             }}
-          >{`Cash difference ${totalCash + neededCash}.0 kr.`}</li>
+          >{`Cash difference ${cashDiff.toFixed(2)}kr.`}</li>
           <li
             style={{
               color: incomeCash <= 0 ? "#d90429" : "#0a9396",
             }}
-          >{`Cash income ${incomeCash}.0 kr.`}</li>
+          >{`Cash income ${incomeCash.toFixed(2)}kr.`}</li>
         </ul>
         <h4 style={{ color: "#4a4e69" }}>Comments:</h4>
         <div
@@ -136,14 +145,19 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
         </div>
 
         {admin.includes(user.email) && (
-          <Button
-            // disabled={true}
-            onClick={() => {
-              setISDone(!isDone);
-            }}
-          >
-            {done ? "Done" : "Not Done"}
-          </Button>
+          <div>
+            {!loading ? (
+              <p>loading</p>
+            ) : (
+              <Button
+                onClick={() => {
+                  setISDone(!isDone);
+                }}
+              >
+                {isDone ? "Done" : "Not Done"}
+              </Button>
+            )}
+          </div>
         )}
         <div>
           <Button
@@ -180,9 +194,7 @@ async function doneNotDone(id: string, _id: string, isDone: boolean) {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    }).then((res) => res.json());
   } catch (error) {
     console.log(error);
   }

@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "./ui/Button";
 import { Field, Form, Formik } from "formik";
 
-import { MyField } from "./MyField";
+import { DateINput, MyField } from "./MyField";
 import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
 import {
@@ -15,6 +15,7 @@ import {
 } from "../helper/inputshelper";
 
 import { useRouter } from "next/router";
+import { TextField } from "@mui/material";
 
 export const RegisterHours = ({ id }: any) => {
   const { user } = useAuth();
@@ -23,12 +24,13 @@ export const RegisterHours = ({ id }: any) => {
   const [dailyUpdate, setDailyUpdate] = React.useState(null) as any;
 
   const [loading, setLoading] = React.useState(true);
+  const [fdc, setFdc] = React.useState(null) as any;
 
   React.useEffect(() => {
-    //TODO:add a new endpoint with id instead of query the whole array from the database!
     fetch("/api/register-hours/" + user.uid)
       .then((res) => res.json())
       .then(({ response }) => {
+        setFdc(response[response.length - 1]);
         const byId = response.find((item: any) => item._id === id);
         console.log(byId);
 
@@ -36,6 +38,9 @@ export const RegisterHours = ({ id }: any) => {
         setLoading(false);
       });
   }, [user, id]);
+
+  const note = getTotal(fdc?.countNote);
+  const coins = getTotal(fdc?.countCoins);
 
   function addCommentHandler(inputsValue: any) {
     fetch("/api/register-hours/" + user.uid, {
@@ -45,7 +50,6 @@ export const RegisterHours = ({ id }: any) => {
         "Content-Type": "application/json",
       },
     }).then((res) => res.json());
-    // .then((data) => console.log(data));
   }
 
   if (loading) {
@@ -56,7 +60,7 @@ export const RegisterHours = ({ id }: any) => {
 
   if (id) {
     const { countCoins: coins } = dailyUpdate;
-    const { comments } = dailyUpdate;
+    const { comments, closingDate } = dailyUpdate;
     const { countNote: note } = dailyUpdate;
     const { productSales, other } = dailyUpdate.sales;
     const { card28, card43, mobilePay, invoices } = dailyUpdate.payments;
@@ -67,7 +71,7 @@ export const RegisterHours = ({ id }: any) => {
       mobilePay: mobilePay,
       invoices: invoices,
       "1000s": note["1000s"] / 1000,
-      "500s": note["500s"] / 5000,
+      "500s": note["500s"] / 500,
       "200s": note["200s"] / 200,
       "100s": note["100s"] / 100,
       "50s": note["50s"] / 50,
@@ -80,13 +84,15 @@ export const RegisterHours = ({ id }: any) => {
       comments: comments,
       productSales: productSales,
       other: other,
+      closingDate: closingDate,
     };
   } else {
     formikvalues = Statevalues;
   }
-
+  const opening = coins + note;
   return (
     <div className={styles.container}>
+      <h4 style={{ color: "#006d77" }}>Opening FDC: {opening.toFixed(2)}kr.</h4>
       <div>
         <Formik
           initialValues={formikvalues}
@@ -106,6 +112,18 @@ export const RegisterHours = ({ id }: any) => {
           {() => (
             <Form>
               <div style={{ display: "flex" }}>
+                <div style={{ margin: "3rem 40rem", position: "absolute" }}>
+                  <Field
+                    placeholder="Date"
+                    name="closingDate"
+                    label="date"
+                    color="success"
+                    updateDone
+                    type="date"
+                    component={DateINput}
+                    required={true}
+                  />
+                </div>
                 <div style={{ paddingLeft: "5px" }}>
                   <p>Sales</p>
                   {sales.map(({ label, name, placeholder }: any) => (
@@ -184,6 +202,7 @@ export const RegisterHours = ({ id }: any) => {
                   ))}
                 </div>
               </div>
+
               <div
                 style={{
                   display: "flex",
@@ -213,4 +232,14 @@ export const RegisterHours = ({ id }: any) => {
       </div>
     </div>
   );
+};
+
+const getTotal = (obj: any) => {
+  let total = 0;
+
+  for (const key in obj) {
+    const element = obj[key];
+    total += element;
+  }
+  return total;
 };

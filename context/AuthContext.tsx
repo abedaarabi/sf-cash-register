@@ -28,6 +28,7 @@ export const AuthContextProvider = ({
 }) => {
   const [user, setUser] = React.useState(null) as any;
   const [loading, setLoading] = React.useState(true);
+ 
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -56,6 +57,7 @@ export const AuthContextProvider = ({
         signInWithGoogle,
         sendPasswordReset,
         setUser,
+      
       }}
     >
       {loading ? <p>loading</p> : children}

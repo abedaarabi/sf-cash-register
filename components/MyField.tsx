@@ -17,6 +17,7 @@ export const MyField: React.FC<(FieldProps & TextFieldProps) | any> = ({
   multiline,
   rows,
   required,
+  props,
 }) => {
   return (
     <TextField
@@ -32,6 +33,25 @@ export const MyField: React.FC<(FieldProps & TextFieldProps) | any> = ({
       defaultValue={defaultValue}
       multiline={multiline}
       rows={rows}
+      {...props}
+    />
+  );
+};
+
+export const DateINput: React.FC<(FieldProps & TextFieldProps) | any> = ({
+  props,
+  field,
+  type,
+  defaultValue,
+}: any) => {
+  return (
+    <TextField
+      {...field}
+      type={type}
+      defaultValue={defaultValue}
+      inputProps={{ min: "2022-04-01", max: "2024-01-01" }}
+      required={true}
+      {...props}
     />
   );
 };

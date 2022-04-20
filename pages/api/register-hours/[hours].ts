@@ -28,6 +28,7 @@ async function handler(req: any, res: any) {
       done: false,
       date,
       time,
+      closingDate: payload.closingDate,
       sales: {
         productSales: payload.productSales,
         other: payload.other,
@@ -62,7 +63,6 @@ async function handler(req: any, res: any) {
         res.status(201).json({ message: "Signed Up!" });
       } else {
         const { id } = payload;
-        console.log(payload);
 
         const result = await updateDocument(
           client,
