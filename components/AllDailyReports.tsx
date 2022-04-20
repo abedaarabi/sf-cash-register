@@ -30,7 +30,7 @@ export const AllDailyReports = () => {
   }
 
   const fakeArr = dailyReport.slice(1);
-  console.log
+  console.log(fakeArr);
 
   return (
     <div

@@ -137,7 +137,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
 
         {admin.includes(user.email) && (
           <Button
-            // disabled={loading}
+            // disabled={true}
             onClick={() => {
               setISDone(!isDone);
             }}

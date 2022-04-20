@@ -44,9 +44,8 @@ export const RegisterHours = ({ id }: any) => {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    }).then((res) => res.json());
+    // .then((data) => console.log(data));
   }
 
   if (loading) {
@@ -67,17 +66,17 @@ export const RegisterHours = ({ id }: any) => {
       card43: card43,
       mobilePay: mobilePay,
       invoices: invoices,
-      "1000s": note["1000s"],
-      "500s": note["500s"],
-      "200s": note["200s"],
-      "100s": note["100s"],
-      "50s": note["50s"],
-      "20s": coins["20s"],
-      "10s": coins["10s"],
-      "5s": coins["5s"],
-      "2s": coins["2s"],
-      "1s": coins["1s"],
-      half: coins.half,
+      "1000s": note["1000s"] / 1000,
+      "500s": note["500s"] / 5000,
+      "200s": note["200s"] / 200,
+      "100s": note["100s"] / 100,
+      "50s": note["50s"] / 50,
+      "20s": coins["20s"] / 20,
+      "10s": coins["10s"] / 10,
+      "5s": coins["5s"] / 5,
+      "2s": coins["2s"] / 2,
+      "1s": coins["1s"] / 1,
+      half: coins.half / 0.5,
       comments: comments,
       productSales: productSales,
       other: other,
