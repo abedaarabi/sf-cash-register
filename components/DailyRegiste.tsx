@@ -93,11 +93,24 @@ export const RegisterHours = ({ id }: any) => {
     formikvalues = Statevalues;
   }
 
+  /*
+  
+  color: rgb(0, 109, 119);
+    display: flex;
+ 
+    background-color: blue;
+    width: 300px;
+    margin-top: 10px;
+    height: 40px;
+  */
+
   return (
     <div className={styles.container}>
-      <h4 style={{ color: "#006d77" }}>
-        Opening FDC: {opening && opening.toFixed(2)}kr.
-      </h4>
+      <div className={styles.zoom}>
+        <h4 style={{ margin: "auto", color: "white" }}>
+          Opening FDC: {opening && opening.toFixed(2)}kr.
+        </h4>
+      </div>
       <div>
         <Formik
           initialValues={formikvalues}
@@ -118,18 +131,6 @@ export const RegisterHours = ({ id }: any) => {
           {() => (
             <Form>
               <div style={{ display: "flex" }}>
-                <div style={{ margin: "3.3rem 35rem", position: "absolute" }}>
-                  <Field
-                    placeholder="Date"
-                    name="closingDate"
-                    label="date"
-                    color="success"
-                    updateDone
-                    type="date"
-                    component={DateINput}
-                    required={true}
-                  />
-                </div>
                 <div style={{ paddingLeft: "5px" }}>
                   <p>Sales</p>
                   {sales.map(({ label, name, placeholder }: any) => (
@@ -237,6 +238,18 @@ export const RegisterHours = ({ id }: any) => {
                     width={"8rem"}
                     // marginBottom={"1rem"}
                     component={BasicSelect}
+                  />
+                </div>
+                <div style={{ marginLeft: "15px" }}>
+                  <Field
+                    placeholder="Date"
+                    name="closingDate"
+                    label="date"
+                    color="success"
+                    updateDone
+                    type="date"
+                    component={DateINput}
+                    required={true}
                   />
                 </div>
               </div>
