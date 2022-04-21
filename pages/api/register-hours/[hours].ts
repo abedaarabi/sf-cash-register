@@ -28,6 +28,7 @@ async function handler(req: any, res: any) {
       done: false,
       date,
       time,
+      cashOut: { amount: payload.cashOut, reason: payload.reason },
       closingDate: payload.closingDate,
       sales: {
         productSales: payload.productSales,

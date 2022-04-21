@@ -40,13 +40,14 @@ export const AllDailyReports = () => {
       }}
     >
       {fakeArr.map((report: any, index: any) => {
-        const { countCoins, countNote } = index >= 1 && dailyReport[index - 1];
-        console.log({ countCoins, countNote, report });
+        const { countCoins, countNote, cashOut } =
+          index >= 0 && dailyReport[index];
 
         const coins = getTotal(countCoins);
 
         const notes = getTotal(countNote);
-        const prevFDC = coins + notes;
+
+        const prevFDC = coins + notes - (cashOut?.amount || 0);
 
         return (
           <div key={report._id}>

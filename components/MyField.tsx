@@ -55,3 +55,39 @@ export const DateINput: React.FC<(FieldProps & TextFieldProps) | any> = ({
     />
   );
 };
+
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+
+export const BasicSelect: React.FC<(FieldProps & TextFieldProps) | any> = ({
+  props,
+  field,
+
+  label,
+  defaultValue,
+}) => {
+  // const [age, setAge] = React.useState("");
+
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   setAge(event.target.value as string);
+  // };
+
+  return (
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+        <Select {...field} {...props}>
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={"save"}>Save</MenuItem>
+          <MenuItem value={"music"}>Music</MenuItem>
+          <MenuItem value={"invoice"}>Invoice</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+  );
+};

@@ -28,7 +28,7 @@ export const sales = [
   { label: "other", name: "other", placeholder: "other" },
 ] as any;
 
-export const Statevalues = {
+export let Statevalues = {
   card28: 0,
   card43: 0,
   mobilePay: 0,
@@ -48,4 +48,6 @@ export const Statevalues = {
   productSales: 0,
   other: 0,
   closingDate: "",
+  cashOut: 0,
+  reason: "",
 };

@@ -13,7 +13,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const { countNote } = dailyReport;
   // const { done } = dailyReport;
   const { productSales } = dailyReport.sales;
-  const { countCoins } = dailyReport;
+  const { countCoins, cashOut } = dailyReport;
   const { card28, card43, mobilePay, invoices } = dailyReport.payments;
 
   // console.log(done, "done", loading, "loading", isDone, "isDone");
@@ -22,7 +22,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const coins = getTotal(countCoins);
   const payment = getTotal(dailyReport.payments);
   const neededCash = payment - prevFDC - productSales;
-  const totalCash = coins + note;
+  const totalCash = coins + note - cashOut?.amount || 0;
   const incomeCash = coins + note - prevFDC;
   const cashDiff = totalCash + neededCash;
   async function updateDone() {
@@ -50,6 +50,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
         marginTop: "2rem",
         boxShadow: "0 1px 4px rgba(0, 0, 0, 0.2)",
         borderRadius: "5px",
+        marginBottom: "30px",
       }}
     >
       <div>
@@ -94,9 +95,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
           </li>
           <li>{`Note: ${note.toFixed(2)}kr.`}</li>
           <li>{`Coins: ${coins.toFixed(2)}kr.`}</li>
-          <li
-            style={{ color: "#61a5c2", listStyle: "none", marginLeft: "-2rem" }}
-          >{`Total: ${totalCash.toFixed(2)}kr.`}</li>
+
           <li
             style={{ color: "#577590", listStyle: "none", marginLeft: "-2rem" }}
           >{`Needed Cash ${neededCash.toFixed(2)}kr.`}</li>
@@ -113,6 +112,12 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
             }}
           >{`Cash income ${incomeCash.toFixed(2)}kr.`}</li>
         </ul>
+        <h4 style={{ color: "red" }}>
+          Cash Out {cashOut?.amount?.toFixed(2) || 0}
+        </h4>
+        <h4
+          style={{ color: "#61a5c2", listStyle: "none" }}
+        >{`Close FDC: ${totalCash.toFixed(2)}kr.`}</h4>
         <h4 style={{ color: "#4a4e69" }}>Comments:</h4>
         <div
           style={{
@@ -159,7 +164,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
             )}
           </div>
         )}
-        <div>
+        <div style={{ marginBottom: "15px" }}>
           <Button
             href={{
               pathname: `/dashboard`,

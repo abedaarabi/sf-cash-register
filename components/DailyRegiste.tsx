@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "./ui/Button";
 import { Field, Form, Formik } from "formik";
 
-import { DateINput, MyField } from "./MyField";
+import { BasicSelect, DateINput, MyField } from "./MyField";
 import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
 import {
@@ -37,10 +37,7 @@ export const RegisterHours = ({ id }: any) => {
         setDailyUpdate(byId);
         setLoading(false);
       });
-  }, [user, id]);
-
-  const note = getTotal(fdc?.countNote);
-  const coins = getTotal(fdc?.countCoins);
+  }, [user]);
 
   function addCommentHandler(inputsValue: any) {
     fetch("/api/register-hours/" + user.uid, {
@@ -56,11 +53,15 @@ export const RegisterHours = ({ id }: any) => {
     return <h2 className={styles.container}>Loading...</h2>;
   }
 
+  const noteTotal = getTotal(fdc?.countNote);
+  const coinsTotal = getTotal(fdc?.countCoins);
+  const opening = noteTotal + coinsTotal - (fdc?.cashOut.amount || 0);
+
   let formikvalues;
 
   if (id) {
     const { countCoins: coins } = dailyUpdate;
-    const { comments, closingDate } = dailyUpdate;
+    const { comments, closingDate, cashOut } = dailyUpdate as any;
     const { countNote: note } = dailyUpdate;
     const { productSales, other } = dailyUpdate.sales;
     const { card28, card43, mobilePay, invoices } = dailyUpdate.payments;
@@ -85,18 +86,23 @@ export const RegisterHours = ({ id }: any) => {
       productSales: productSales,
       other: other,
       closingDate: closingDate,
+      cashOut: cashOut?.amount,
+      reason: cashOut?.reason,
     };
   } else {
     formikvalues = Statevalues;
   }
-  const opening = coins + note;
+
   return (
     <div className={styles.container}>
-      <h4 style={{ color: "#006d77" }}>Opening FDC: {opening.toFixed(2)}kr.</h4>
+      <h4 style={{ color: "#006d77" }}>
+        Opening FDC: {opening && opening.toFixed(2)}kr.
+      </h4>
       <div>
         <Formik
           initialValues={formikvalues}
           onSubmit={(value) => {
+            console.log(value);
             try {
               if (value.card28 <= 0 || value.productSales === 0) {
                 alert("fill the inputs");
@@ -112,7 +118,7 @@ export const RegisterHours = ({ id }: any) => {
           {() => (
             <Form>
               <div style={{ display: "flex" }}>
-                <div style={{ margin: "3rem 40rem", position: "absolute" }}>
+                <div style={{ margin: "3.3rem 35rem", position: "absolute" }}>
                   <Field
                     placeholder="Date"
                     name="closingDate"
@@ -200,6 +206,38 @@ export const RegisterHours = ({ id }: any) => {
                       />
                     </div>
                   ))}
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
+                <div style={{ marginRight: "15px" }}>
+                  <Field
+                    name="cashOut"
+                    placeholder="Cash out"
+                    label="Cash out"
+                    variant="outlined"
+                    color="error"
+                    type="number"
+                    width={"8rem"}
+                    marginBottom={"1rem"}
+                    component={MyField}
+                  />
+                </div>
+                <div>
+                  <Field
+                    name="reason"
+                    placeholder="Reason"
+                    label="Reason"
+                    variant="outlined"
+                    color="secondary"
+                    type="number"
+                    width={"8rem"}
+                    // marginBottom={"1rem"}
+                    component={BasicSelect}
+                  />
                 </div>
               </div>
 
