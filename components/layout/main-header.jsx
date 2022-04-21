@@ -23,7 +23,10 @@ const MainHeader = () => {
       <div className={classes.logo}>
         <Link href={user ? "/dashboard" : "/login"}>Sorte Firkant</Link>
       </div>
-      <p style={{ color: "white" }}> {user ? `Hello ${user?.email}` : ""}</p>
+      <p style={{ color: "white" }}>
+        {" "}
+        {user ? `Hello ${user?.email.split("@")[0]} 😮 ` : ""}
+      </p>
       {admin.includes(user?.email) && (
         <>
           <Button
