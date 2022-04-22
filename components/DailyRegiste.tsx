@@ -15,7 +15,7 @@ import {
 } from "../helper/inputshelper";
 
 import { useRouter } from "next/router";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 
 export const RegisterHours = ({ id }: any) => {
   const { user } = useAuth();
@@ -53,7 +53,11 @@ export const RegisterHours = ({ id }: any) => {
   }
 
   if (loading) {
-    return <h2 className={styles.container}>Loading...</h2>;
+    return (
+      <h2 className={styles.container}>
+        <CircularProgress />
+      </h2>
+    );
   }
 
   const noteTotal = getTotal(fdc?.countNote);

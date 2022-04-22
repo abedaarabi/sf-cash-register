@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
 import { admin } from "../helper/emailAdmin";
 import { async } from "@firebase/util";
+import { CircularProgress } from "@mui/material";
 
 export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const { user } = useAuth();
@@ -15,8 +16,6 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const { productSales } = dailyReport.sales;
   const { countCoins, cashOut } = dailyReport;
   const { card28, card43, mobilePay, invoices } = dailyReport.payments;
-
-  // console.log(done, "done", loading, "loading", isDone, "isDone");
 
   const note = getTotal(countNote);
   const coins = getTotal(countCoins);
@@ -146,13 +145,13 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
         <div>
           <p
             style={{ color: "#001219" }}
-          >{`Closed by: ${dailyReport.closedBy.toUpperCase()}`}</p>
+          >{`Closed by: ${dailyReport.closedBy} ❤️ `}</p>
         </div>
 
         {admin.includes(user.email) && (
           <div>
             {!loading ? (
-              <p>loading</p>
+              <CircularProgress />
             ) : (
               <Button
                 onClick={() => {

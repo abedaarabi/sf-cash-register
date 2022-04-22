@@ -25,7 +25,7 @@ const MainHeader = () => {
       </div>
       <p style={{ color: "white" }}>
         {" "}
-        {user ? `Hello ${user?.displayName} 😮 ` : ""}
+        {user ? `Hello ${user?.displayName} 😉 ` : ""}
       </p>
       {admin.includes(user?.email) && (
         <>

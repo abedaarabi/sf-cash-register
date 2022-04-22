@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { admin } from "../helper/emailAdmin";
 import styles from "../styles/Home.module.css";
 import { GetCloseRegister } from "./GetCloseRegister";
-
+import CircularProgress from "@mui/material/CircularProgress";
 export const AllDailyReports = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);
@@ -25,7 +25,11 @@ export const AllDailyReports = () => {
   }, [user]);
 
   if (loading) {
-    return <h2 className={styles.container}>Loading...</h2>;
+    return (
+      <h2 className={styles.container}>
+        <CircularProgress />
+      </h2>
+    );
   }
 
   const fakeArr = dailyReport.slice(1);
