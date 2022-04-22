@@ -32,7 +32,6 @@ export const RegisterHours = ({ id }: any) => {
       .then(({ response }) => {
         setFdc(response[response.length - 1]);
         const byId = response.find((item: any) => item._id === id);
-        console.log(byId);
 
         setDailyUpdate(byId);
         setLoading(false);
@@ -45,7 +44,7 @@ export const RegisterHours = ({ id }: any) => {
       body: JSON.stringify({
         ...inputsValue,
         id,
-        closedBy: user.email.split("@")[0],
+        closedBy: user.displayName,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -119,7 +118,6 @@ export const RegisterHours = ({ id }: any) => {
         <Formik
           initialValues={formikvalues}
           onSubmit={(value) => {
-            console.log(value);
             try {
               if (value.card28 <= 0 || value.productSales === 0) {
                 alert("fill the inputs");

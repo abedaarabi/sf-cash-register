@@ -71,6 +71,13 @@ export const signUp = async (
       email,
       password
     );
+
+    const userDoc = doc(db, "users", user.uid);
+    await setDoc(userDoc, {
+      userId: user.uid,
+      email: user.email,
+      displayName: displayName,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -95,5 +102,17 @@ export const sendPasswordReset = async (email: string) => {
     alert("Password reset link sent!");
   } catch (err) {
     console.error(err);
+  }
+};
+
+export const getUserDetails = async (id: string) => {
+  const docRef = doc(db, "users", id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
   }
 };
