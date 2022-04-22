@@ -62,7 +62,7 @@ const Login: React.FC = () => {
             </Form>
           )}
         </Formik>
-        <Button onClick={loginWithGoogle}> Login with Google</Button>
+        {/* <Button onClick={loginWithGoogle}> Login with Google</Button> */}
       </div>
 
       <Link href={"/rest"}>Reset Password</Link>
