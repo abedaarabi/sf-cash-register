@@ -7,9 +7,12 @@ import { MyField } from "../components/MyField";
 import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
 import { Button } from "../components/ui/Button";
+import { Alerts } from "../components/Alerts";
 const Login: React.FC = () => {
   const { user, logIn, signInWithGoogle } = useAuth();
   const router = useRouter();
+  const [alert, setAlert] = React.useState(null) as any;
+  const [hide, setHide] = React.useState(false) as any;
 
   const loginWithGoogle = async () => {
     await signInWithGoogle();
@@ -20,14 +23,31 @@ const Login: React.FC = () => {
     user && router.push("/dashboard");
   }, [router, user]);
 
+  React.useEffect(() => {
+    const time = setTimeout(() => {
+      setHide(false);
+    }, 3000);
+    return () => clearTimeout(time);
+  }, [alert, hide]);
+
   return (
     <div className={styles.container}>
+      <div>
+        {hide && (
+          <Alerts
+            msg={alert?.code ? alert?.code : "Login Success"}
+            severity={alert?.code ? "error" : "success"}
+          />
+        )}
+      </div>
       <div>
         <Formik
           initialValues={{ email: "", password: "" }}
           onSubmit={async (value) => {
             try {
-              await logIn(value.email, value.password);
+              const loginResult = await logIn(value.email, value.password);
+              setAlert(loginResult);
+              setHide(true);
             } catch (error) {
               console.log(error);
             }
