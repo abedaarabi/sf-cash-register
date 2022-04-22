@@ -144,9 +144,9 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
         }}
       >
         <div>
-          <p style={{ color: "#001219" }}>{`Closed by: ${user.email
-            .split("@")[0]
-            .toUpperCase()}`}</p>
+          <p
+            style={{ color: "#001219" }}
+          >{`Closed by: ${dailyReport.closedBy.toUpperCase()}`}</p>
         </div>
 
         {admin.includes(user.email) && (

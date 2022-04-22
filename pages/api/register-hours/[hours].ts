@@ -26,6 +26,7 @@ async function handler(req: any, res: any) {
     const input = {
       userId,
       done: false,
+      closedBy: payload.closedBy,
       date,
       time,
       cashOut: { amount: payload.cashOut, reason: payload.reason },

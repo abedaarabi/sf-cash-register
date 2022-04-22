@@ -15,7 +15,6 @@ async function handler(req: any, res: any) {
   }
   if (req.method === "POST") {
     const { done, id } = req.body;
-    console.log(done, id);
 
     try {
       const result = await updateDocument(

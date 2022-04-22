@@ -42,7 +42,11 @@ export const RegisterHours = ({ id }: any) => {
   function addCommentHandler(inputsValue: any) {
     fetch("/api/register-hours/" + user.uid, {
       method: "POST",
-      body: JSON.stringify({ ...inputsValue, id }),
+      body: JSON.stringify({
+        ...inputsValue,
+        id,
+        closedBy: user.email.split("@")[0],
+      }),
       headers: {
         "Content-Type": "application/json",
       },
