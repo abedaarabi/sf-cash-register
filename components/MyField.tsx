@@ -79,7 +79,7 @@ export const BasicSelect: React.FC<(FieldProps & TextFieldProps) | any> = ({
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-        <Select {...field} {...props} required>
+        <Select {...field} {...props}>
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
