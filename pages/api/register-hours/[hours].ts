@@ -29,7 +29,7 @@ async function handler(req: any, res: any) {
       closedBy: payload.closedBy,
       date,
       time,
-      cashOut: { amount: payload.cashOut, reason: payload.reason },
+      cashOut: { amount: +payload.cashOut, reason: payload.reason },
       closingDate: payload.closingDate,
       sales: {
         productSales: payload.productSales,

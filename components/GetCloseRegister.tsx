@@ -21,7 +21,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
   const coins = getTotal(countCoins);
   const payment = getTotal(dailyReport.payments);
   const neededCash = payment - prevFDC - productSales;
-  const totalCash = coins + note - cashOut?.amount || 0;
+  const totalCash = coins + note - cashOut?.amount;
   const incomeCash = coins + note - prevFDC;
   const cashDiff = totalCash + neededCash;
   async function updateDone() {
@@ -111,9 +111,13 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
             }}
           >{`Cash income ${incomeCash.toFixed(2)}kr.`}</li>
         </ul>
-        <h4 style={{ color: "red" }}>
-          Cash Out {cashOut?.amount?.toFixed(2) || 0}
-        </h4>
+        {cashOut?.amount ? (
+          <h4 style={{ color: "red" }}>
+            Cash Out {cashOut?.amount.toFixed(2)}kr. | Reason: {cashOut.reason}
+          </h4>
+        ) : (
+          <h4 style={{ color: "red" }}>No Cash Out!</h4>
+        )}
         <h4
           style={{ color: "#61a5c2", listStyle: "none" }}
         >{`Close FDC: ${totalCash.toFixed(2)}kr.`}</h4>
