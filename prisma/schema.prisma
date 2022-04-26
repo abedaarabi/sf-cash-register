@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model Employe{
+id String @unique @id 
+displayName String
+daily_reports DailyReport []
+}
+
+model DailyReport{
+  id       Int  @id @default(autoincrement()) @unique
+  employe Employe @relation(fields: [employeId], references: [id])
+  employeId String
+   done Boolean @default(false)
+  update_by String
+  close_by String
+  card_28 Decimal
+  card_43 Decimal
+  mobile_pay Decimal
+  invoices Decimal
+  one_thousand_kr Decimal 
+  five_hundred_kr Decimal
+  two_hundred_kr Decimal
+  one_hundred_kr Decimal
+  fifty_kr Decimal
+  twenty_kr Decimal
+  ten_kr Decimal
+  five_kr Decimal
+  two_kr Decimal
+  one_kr Decimal
+  half_kr Decimal
+  comments String
+  productSales Decimal
+  other Decimal
+  closingDate String
+  Date String
+  Time String
+  cashOut Decimal
+  reason String
+
+}

@@ -6,28 +6,60 @@ import { admin } from "../helper/emailAdmin";
 import { async } from "@firebase/util";
 import { CircularProgress } from "@mui/material";
 
-export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
+export const GetCloseRegister = ({
+  dailyReport,
+  prevFDC,
+  totalCoins,
+  totalNotes,
+}: any) => {
   const { user } = useAuth();
-  const { comments, done, _id } = dailyReport;
+
+  const {
+    Date,
+    Time,
+    card_28,
+    card_43,
+    cashOut,
+    close_by,
+    closingDate,
+    comments,
+    done,
+    employeId,
+    fifty_kr,
+    five_hundred_kr,
+    five_kr,
+    half_kr,
+    id,
+    invoices,
+    mobile_pay,
+    one_hundred_kr,
+    one_kr,
+    one_thousand_kr,
+    other,
+    productSales,
+    reason,
+    ten_kr,
+    twenty_kr,
+    two_hundred_kr,
+    two_kr,
+    update_by,
+  } = dailyReport;
+
+  // const { comments, done, _id } = dailyReport;
   const [isDone, setISDone] = React.useState(done);
   const [loading, setLoading] = React.useState(false);
-  const { countNote } = dailyReport;
-  // const { done } = dailyReport;
-  const { productSales } = dailyReport.sales;
-  const { countCoins, cashOut } = dailyReport;
-  const { card28, card43, mobilePay, invoices } = dailyReport.payments;
 
-  const note = getTotal(countNote);
-  const coins = getTotal(countCoins);
-  const payment = getTotal(dailyReport.payments);
+  const payments = { card_28, card_43, mobile_pay, invoices };
+  const payment = getTotal(payments);
   const neededCash = payment - prevFDC - productSales;
-  const totalCash = coins + note - cashOut?.amount;
-  const incomeCash = coins + note - prevFDC;
+  const totalCash = totalCoins + totalNotes - Number(cashOut);
+  const incomeCash = totalCoins + totalNotes - prevFDC;
   const cashDiff = totalCash + neededCash;
+
   async function updateDone() {
     try {
       setLoading(false);
-      await doneNotDone(user.id, _id, isDone);
+      await doneNotDone(id, isDone);
       setLoading(true);
     } catch (error) {
       console.log(error);
@@ -60,9 +92,9 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
               listStyle: "none",
               fontStyle: "italic",
             }}
-          >{`Closing Date: ${dailyReport.closingDate}`}</li>
-          <li>{`Date: ${dailyReport.date}`}</li>
-          <li>{`Time: ${dailyReport.time}`}</li>
+          >{`Closing Date: ${closingDate}`}</li>
+          <li>{`Date: ${Date}`}</li>
+          <li>{`Time: ${Time}`}</li>
 
           <li
             style={{
@@ -73,11 +105,11 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
           >
             Payments:
           </li>
-          <li>{`card 28: ${card28.toFixed(2)}kr.`}</li>
-          <li>{`card 43: ${card43.toFixed(2)}kr.`}</li>
-          <li>{`Mobile Pay: ${mobilePay.toFixed(2)}kr.`}</li>
-          <li>{`Invoices: ${invoices.toFixed(2)}kr.`}</li>
-          <li>{`Opening FDC ${prevFDC.toFixed(2)}kr`}</li>
+          <li>{`card 28: ${Number(card_28).toFixed(2)}kr.`}</li>
+          <li>{`card 43: ${Number(card_43).toFixed(2)}kr.`}</li>
+          <li>{`Mobile Pay: ${Number(mobile_pay).toFixed(2)}kr.`}</li>
+          <li>{`Invoices: ${Number(invoices).toFixed(2)}kr.`}</li>
+          <li>{`Opening FDC ${Number(prevFDC).toFixed(2)}kr`}</li>
           <li
             style={{ color: "#52b788", listStyle: "none", margin: "5% -2rem " }}
           >{`Total Sales: ${payment}kr.`}</li>
@@ -86,14 +118,14 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
           >
             Sales:
           </li>
-          <li>{`Product Sales: ${productSales.toFixed(2)}kr.`}</li>
+          <li>{`Product Sales: ${Number(productSales).toFixed(2)}kr.`}</li>
           <li
             style={{ color: "#4a4e69", listStyle: "none", marginLeft: "-2rem" }}
           >
             Cash:
           </li>
-          <li>{`Note: ${note.toFixed(2)}kr.`}</li>
-          <li>{`Coins: ${coins.toFixed(2)}kr.`}</li>
+          <li>{`Note: ${totalNotes.toFixed(2)}kr.`}</li>
+          <li>{`Coins: ${totalCoins.toFixed(2)}kr.`}</li>
 
           <li
             style={{ color: "#577590", listStyle: "none", marginLeft: "-2rem" }}
@@ -109,11 +141,11 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
             style={{
               color: incomeCash <= 0 ? "#d90429" : "#0a9396",
             }}
-          >{`Cash income ${incomeCash.toFixed(2)}kr.`}</li>
+          >{`Cash income ${Number(incomeCash).toFixed(2)}kr.`}</li>
         </ul>
-        {cashOut?.amount ? (
+        {+cashOut ? (
           <h4 style={{ color: "red" }}>
-            Cash Out {cashOut?.amount.toFixed(2)}kr. | Reason: {cashOut.reason}
+            Cash Out {Number(cashOut).toFixed(2)}kr. | Reason: {reason}
           </h4>
         ) : (
           <h4 style={{ color: "red" }}>No Cash Out!</h4>
@@ -147,9 +179,10 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
         }}
       >
         <div>
-          <p
-            style={{ color: "#001219" }}
-          >{`Closed by: ${dailyReport.closedBy} ❤️ `}</p>
+          <p style={{ color: "#001219" }}>{`Closed by: ${close_by} ❤️ `}</p>
+          {update_by && (
+            <p style={{ color: "#001219" }}>{`Edit by: ${update_by} ❤️ `}</p>
+          )}
         </div>
 
         {admin.includes(user.email) && (
@@ -172,7 +205,7 @@ export const GetCloseRegister = ({ dailyReport, prevFDC }: any) => {
             href={{
               pathname: `/dashboard`,
               query: {
-                id: dailyReport._id,
+                id: id,
               },
             }}
           >
@@ -188,17 +221,17 @@ const getTotal = (obj: any) => {
   let total = 0;
 
   for (const key in obj) {
-    const element = obj[key];
+    const element = +obj[key];
     total += element;
   }
   return total;
 };
 
-async function doneNotDone(id: string, _id: string, isDone: boolean) {
+async function doneNotDone(id: string, isDone: boolean) {
   try {
-    await fetch("/api/editdone/" + id, {
+    await fetch("/api/dailyreports/done", {
       method: "POST",
-      body: JSON.stringify({ done: isDone, id: _id }),
+      body: JSON.stringify({ done: isDone, id }),
       headers: {
         "Content-Type": "application/json",
       },

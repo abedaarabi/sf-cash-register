@@ -11,7 +11,7 @@ export const AllDailyReports = () => {
   const { user } = useAuth();
 
   React.useEffect(() => {
-    fetch("/api/register-hours/" + user.uid)
+    fetch("/api/dailyreports/report")
       .then((res) => res.json())
       .then(({ response }) => {
         setDailyReport(
@@ -21,8 +21,9 @@ export const AllDailyReports = () => {
         );
         setLoading(false);
       })
+
       .catch((err) => console.log(err));
-  }, [user]);
+  }, [user, dailyReport]);
 
   if (loading) {
     return (
@@ -32,7 +33,9 @@ export const AllDailyReports = () => {
     );
   }
 
-  const fakeArr = dailyReport.slice(1);
+  const fakeArr = admin.includes(user.email)
+    ? dailyReport.slice(1)
+    : [dailyReport[dailyReport.length - 1]];
 
   return (
     <div
@@ -44,18 +47,58 @@ export const AllDailyReports = () => {
       }}
     >
       {fakeArr.map((report: any, index: any) => {
-        const { countCoins, countNote, cashOut } =
-          index >= 0 && dailyReport[index];
+        const firstItem = index >= 0 && dailyReport[index];
+
+        const countCoins = {
+          twenty_kr: report.twenty_kr,
+          ten_kr: report.ten_kr,
+          five_kr: report.five_kr,
+          two_kr: report.two_kr,
+          one_kr: report.one_kr,
+          half_kr: report.half_kr,
+        };
+
+        const countNote = {
+          one_thousand_kr: report.one_thousand_kr,
+          five_hundred_kr: report.five_hundred_kr,
+          two_hundred_kr: report.two_hundred_kr,
+          one_hundred_kr: report.one_hundred_kr,
+          fifty_kr: report.fifty_kr,
+        };
+
+        const prevcountCoins = {
+          twenty_kr: firstItem.twenty_kr,
+          ten_kr: firstItem.ten_kr,
+          five_kr: firstItem.five_kr,
+          two_kr: firstItem.two_kr,
+          one_kr: firstItem.one_kr,
+          half_kr: firstItem.half_kr,
+        };
+
+        const prevcountNote = {
+          one_thousand_kr: firstItem.one_thousand_kr,
+          five_hundred_kr: firstItem.five_hundred_kr,
+          two_hundred_kr: firstItem.two_hundred_kr,
+          one_hundred_kr: firstItem.one_hundred_kr,
+          fifty_kr: firstItem.fifty_kr,
+        };
+
+        const prevCoins = getTotal(prevcountCoins);
+        const prevNotes = getTotal(prevcountNote);
 
         const coins = getTotal(countCoins);
-
         const notes = getTotal(countNote);
 
-        const prevFDC = coins + notes - (cashOut?.amount || 0);
+        const prevFDC = prevCoins + prevNotes - (firstItem?.cashOut || 0);
 
         return (
-          <div key={report._id}>
-            <GetCloseRegister dailyReport={report} prevFDC={prevFDC} />
+          <div key={report.id}>
+            <GetCloseRegister
+              dailyReport={report}
+              prevFDC={prevFDC}
+              totalCoins={coins}
+              totalNotes={notes}
+            />
           </div>
         );
       })}
@@ -67,7 +110,7 @@ const getTotal = (obj: any) => {
   let total = 0;
 
   for (const key in obj) {
-    const element = obj[key];
+    const element = +obj[key];
     total += element;
   }
   return total;

@@ -27,24 +27,25 @@ export const RegisterHours = ({ id }: any) => {
   const [fdc, setFdc] = React.useState(null) as any;
 
   React.useEffect(() => {
-    fetch("/api/register-hours/" + user.uid)
+    fetch("/api/dailyreports/report/")
       .then((res) => res.json())
       .then(({ response }) => {
         setFdc(response[response.length - 1]);
-        const byId = response.find((item: any) => item._id === id);
+        const byId = response.find((item: any) => item.id === +id);
 
         setDailyUpdate(byId);
         setLoading(false);
       });
   }, [user]);
 
-  function addCommentHandler(inputsValue: any) {
-    fetch("/api/register-hours/" + user.uid, {
+  async function addCommentHandlerPrisma(inputsValue: any) {
+    await fetch("/api/dailyreports/report/", {
       method: "POST",
       body: JSON.stringify({
         ...inputsValue,
-        id,
-        closedBy: user.displayName,
+        id: +id,
+        displayName: user.displayName,
+        employeeId: user.uid,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -60,56 +61,89 @@ export const RegisterHours = ({ id }: any) => {
     );
   }
 
-  const noteTotal = getTotal(fdc?.countNote);
-  const coinsTotal = getTotal(fdc?.countCoins);
+  const Coins = {
+    twenty_kr: fdc?.twenty_kr,
+    ten_kr: fdc?.ten_kr,
+    five_kr: fdc?.five_kr,
+    two_kr: fdc?.two_kr,
+    one_kr: fdc?.one_kr,
+    half_kr: fdc?.half_kr,
+  };
+
+  const Note = {
+    one_thousand_kr: fdc?.one_thousand_kr,
+    five_hundred_kr: fdc?.five_hundred_kr,
+    two_hundred_kr: fdc?.two_hundred_kr,
+    one_hundred_kr: fdc?.one_hundred_kr,
+    fifty_kr: fdc?.fifty_kr,
+  };
+
+  const noteTotal = getTotal(Note);
+  const coinsTotal = getTotal(Coins);
   const opening = noteTotal + coinsTotal - (fdc?.cashOut.amount || 0);
 
   let formikvalues;
 
   if (id) {
-    const { countCoins: coins } = dailyUpdate;
-    const { comments, closingDate, cashOut } = dailyUpdate as any;
-    const { countNote: note } = dailyUpdate;
-    const { productSales, other } = dailyUpdate.sales;
-    const { card28, card43, mobilePay, invoices } = dailyUpdate.payments;
+    console.log(dailyUpdate);
+
+    const {
+      Date,
+      Time,
+      card_28,
+      card_43,
+      cashOut,
+      close_by,
+      closingDate,
+      comments,
+      done,
+      employeId,
+      fifty_kr,
+      five_hundred_kr,
+      five_kr,
+      half_kr,
+      id,
+      invoices,
+      mobile_pay,
+      one_hundred_kr,
+      one_kr,
+      one_thousand_kr,
+      other,
+      productSales,
+      reason,
+      ten_kr,
+      twenty_kr,
+      two_hundred_kr,
+      two_kr,
+      update_by,
+    } = dailyUpdate;
 
     formikvalues = {
-      card28: card28,
-      card43: card43,
-      mobilePay: mobilePay,
+      card28: card_28,
+      card43: card_43,
+      mobilePay: mobile_pay,
       invoices: invoices,
-      "1000s": note["1000s"] / 1000,
-      "500s": note["500s"] / 500,
-      "200s": note["200s"] / 200,
-      "100s": note["100s"] / 100,
-      "50s": note["50s"] / 50,
-      "20s": coins["20s"] / 20,
-      "10s": coins["10s"] / 10,
-      "5s": coins["5s"] / 5,
-      "2s": coins["2s"] / 2,
-      "1s": coins["1s"] / 1,
-      half: coins.half / 0.5,
+      "1000s": one_thousand_kr / 1000,
+      "500s": five_hundred_kr / 500,
+      "200s": two_hundred_kr / 200,
+      "100s": one_hundred_kr / 100,
+      "50s": fifty_kr / 50,
+      "20s": twenty_kr / 20,
+      "10s": ten_kr / 10,
+      "5s": five_kr / 5,
+      "2s": two_kr / 2,
+      "1s": one_kr / 1,
+      half: half_kr / 0.5,
       comments: comments,
       productSales: productSales,
       other: other,
       closingDate: closingDate,
-      cashOut: cashOut?.amount,
-      reason: cashOut?.reason,
+      cashOut: cashOut,
+      reason: reason,
     };
   } else {
     formikvalues = Statevalues;
   }
-
-  /*
-  
-  color: rgb(0, 109, 119);
-    display: flex;
- 
-    background-color: blue;
-    width: 300px;
-    margin-top: 10px;
-    height: 40px;
-  */
 
   return (
     <div className={styles.container}>
@@ -121,12 +155,13 @@ export const RegisterHours = ({ id }: any) => {
       <div>
         <Formik
           initialValues={formikvalues}
-          onSubmit={(value) => {
+          onSubmit={async (value) => {
             try {
               if (value.card28 <= 0 || value.productSales === 0) {
                 alert("fill the inputs");
               } else {
-                addCommentHandler(value);
+                await addCommentHandlerPrisma(value);
+
                 router.push("/dataresult");
               }
             } catch (error) {
@@ -295,7 +330,7 @@ const getTotal = (obj: any) => {
   let total = 0;
 
   for (const key in obj) {
-    const element = obj[key];
+    const element = +obj[key];
     total += element;
   }
   return total;
