@@ -158,7 +158,7 @@ export const RegisterHours = ({ id }: any) => {
           onSubmit={async (value) => {
             try {
               if (value.productSales === 0) {
-                alert("fill the inputs");
+                alert("Fill Product Sales Inputs");
               } else {
                 await addCommentHandlerPrisma(value);
 
