@@ -94,7 +94,7 @@ export default async function handler(
 
       res
         .status(200)
-        .json({ message: "Data Added successfully!", response: data });
+        .json({ message: "Data Fetched successfully!", response: data });
     } catch (error) {}
   }
 }

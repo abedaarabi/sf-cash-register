@@ -25,28 +25,28 @@ model DailyReport{
    done Boolean @default(false)
   update_by String
   close_by String
-  card_28 Decimal
-  card_43 Decimal
-  mobile_pay Decimal
-  invoices Decimal
-  one_thousand_kr Decimal 
-  five_hundred_kr Decimal
-  two_hundred_kr Decimal
-  one_hundred_kr Decimal
-  fifty_kr Decimal
-  twenty_kr Decimal
-  ten_kr Decimal
-  five_kr Decimal
-  two_kr Decimal
-  one_kr Decimal
-  half_kr Decimal
+  card_28 Decimal @db.Decimal(15,2)
+  card_43 Decimal @db.Decimal(15,2)
+  mobile_pay Decimal @db.Decimal(15,2)
+  invoices Decimal @db.Decimal(15,2)
+  one_thousand_kr Decimal @db.Decimal(15,2) 
+  five_hundred_kr Decimal @db.Decimal(15,2)
+  two_hundred_kr Decimal @db.Decimal(15,2)
+  one_hundred_kr Decimal @db.Decimal(15,2)
+  fifty_kr Decimal @db.Decimal(15,2)
+  twenty_kr Decimal @db.Decimal(15,2)
+  ten_kr Decimal @db.Decimal(15,2)
+  five_kr Decimal @db.Decimal(15,2)
+  two_kr Decimal @db.Decimal(15,2)
+  one_kr Decimal @db.Decimal(15,2)
+  half_kr Decimal @db.Decimal(15,2)
   comments String
-  productSales Decimal
-  other Decimal
+  productSales Decimal @db.Decimal(15,2)
+  other Decimal @db.Decimal(15,2)
   closingDate String
   Date String
   Time String
-  cashOut Decimal
+  cashOut Decimal @db.Decimal(15,2)
   reason String
-
+  
 }

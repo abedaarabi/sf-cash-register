@@ -14,16 +14,12 @@ export const AllDailyReports = () => {
     fetch("/api/dailyreports/report")
       .then((res) => res.json())
       .then(({ response }) => {
-        setDailyReport(
-          admin.includes(user.email)
-            ? response
-            : [response[response.length - 1]] || []
-        );
+        setDailyReport(response || []);
         setLoading(false);
       })
 
       .catch((err) => console.log(err));
-  }, [user, dailyReport]);
+  }, [user]);
 
   if (loading) {
     return (
