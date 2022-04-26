@@ -85,8 +85,6 @@ export const RegisterHours = ({ id }: any) => {
   let formikvalues;
 
   if (id) {
-    console.log(dailyUpdate);
-
     const {
       Date,
       Time,
@@ -119,28 +117,30 @@ export const RegisterHours = ({ id }: any) => {
     } = dailyUpdate;
 
     formikvalues = {
-      card28: card_28,
-      card43: card_43,
-      mobilePay: mobile_pay,
-      invoices: invoices,
-      "1000s": one_thousand_kr / 1000,
-      "500s": five_hundred_kr / 500,
-      "200s": two_hundred_kr / 200,
-      "100s": one_hundred_kr / 100,
-      "50s": fifty_kr / 50,
-      "20s": twenty_kr / 20,
-      "10s": ten_kr / 10,
-      "5s": five_kr / 5,
-      "2s": two_kr / 2,
-      "1s": one_kr / 1,
-      half: half_kr / 0.5,
+      card28: +card_28,
+      card43: +card_43,
+      mobilePay: +mobile_pay,
+      invoices: +invoices,
+      "1000s": +one_thousand_kr / 1000,
+      "500s": +five_hundred_kr / 500,
+      "200s": +two_hundred_kr / 200,
+      "100s": +one_hundred_kr / 100,
+      "50s": +fifty_kr / 50,
+      "20s": +twenty_kr / 20,
+      "10s": +ten_kr / 10,
+      "5s": +five_kr / 5,
+      "2s": +two_kr / 2,
+      "1s": +one_kr / 1,
+      half: +half_kr / 0.5,
       comments: comments,
-      productSales: productSales,
-      other: other,
+      productSales: +productSales,
+      other: +other,
       closingDate: closingDate,
-      cashOut: cashOut,
+      cashOut: +cashOut,
       reason: reason,
     };
+
+    console.log(formikvalues);
   } else {
     formikvalues = Statevalues;
   }
