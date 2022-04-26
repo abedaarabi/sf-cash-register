@@ -157,7 +157,7 @@ export const RegisterHours = ({ id }: any) => {
           initialValues={formikvalues}
           onSubmit={async (value) => {
             try {
-              if (value.card28 <= 0 || value.productSales === 0) {
+              if (value.productSales === 0) {
                 alert("fill the inputs");
               } else {
                 await addCommentHandlerPrisma(value);
