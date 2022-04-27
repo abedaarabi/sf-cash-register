@@ -53,13 +53,13 @@ export const RegisterHours = ({ id }: any) => {
     }).then((res) => res.json());
   }
 
-  // if (loading) {
-  //   return (
-  //     <h2 className={styles.container}>
-  //       <CircularProgress />
-  //     </h2>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <h2 className={styles.container}>
+        <CircularProgress />
+      </h2>
+    );
+  }
 
   const Coins = {
     twenty_kr: fdc?.twenty_kr,
@@ -139,8 +139,6 @@ export const RegisterHours = ({ id }: any) => {
       cashOut: +cashOut,
       reason: reason,
     };
-
-    console.log(formikvalues);
   } else {
     formikvalues = Statevalues;
   }
