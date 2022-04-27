@@ -9,7 +9,7 @@
 }
 
 .logo {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   color: white;
   font-family: "Fira", sans-serif;
   height: 100%;
@@ -27,15 +27,32 @@
 .navigation a {
   text-decoration: none;
   color: #fd9494;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
-@media (min-width: 768px) {
+.btn {
+  display: flex;
+  flex-direction: row;
+}
+@media (max-width: 768px) {
   .logo {
     font-size: 1.5rem;
+  }
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 2rem;
+    height: 10rem;
+    background-color: #021f39;
   }
 
   .navigation a {
     font-size: 1.5rem;
+  }
+  .btn {
+    display: flex;
+    flex-direction: column;
   }
 }

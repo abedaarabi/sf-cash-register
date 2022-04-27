@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useAuth } from "../../context/AuthContext";
 import classes from "./main-header.module.css";
 import { admin } from "../../helper/emailAdmin";
+import { style } from "@mui/system";
 
 const MainHeader = () => {
   const { user, logout, signInWithGoogle } = useAuth();
@@ -28,23 +29,27 @@ const MainHeader = () => {
         {user ? `Hello ${user?.displayName} 😉 ` : ""}
       </p>
       {admin.includes(user?.email) && (
-        <>
-          <Button
-            onClick={() => {
-              router.push("/reports");
-            }}
-          >
-            Reports
-          </Button>
+        <div className={classes.btn}>
+          <div>
+            <Button
+              onClick={() => {
+                router.push("/reports");
+              }}
+            >
+              Reports
+            </Button>
+          </div>
 
-          <Button
-            onClick={() => {
-              router.push("/dashboard");
-            }}
-          >
-            Home
-          </Button>
-        </>
+          <div>
+            <Button
+              onClick={() => {
+                router.push("/dashboard");
+              }}
+            >
+              Home
+            </Button>
+          </div>
+        </div>
       )}
       <nav className={classes.navigation}>
         <ul>

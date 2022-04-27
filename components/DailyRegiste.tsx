@@ -53,13 +53,13 @@ export const RegisterHours = ({ id }: any) => {
     }).then((res) => res.json());
   }
 
-  if (loading) {
-    return (
-      <h2 className={styles.container}>
-        <CircularProgress />
-      </h2>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <h2 className={styles.container}>
+  //       <CircularProgress />
+  //     </h2>
+  //   );
+  // }
 
   const Coins = {
     twenty_kr: fdc?.twenty_kr,
@@ -152,7 +152,7 @@ export const RegisterHours = ({ id }: any) => {
           Opening FDC: {opening && opening.toFixed(2)}kr.
         </h4>
       </div>
-      <div>
+      <div className={styles.inputsContainer}>
         <Formik
           initialValues={formikvalues}
           onSubmit={async (value) => {
@@ -171,50 +171,11 @@ export const RegisterHours = ({ id }: any) => {
         >
           {() => (
             <Form>
-              <div style={{ display: "flex" }}>
-                <div style={{ paddingLeft: "5px" }}>
-                  <p>Sales</p>
-                  {sales.map(({ label, name, placeholder }: any) => (
-                    <div key={name.toString()}>
-                      <Field
-                        label={label}
-                        name={name}
-                        placeholder={placeholder}
-                        variant="outlined"
-                        color="success"
-                        type="number"
-                        width={"8rem"}
-                        marginBottom={"1rem"}
-                        component={MyField}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ paddingLeft: "5px" }}>
-                  <p>Payments</p>
-                  {payments.map(({ label, name, placeholder }: any) => (
-                    <div key={name.toString()}>
-                      <Field
-                        label={label}
-                        name={name}
-                        placeholder={placeholder}
-                        variant="outlined"
-                        color="success"
-                        type="number"
-                        width={"8rem"}
-                        marginBottom={"1rem"}
-                        component={MyField}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ paddingLeft: "5px" }}>
-                  <p>Count Coins</p>
-
-                  {countCoins.map(({ label, name, placeholder }: any) => {
-                    return (
+              <div>
+                <div className={styles.selsePyament}>
+                  <div className={styles.sales}>
+                    <p>Sales</p>
+                    {sales.map(({ label, name, placeholder }: any) => (
                       <div key={name.toString()}>
                         <Field
                           label={label}
@@ -228,26 +189,67 @@ export const RegisterHours = ({ id }: any) => {
                           component={MyField}
                         />
                       </div>
-                    );
-                  })}
-                </div>
-                <div style={{ paddingLeft: "5px" }}>
-                  <p>Count Note</p>
-                  {countNote.map(({ label, name, placeholder }: any) => (
-                    <div key={name.toString()}>
-                      <Field
-                        label={label}
-                        name={name}
-                        placeholder={placeholder}
-                        variant="outlined"
-                        color="success"
-                        type="number"
-                        width={"8rem"}
-                        marginBottom={"1rem"}
-                        component={MyField}
-                      />
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+
+                  <div style={{ paddingLeft: "5px" }}>
+                    <p>Payments</p>
+                    {payments.map(({ label, name, placeholder }: any) => (
+                      <div key={name.toString()}>
+                        <Field
+                          label={label}
+                          name={name}
+                          placeholder={placeholder}
+                          variant="outlined"
+                          color="success"
+                          type="number"
+                          width={"8rem"}
+                          marginBottom={"1rem"}
+                          component={MyField}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ paddingLeft: "5px" }}>
+                    <p>Count Coins</p>
+
+                    {countCoins.map(({ label, name, placeholder }: any) => {
+                      return (
+                        <div key={name.toString()}>
+                          <Field
+                            label={label}
+                            name={name}
+                            placeholder={placeholder}
+                            variant="outlined"
+                            color="success"
+                            type="number"
+                            width={"8rem"}
+                            marginBottom={"1rem"}
+                            component={MyField}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div style={{ paddingLeft: "5px" }}>
+                    <p>Count Note</p>
+                    {countNote.map(({ label, name, placeholder }: any) => (
+                      <div key={name.toString()}>
+                        <Field
+                          label={label}
+                          name={name}
+                          placeholder={placeholder}
+                          variant="outlined"
+                          color="success"
+                          type="number"
+                          width={"8rem"}
+                          marginBottom={"1rem"}
+                          component={MyField}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               <div
@@ -255,43 +257,47 @@ export const RegisterHours = ({ id }: any) => {
                   display: "flex",
                 }}
               >
-                <div style={{ marginRight: "15px" }}>
-                  <Field
-                    name="cashOut"
-                    placeholder="Cash out"
-                    label="Cash out"
-                    variant="outlined"
-                    color="error"
-                    type="number"
-                    width={"8rem"}
-                    marginBottom={"1rem"}
-                    component={MyField}
-                  />
-                </div>
-                <div>
-                  <Field
-                    name="reason"
-                    placeholder="Reason"
-                    label="Reason"
-                    variant="outlined"
-                    color="secondary"
-                    type="number"
-                    width={"8rem"}
-                    // marginBottom={"1rem"}
-                    component={BasicSelect}
-                  />
-                </div>
-                <div style={{ marginLeft: "15px" }}>
-                  <Field
-                    placeholder="Date"
-                    name="closingDate"
-                    label="date"
-                    color="success"
-                    updateDone
-                    type="date"
-                    component={DateINput}
-                    required={true}
-                  />
+                <div className={styles.cashOutReason}>
+                  <div style={{ marginRight: "15px" }}>
+                    <Field
+                      name="cashOut"
+                      placeholder="Cash out"
+                      label="Cash out"
+                      variant="outlined"
+                      color="error"
+                      type="number"
+                      width={"8rem"}
+                      marginBottom={"1rem"}
+                      component={MyField}
+                    />
+                  </div>
+
+                  <div>
+                    <Field
+                      name="reason"
+                      placeholder="Reason"
+                      label="Reason"
+                      variant="outlined"
+                      color="secondary"
+                      type="number"
+                      width={"8rem"}
+                      // marginBottom={"1rem"}
+                      component={BasicSelect}
+                    />
+                  </div>
+
+                  <div style={{ marginLeft: "15px" }}>
+                    <Field
+                      placeholder="Date"
+                      name="closingDate"
+                      label="date"
+                      color="success"
+                      updateDone
+                      type="date"
+                      component={DateINput}
+                      required={true}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -300,6 +306,7 @@ export const RegisterHours = ({ id }: any) => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  flexDirection: "column",
                 }}
               >
                 <Field
@@ -311,13 +318,13 @@ export const RegisterHours = ({ id }: any) => {
                   variant="outlined"
                   color="success"
                   type="textArea"
-                  width={"33rem"}
+                  width={"28rem"}
                   marginBottom={"1rem"}
                   component={MyField}
                   required={false}
                 />
+                <Button type="submit">Close Register</Button>
               </div>
-              <Button type="submit">Close Register</Button>
             </Form>
           )}
         </Formik>
