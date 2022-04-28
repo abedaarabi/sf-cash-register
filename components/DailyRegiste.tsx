@@ -277,55 +277,50 @@ export const RegisterHours = ({ id }: any) => {
                   </div>
                 </div>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                }}
-              >
-                <div className={styles.cashOutReason}>
-                  <div style={{ marginRight: "15px" }}>
-                    <Field
-                      name="cashOut"
-                      placeholder="Cash out"
-                      label="Cash out"
-                      variant="outlined"
-                      color="error"
-                      type="text"
-                      width={"8rem"}
-                      marginBottom={"1rem"}
-                      component={MyField}
-                    />
-                  </div>
 
-                  <div>
-                    <Field
-                      name="reason"
-                      placeholder="Reason"
-                      label="Reason"
-                      variant="outlined"
-                      color="secondary"
-                      type="text"
-                      width={"8rem"}
-                      // marginBottom={"1rem"}
-                      component={BasicSelect}
-                    />
-                  </div>
+              <div className={styles.cashOutReason}>
+                <div style={{ marginRight: "5px" }}>
+                  <Field
+                    name="cashOut"
+                    placeholder="Cash out"
+                    label="Cash out"
+                    variant="outlined"
+                    color="error"
+                    type="text"
+                    width={"8rem"}
+                    component={MyField}
+                  />
+                </div>
 
-                  <div style={{ marginLeft: "5px" }}>
-                    <Field
-                      placeholder="Date"
-                      name="closingDate"
-                      label="date"
-                      color="success"
-                      updateDone
-                      type="date"
-                      component={DateINput}
-                      required={true}
-                    />
-                  </div>
+                <div>
+                  <Field
+                    name="reason"
+                    placeholder="Reason"
+                    label="Reason"
+                    variant="outlined"
+                    color="secondary"
+                    type="text"
+                    // width={"8rem"}
+                    // marginBottom={"1rem"}
+                    component={BasicSelect}
+                  />
+                </div>
+
+                <div style={{ marginLeft: "5px" }}>
+                  <Field
+                    placeholder="Date"
+                    name="closingDate"
+                    label="date"
+                    color="success"
+                    updateDone
+                    type="date"
+                    component={DateINput}
+                    required={true}
+                  />
                 </div>
               </div>
-              <div style={{ margin: "20px 0" }}>
+
+              <div className={styles.alert}>
                 {isAddReport && (
                   <Alerts
                     msg={addReport}
@@ -351,7 +346,7 @@ export const RegisterHours = ({ id }: any) => {
                   flexDirection: "column",
                 }}
               >
-                <div style={{ paddingLeft: "20px" }}>
+                <div>
                   <Field
                     name="comments"
                     placeholder="comments"

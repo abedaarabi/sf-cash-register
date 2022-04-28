@@ -25,30 +25,40 @@
 
 .cashOutReason {
   display: flex;
-  margin: auto;
+  align-items: center;
+
+  justify-content: center;
 }
-@media (max-width: 768px) {
+
+.alert {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+@media only screen and (max-width: 600px) {
   .selsePyament {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: auto;
+    justify-content: center;
+
+    /* height: auto; */
   }
   .sales {
     height: auto;
-    /* padding-left: 5px; */
   }
   .cashOutReason {
     display: flex;
-    margin: auto;
 
-    padding-left: 20px;
+    justify-content: center;
   }
 }
 
 .zoom {
   display: flex;
-  background-color: #e63946;
+  background-color: #e44c59;
   width: 300px;
   height: 40px;
   margin-top: 10px;
