@@ -360,7 +360,7 @@ export const RegisterHours = ({ id }: any) => {
                   variant="outlined"
                   color="success"
                   type="textArea"
-                  width={"28rem"}
+                  width={"24rem"}
                   marginBottom={"1rem"}
                   component={MyField}
                   required={false}
