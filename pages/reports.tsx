@@ -1,8 +1,8 @@
 import React from "react";
 import { AllDailyReports } from "../components/AllDailyReports";
 
-const Reports = ({ response }: any) => {
-  console.log({ response });
+const Reports = () => {
+  // console.log({ response });
 
   return (
     <div>
@@ -12,16 +12,16 @@ const Reports = ({ response }: any) => {
 };
 export default Reports;
 
-export async function getServerSideProps() {
-  const { response } = await getReports();
+// export async function getServerSideProps() {
+//   const { response } = await getReports();
 
-  return {
-    props: { response }, // will be passed to the page component as props
-  };
-}
+//   return {
+//     props: { response }, // will be passed to the page component as props
+//   };
+// }
 
-async function getReports() {
-  return await (
-    await fetch("http://localhost:3000/api/dailyreports/report")
-  ).json();
-}
+// async function getReports() {
+//   return await (
+//     await fetch("http://localhost:3000/api/dailyreports/report")
+//   ).json();
+// }
