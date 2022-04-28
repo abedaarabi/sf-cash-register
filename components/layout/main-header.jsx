@@ -30,8 +30,8 @@ const MainHeader = () => {
         {user ? `Hello ${user?.displayName} 😉 ` : ""}
       </p>
       {admin.includes(user?.email) && (
-        <div className={classes.btn}>
-          <div>
+        <div className={classes.btnNv}>
+          <div style={{ marginRight: "10px" }}>
             <Button
               onClick={() => {
                 router.push("/reports");

@@ -1,7 +1,7 @@
 .headerNav {
   /* width: 100%; */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 0 2rem;
   height: 6rem;
@@ -12,8 +12,7 @@
   font-size: 1.5rem;
   color: white;
   font-family: "Fira", sans-serif;
-  height: 100%;
-  width: 100vw;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,29 +30,30 @@
   font-size: 1.5rem;
 }
 
-.btn {
+.btnNv {
   display: flex;
   flex-direction: row;
+  /* justify-content: space-around; */
 }
 @media only screen and (max-width: 600px) {
   .logo {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .headerNav {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    justify-content: space-around;
+
     padding: 0 2rem;
     height: 10rem;
     background-color: #021f39;
-    width: 100vw;
   }
 
   .navigation a {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
-  .btn {
+  .btnNv {
     display: flex;
     flex-direction: column;
+    margin-left: -5px;
   }
 }
