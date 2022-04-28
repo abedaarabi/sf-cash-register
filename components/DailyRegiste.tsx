@@ -311,7 +311,7 @@ export const RegisterHours = ({ id }: any) => {
                     />
                   </div>
 
-                  <div style={{ marginLeft: "15px" }}>
+                  <div style={{ marginLeft: "5px" }}>
                     <Field
                       placeholder="Date"
                       name="closingDate"
@@ -351,20 +351,22 @@ export const RegisterHours = ({ id }: any) => {
                   flexDirection: "column",
                 }}
               >
-                <Field
-                  name="comments"
-                  placeholder="comments"
-                  label="comments"
-                  multiline
-                  rows={5}
-                  variant="outlined"
-                  color="success"
-                  type="textArea"
-                  width={"24rem"}
-                  marginBottom={"1rem"}
-                  component={MyField}
-                  required={false}
-                />
+                <div style={{ paddingLeft: "20px" }}>
+                  <Field
+                    name="comments"
+                    placeholder="comments"
+                    label="comments"
+                    multiline
+                    rows={5}
+                    variant="outlined"
+                    color="success"
+                    type="textArea"
+                    width={"24rem"}
+                    marginBottom={"1rem"}
+                    component={MyField}
+                    required={false}
+                  />
+                </div>
                 <Button type="submit">Close Register</Button>
               </div>
             </Form>

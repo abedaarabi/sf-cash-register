@@ -25,7 +25,7 @@
 
 .cashOutReason {
   display: flex;
-  margin: 0 3rem;
+  margin: auto;
 }
 @media (max-width: 768px) {
   .selsePyament {
@@ -40,7 +40,9 @@
   }
   .cashOutReason {
     display: flex;
-    margin: 0 3rem;
+    margin: auto;
+
+    padding-left: 20px;
   }
 }
 

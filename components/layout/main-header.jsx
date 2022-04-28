@@ -7,7 +7,7 @@ import { admin } from "../../helper/emailAdmin";
 import { style } from "@mui/system";
 
 const MainHeader = () => {
-  const { user, logout, signInWithGoogle } = useAuth();
+  const { user, logout } = useAuth();
 
   const router = useRouter();
 
@@ -19,8 +19,9 @@ const MainHeader = () => {
       console.log(error);
     }
   };
+
   return (
-    <header className={classes.header}>
+    <header className={classes.headerNav}>
       <div className={classes.logo}>
         <Link href={user ? "/dashboard" : "/login"}>Sorte Firkant</Link>
       </div>

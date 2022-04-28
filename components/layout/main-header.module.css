@@ -1,8 +1,8 @@
-.header {
-  width: 100%;
+.headerNav {
+  /* width: 100%; */
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   padding: 0 2rem;
   height: 6rem;
   background-color: #021f39;
@@ -34,18 +34,18 @@
   display: flex;
   flex-direction: row;
 }
-@media (max-width: 768px) {
+@media (max-width: 720px) {
   .logo {
     font-size: 1.5rem;
   }
-  .header {
-    width: 100%;
+  .headerNav {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     padding: 0 2rem;
     height: 10rem;
     background-color: #021f39;
+    width: 100vw;
   }
 
   .navigation a {
