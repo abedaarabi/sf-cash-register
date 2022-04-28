@@ -7,7 +7,6 @@ import { useAuth } from "../context/AuthContext";
 const DataResult = () => {
   const { user } = useAuth();
 
-
   return (
     <div>
       <AllDailyReports />

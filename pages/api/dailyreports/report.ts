@@ -81,10 +81,11 @@ export default async function handler(
             ...acceptedObj,
           },
         });
-        res.status(200).json({ message: "Data Updated successfully!" });
+        res.status(200).json({ message: "Data Added successfully!" });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      res.status(500).json({ message: "Data Error!" });
     }
   }
 

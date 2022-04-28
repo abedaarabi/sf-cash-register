@@ -6,6 +6,8 @@ import { Field, Form, Formik } from "formik";
 import { BasicSelect, DateINput, MyField } from "./MyField";
 import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
+import { Alerts } from "./Alerts";
+
 import {
   countCoins,
   countNote,
@@ -25,6 +27,9 @@ export const RegisterHours = ({ id }: any) => {
 
   const [loading, setLoading] = React.useState(true);
   const [fdc, setFdc] = React.useState(null) as any;
+  const [addReport, setAddReport] = React.useState("") as any;
+  const [isAddReport, setIsAddReport] = React.useState(false) as any;
+  console.log({ addReport });
 
   React.useEffect(() => {
     fetch("/api/dailyreports/report/")
@@ -39,7 +44,7 @@ export const RegisterHours = ({ id }: any) => {
   }, [user]);
 
   async function addCommentHandlerPrisma(inputsValue: any) {
-    await fetch("/api/dailyreports/report/", {
+    return await fetch("/api/dailyreports/report/", {
       method: "POST",
       body: JSON.stringify({
         ...inputsValue,
@@ -50,8 +55,19 @@ export const RegisterHours = ({ id }: any) => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      // .then((data) => console.log(data))
+      .catch((error) => console.error(error));
   }
+  React.useEffect(() => {
+    const time = setTimeout(() => {
+      setIsAddReport(false);
+      addReport == "Data Added successfully!" && router.push("/reports");
+    }, 1500);
+
+    return () => clearTimeout(time);
+  }, [isAddReport, addReport, router]);
 
   if (loading) {
     return (
@@ -150,17 +166,28 @@ export const RegisterHours = ({ id }: any) => {
           Opening FDC: {opening && opening.toFixed(2)}kr.
         </h4>
       </div>
+
       <div className={styles.inputsContainer}>
         <Formik
           initialValues={formikvalues}
           onSubmit={async (value) => {
             try {
-              if (value.productSales === 0) {
+              if (!value.productSales) {
                 alert("Fill Product Sales Inputs");
               } else {
-                await addCommentHandlerPrisma(value);
+                const postResponse = await addCommentHandlerPrisma(value);
 
-                router.push("/dataresult");
+                setIsAddReport(true);
+                //TODO: Ask Younes
+                // setTimeout(() => {
+                //   router.push("/reports");
+                // }, 1500);
+
+                if (postResponse?.massage == "Data Added successfully!") {
+                  setAddReport(postResponse.massage);
+                } else {
+                  setAddReport(postResponse.message);
+                }
               }
             } catch (error) {
               console.log(error);
@@ -296,6 +323,23 @@ export const RegisterHours = ({ id }: any) => {
                       required={true}
                     />
                   </div>
+                </div>
+              </div>
+              <div style={{ margin: "20px 0" }}>
+                {isAddReport && (
+                  <Alerts
+                    msg={addReport}
+                    severity={
+                      addReport === "Data Added successfully!"
+                        ? "success"
+                        : "error"
+                    }
+                  />
+                )}
+                <div style={{ margin: "10px 240px" }}>
+                  {isAddReport && addReport === "Data Added successfully!" && (
+                    <CircularProgress />
+                  )}
                 </div>
               </div>
 
