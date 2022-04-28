@@ -208,7 +208,7 @@ export const RegisterHours = ({ id }: any) => {
                           placeholder={placeholder}
                           variant="outlined"
                           color="success"
-                          type="number"
+                          type="text"
                           width={"8rem"}
                           marginBottom={"1rem"}
                           component={MyField}
@@ -227,7 +227,7 @@ export const RegisterHours = ({ id }: any) => {
                           placeholder={placeholder}
                           variant="outlined"
                           color="success"
-                          type="number"
+                          type="text"
                           width={"8rem"}
                           marginBottom={"1rem"}
                           component={MyField}
@@ -248,7 +248,7 @@ export const RegisterHours = ({ id }: any) => {
                             placeholder={placeholder}
                             variant="outlined"
                             color="success"
-                            type="number"
+                            type="text"
                             width={"8rem"}
                             marginBottom={"1rem"}
                             component={MyField}
@@ -267,7 +267,7 @@ export const RegisterHours = ({ id }: any) => {
                           placeholder={placeholder}
                           variant="outlined"
                           color="success"
-                          type="number"
+                          type="text"
                           width={"8rem"}
                           marginBottom={"1rem"}
                           component={MyField}
@@ -290,7 +290,7 @@ export const RegisterHours = ({ id }: any) => {
                       label="Cash out"
                       variant="outlined"
                       color="error"
-                      type="number"
+                      type="text"
                       width={"8rem"}
                       marginBottom={"1rem"}
                       component={MyField}
@@ -304,7 +304,7 @@ export const RegisterHours = ({ id }: any) => {
                       label="Reason"
                       variant="outlined"
                       color="secondary"
-                      type="number"
+                      type="text"
                       width={"8rem"}
                       // marginBottom={"1rem"}
                       component={BasicSelect}
