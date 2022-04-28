@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
+
   url      = env("DATABASE_URL")
 }
 
@@ -27,8 +28,8 @@ model DailyReport{
   close_by String
   card_28 Decimal @db.Decimal(15,2)
   card_43 Decimal @db.Decimal(15,2)
-  mobile_pay Decimal @db.Decimal(15,2)
-  invoices Decimal @db.Decimal(15,2)
+  mobile_pay Decimal? @db.Decimal(15,2)
+  invoices Decimal? @db.Decimal(15,2)
   one_thousand_kr Decimal @db.Decimal(15,2) 
   five_hundred_kr Decimal @db.Decimal(15,2)
   two_hundred_kr Decimal @db.Decimal(15,2)

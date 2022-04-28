@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
+// const prisma = new PrismaClient();
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../lib/prisma";
 
-// const prisma = new PrismaClient();
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
@@ -26,7 +26,7 @@ export default async function handler(
     card_28: payload.card28 || (0 as number),
     card_43: payload.card43 || (0 as number),
     mobile_pay: payload.mobilePay || (0 as number),
-    invoices: payload.invoices as number,
+    invoices: payload.invoices || (0 as number),
     one_thousand_kr: payload["1000s"] * 1000 || (0 as number),
     five_hundred_kr: payload["500s"] * 500 || (0 as number),
     two_hundred_kr: payload["200s"] * 200 || (0 as number),
