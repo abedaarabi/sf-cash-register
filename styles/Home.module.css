@@ -40,7 +40,7 @@
   }
   .cashOutReason {
     display: flex;
-    margin: 0;
+    margin: 0 3rem;
   }
 }
 
