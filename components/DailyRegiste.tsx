@@ -64,7 +64,7 @@ export const RegisterHours = ({ id }: any) => {
     const time = setTimeout(() => {
       setIsAddReport(false);
       addReport == "Data Added successfully!" && router.push("/reports");
-    }, 1500);
+    }, 100);
 
     return () => clearTimeout(time);
   }, [isAddReport, addReport, router]);
