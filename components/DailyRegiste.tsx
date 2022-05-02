@@ -27,9 +27,8 @@ export const RegisterHours = ({ id }: any) => {
 
   const [loading, setLoading] = React.useState(true);
   const [fdc, setFdc] = React.useState(null) as any;
-  const [addReport, setAddReport] = React.useState("") as any;
+  const [addReport, setAddReport] = React.useState(null) as any;
   const [isAddReport, setIsAddReport] = React.useState(false) as any;
-  console.log({ addReport });
 
   React.useEffect(() => {
     fetch("/api/dailyreports/report/")
@@ -42,6 +41,14 @@ export const RegisterHours = ({ id }: any) => {
         setLoading(false);
       });
   }, [user]);
+
+  React.useEffect(() => {
+    const time = setTimeout(() => {
+      if (addReport == "Data Added successfully!") router.push("/reports");
+    }, 1000);
+
+    return () => clearTimeout(time);
+  }, [addReport, router]);
 
   async function addCommentHandlerPrisma(inputsValue: any) {
     return await fetch("/api/dailyreports/report/", {
@@ -57,17 +64,9 @@ export const RegisterHours = ({ id }: any) => {
       },
     })
       .then((res) => res.json())
-      // .then((data) => console.log(data))
+
       .catch((error) => console.error(error));
   }
-  React.useEffect(() => {
-    const time = setTimeout(() => {
-      setIsAddReport(false);
-      addReport == "Data Added successfully!" && router.push("/reports");
-    }, 100);
-
-    return () => clearTimeout(time);
-  }, [isAddReport, addReport, router]);
 
   if (loading) {
     return (
@@ -175,19 +174,10 @@ export const RegisterHours = ({ id }: any) => {
               if (!value.productSales) {
                 alert("Fill Product Sales Inputs");
               } else {
-                const postResponse = await addCommentHandlerPrisma(value);
-
                 setIsAddReport(true);
-                //TODO: Ask Younes
-                // setTimeout(() => {
-                //   router.push("/reports");
-                // }, 1500);
-
-                if (postResponse?.massage == "Data Added successfully!") {
-                  setAddReport(postResponse.massage);
-                } else {
-                  setAddReport(postResponse.message);
-                }
+                const response = await addCommentHandlerPrisma(value);
+                setAddReport(response.message);
+                setIsAddReport(false);
               }
             } catch (error) {
               console.log(error);
@@ -321,7 +311,7 @@ export const RegisterHours = ({ id }: any) => {
               </div>
 
               <div className={styles.alert}>
-                {isAddReport && (
+                {addReport && (
                   <Alerts
                     msg={addReport}
                     severity={
@@ -332,9 +322,7 @@ export const RegisterHours = ({ id }: any) => {
                   />
                 )}
                 <div style={{ margin: "10px 240px" }}>
-                  {isAddReport && addReport === "Data Added successfully!" && (
-                    <CircularProgress />
-                  )}
+                  {isAddReport && <CircularProgress />}
                 </div>
               </div>
 
