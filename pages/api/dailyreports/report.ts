@@ -10,9 +10,6 @@ export default async function handler(
 ) {
   const payload = req.body;
 
-  const date = new Date().toLocaleDateString();
-  const time = new Date().toLocaleTimeString();
-
   const employee = {
     id: payload.employeeId as string,
     displayName: payload.displayName as string,
@@ -41,9 +38,9 @@ export default async function handler(
     comments: payload.comments as string,
     productSales: payload.productSales || (0 as number),
     other: payload.other || (0 as number),
-    closingDate: payload.closingDate as string,
-    Date: date as string,
-    Time: time as string,
+    closingDate: new Date(payload.closingDate).toLocaleDateString() as string,
+    Date: new Date().toLocaleDateString() as string,
+    Time: new Date().toLocaleTimeString() as string,
     cashOut: payload.cashOut || (0 as number),
     reason: payload.reason as string,
   };
@@ -90,8 +87,21 @@ export default async function handler(
   }
 
   if (req.method === "GET") {
+    const { startDte, endDate } = req.query;
+
+    const start = new Date(startDte as any).toLocaleDateString();
+    const end = new Date(endDate as any).toLocaleDateString();
+
+    console.log(start, end);
     try {
-      const data = await prisma.dailyReport.findMany();
+      const data = await prisma.dailyReport.findMany({
+        where: {
+          closingDate: {
+            lt: start,
+            gte: "01/02/2022" as any,
+          },
+        },
+      });
 
       res
         .status(200)
@@ -99,3 +109,16 @@ export default async function handler(
     } catch (error) {}
   }
 }
+
+function addDays(days: any) {
+  var n = 5; //number of days to add.
+  var today = new Date(); //Today's Date
+  return new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() - days
+  ).toLocaleDateString();
+}
+// function addDays(theDate: any, days: any) {
+//   return new Date(theDate.getTime() - days * 24 * 60 * 60 * 1000).toLocaleDateString();
+// }

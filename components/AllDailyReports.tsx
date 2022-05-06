@@ -4,22 +4,50 @@ import { admin } from "../helper/emailAdmin";
 import styles from "../styles/Home.module.css";
 import { GetCloseRegister } from "./GetCloseRegister";
 import CircularProgress from "@mui/material/CircularProgress";
+import { DateSelector } from "./DateSelector";
+
+import { Alerts } from "./Alerts";
 export const AllDailyReports = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);
 
+  function getdate(date: any) {
+    if (!date.startDate || !date.endDate) {
+      return alert("select dates");
+    } else {
+      const startDate = new Date(date?.startDate).toLocaleDateString();
+      const endDate = new Date(date?.endDate).toLocaleDateString();
+
+      console.log({ startDate, endDate });
+      fetch(
+        `/api/dailyreports/report?startDte=${startDate}&endDate=${endDate} `
+      )
+        .then((res) => res.json())
+        .then(({ response }) => {
+          console.log({ response });
+
+          setDailyReport(response || []);
+          setLoading(false);
+        })
+
+        .catch((err) => console.log(err));
+    }
+  }
+
   const { user } = useAuth();
 
   React.useEffect(() => {
-    fetch("/api/dailyreports/report")
+    fetch(`/api/dailyreports/report`)
       .then((res) => res.json())
       .then(({ response }) => {
+        console.log({ response });
+
         setDailyReport(response || []);
         setLoading(false);
       })
 
       .catch((err) => console.log(err));
-  }, [user]);
+  }, []);
 
   if (loading) {
     return (
@@ -34,70 +62,75 @@ export const AllDailyReports = () => {
     : [dailyReport[dailyReport.length - 1]];
 
   return (
-    <div
-      style={{
-        flexWrap: "wrap",
-        display: "flex",
-        // alignItems: "center",
-        justifyContent: "space-around",
-      }}
-    >
-      {fakeArr.map((report: any, index: any) => {
-        const firstItem = index >= 0 && dailyReport[index];
+    <div>
+      <div>
+        {admin.includes(user.email) && <DateSelector getdate={getdate} />}
+      </div>
+      <div
+        style={{
+          flexWrap: "wrap",
+          display: "flex",
+          // alignItems: "center",
+          justifyContent: "space-around",
+        }}
+      >
+        {fakeArr.map((report: any, index: any) => {
+          const firstItem = index >= 0 && dailyReport[index];
 
-        const countCoins = {
-          twenty_kr: report.twenty_kr,
-          ten_kr: report.ten_kr,
-          five_kr: report.five_kr,
-          two_kr: report.two_kr,
-          one_kr: report.one_kr,
-          half_kr: report.half_kr,
-        };
+          const countCoins = {
+            twenty_kr: report.twenty_kr,
+            ten_kr: report.ten_kr,
+            five_kr: report.five_kr,
+            two_kr: report.two_kr,
+            one_kr: report.one_kr,
+            half_kr: report.half_kr,
+          };
 
-        const countNote = {
-          one_thousand_kr: report.one_thousand_kr,
-          five_hundred_kr: report.five_hundred_kr,
-          two_hundred_kr: report.two_hundred_kr,
-          one_hundred_kr: report.one_hundred_kr,
-          fifty_kr: report.fifty_kr,
-        };
+          const countNote = {
+            one_thousand_kr: report.one_thousand_kr,
+            five_hundred_kr: report.five_hundred_kr,
+            two_hundred_kr: report.two_hundred_kr,
+            one_hundred_kr: report.one_hundred_kr,
+            fifty_kr: report.fifty_kr,
+          };
 
-        const prevcountCoins = {
-          twenty_kr: firstItem.twenty_kr,
-          ten_kr: firstItem.ten_kr,
-          five_kr: firstItem.five_kr,
-          two_kr: firstItem.two_kr,
-          one_kr: firstItem.one_kr,
-          half_kr: firstItem.half_kr,
-        };
+          const prevcountCoins = {
+            twenty_kr: firstItem.twenty_kr,
+            ten_kr: firstItem.ten_kr,
+            five_kr: firstItem.five_kr,
+            two_kr: firstItem.two_kr,
+            one_kr: firstItem.one_kr,
+            half_kr: firstItem.half_kr,
+          };
 
-        const prevcountNote = {
-          one_thousand_kr: firstItem.one_thousand_kr,
-          five_hundred_kr: firstItem.five_hundred_kr,
-          two_hundred_kr: firstItem.two_hundred_kr,
-          one_hundred_kr: firstItem.one_hundred_kr,
-          fifty_kr: firstItem.fifty_kr,
-        };
+          const prevcountNote = {
+            one_thousand_kr: firstItem.one_thousand_kr,
+            five_hundred_kr: firstItem.five_hundred_kr,
+            two_hundred_kr: firstItem.two_hundred_kr,
+            one_hundred_kr: firstItem.one_hundred_kr,
+            fifty_kr: firstItem.fifty_kr,
+          };
 
-        const prevCoins = getTotal(prevcountCoins);
-        const prevNotes = getTotal(prevcountNote);
+          const prevCoins = getTotal(prevcountCoins);
+          const prevNotes = getTotal(prevcountNote);
 
-        const coins = getTotal(countCoins);
-        const notes = getTotal(countNote);
+          const coins = getTotal(countCoins);
+          const notes = getTotal(countNote);
 
-        const prevFDC = prevCoins + prevNotes - (firstItem?.cashOut || 0);
+          const prevFDC = prevCoins + prevNotes - (firstItem?.cashOut || 0);
 
-        return (
-          <div key={report.id}>
-            <GetCloseRegister
-              dailyReport={report}
-              prevFDC={prevFDC}
-              totalCoins={coins}
-              totalNotes={notes}
-            />
-          </div>
-        );
-      })}
+          return (
+            <div key={report.id}>
+              <GetCloseRegister
+                dailyReport={report}
+                prevFDC={prevFDC}
+                totalCoins={coins}
+                totalNotes={notes}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
