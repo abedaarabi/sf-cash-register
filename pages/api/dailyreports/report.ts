@@ -89,19 +89,21 @@ export default async function handler(
   if (req.method === "GET") {
     const { startDte, endDate } = req.query;
 
-    const start = new Date(startDte as any).toLocaleDateString();
-    const end = new Date(endDate as any).toLocaleDateString();
-
-    console.log(start, end);
     try {
-      const data = await prisma.dailyReport.findMany({
-        where: {
-          closingDate: {
-            lt: start,
-            gte: "01/02/2022" as any,
+      let data;
+
+      if (!startDte && !endDate) {
+        data = await prisma.dailyReport.findMany();
+      } else {
+        data = await prisma.dailyReport.findMany({
+          where: {
+            closingDate: {
+              gte: String(startDte),
+              lt: String(endDate),
+            },
           },
-        },
-      });
+        });
+      }
 
       res
         .status(200)

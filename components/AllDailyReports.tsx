@@ -15,8 +15,8 @@ export const AllDailyReports = () => {
     if (!date.startDate || !date.endDate) {
       return alert("select dates");
     } else {
-      const startDate = new Date(date?.startDate).toLocaleDateString();
-      const endDate = new Date(date?.endDate).toLocaleDateString();
+      const startDate = new Date(date.startDate).toLocaleDateString();
+      const endDate = new Date(date.endDat).toLocaleDateString();
 
       console.log({ startDate, endDate });
       fetch(
@@ -63,14 +63,18 @@ export const AllDailyReports = () => {
 
   return (
     <div>
-      <div>
+      <div
+        style={{
+          margin: "auto",
+        }}
+      >
         {admin.includes(user.email) && <DateSelector getdate={getdate} />}
       </div>
       <div
         style={{
           flexWrap: "wrap",
           display: "flex",
-          // alignItems: "center",
+
           justifyContent: "space-around",
         }}
       >

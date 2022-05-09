@@ -9,49 +9,46 @@ export function DateSelector({ getdate }: any) {
   const [date, setDate] = React.useState({ startDate: "", endDate: "" }) as any;
 
   return (
-    // <>
-    //   <LocalizationProvider dateAdapter={AdapterDateFns}>
-    //     <DatePicker
-    //       label="Start Date"
-    //       value={date?.startDate}
-    //       onChange={(newValue: string | null) => {
-    //         setDate({ ...date, startDate: newValue });
-    //       }}
-    //       renderInput={(params) => <TextField {...params} />}
-    //     />
-    //   </LocalizationProvider>
-
-    //   <LocalizationProvider dateAdapter={AdapterDateFns}>
-    //     <DatePicker
-    //       label="End Date"
-    //       value={date?.endDate}
-    //       onChange={(newValue: string | null) => {
-    //         setDate({ ...date, endDate: newValue });
-    //       }}
-    //       renderInput={(params) => <TextField {...params} />}
-    //     />
-    //   </LocalizationProvider>
-    //   <Button onClick={() => getdate(date)}>Get Date</Button>
-    // </>
-
-    <div>
-      <TextField
-        type={"date"}
-        inputProps={{ min: "2022-04-01", max: "2024-01-01" }}
-        value={date?.startDate}
-        onChange={(newValue: string | any) => {
-          setDate({ ...date, startDate: newValue.target.value });
+    <div
+      style={{
+        display: "flex",
+        marginTop: "1rem",
+        alignItems: "center",
+        justifyContent: "space-around",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        style={{
+          paddingBottom: "1rem",
         }}
-      />
-      <TextField
-        type={"date"}
-        inputProps={{ min: "2022-04-01", max: "2024-01-01" }}
-        value={date?.endDate}
-        onChange={(newValue: string | any) => {
-          setDate({ ...date, endDate: newValue.target.value });
-        }}
-      />
-      <Button onClick={() => getdate(date)}>Get Date</Button>
+      >
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            label="Start Date"
+            value={date?.startDate}
+            onChange={(newValue: string | null) => {
+              setDate({ ...date, startDate: newValue });
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+      </div>
+
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
+          label="End Date"
+          value={date?.endDate}
+          onChange={(newValue: string | null) => {
+            setDate({ ...date, endDate: newValue });
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
+
+      <div>
+        <Button onClick={() => getdate(date)}>Search By Date</Button>
+      </div>
     </div>
   );
 }
