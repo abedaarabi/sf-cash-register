@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 
 import Typography from "@mui/material/Typography";
 import styles from "../styles/Home.module.css";
-export function Drinks({ img, name, recipe }: any) {
+export function Drinks({ img, name, recipe, prise }: any) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia component="img" alt="green iguana" height="180" image={img} />
@@ -16,6 +16,9 @@ export function Drinks({ img, name, recipe }: any) {
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {recipe}
+        </Typography>
+        <Typography gutterBottom variant="h6" component="div">
+          Prise: {prise}
         </Typography>
       </CardContent>
     </Card>
