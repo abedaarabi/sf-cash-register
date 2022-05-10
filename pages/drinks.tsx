@@ -6,6 +6,7 @@ const recipes = require("../data/recipes.json");
 
 import styles from "../styles/Home.module.css";
 import Head from "next/head";
+import { Alerts } from "../components/Alerts";
 const DrinlsRecipe = () => {
   const [filterRecipes, setFilterRecipes] = React.useState("");
   console.log(filterRecipes);
@@ -31,15 +32,19 @@ const DrinlsRecipe = () => {
         />
       </div>
       <div className={styles.recipes}>
-        {resultRecipes.map((recipe: any) => (
-          <div key={recipe.id} className={styles.recipesCard}>
-            <Drinks
-              name={recipe.name}
-              img={recipe.img}
-              recipe={recipe.recipe}
-            />
-          </div>
-        ))}
+        {resultRecipes.length === 0 ? (
+          <Alerts severity="info" msg="Drink is not found" />
+        ) : (
+          resultRecipes.map((recipe: any) => (
+            <div key={recipe.id} className={styles.recipesCard}>
+              <Drinks
+                name={recipe.name}
+                img={recipe.img}
+                recipe={recipe.recipe}
+              />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
