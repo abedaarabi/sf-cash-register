@@ -40,8 +40,9 @@ const DrinlsRecipe = () => {
               <Drinks
                 name={recipe.name}
                 img={recipe.img}
-                recipe={recipe.recipe}
+                decription={recipe.decription}
                 prise={recipe.prise}
+                repiece={recipe.repiece}
               />
             </div>
           ))
