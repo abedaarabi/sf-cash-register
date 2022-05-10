@@ -6,7 +6,7 @@ import { ProtectedRoutes } from "../components/ProtectedRoutes";
 import { Layout } from "../components/layout/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const noAuth = ["/", "/login", "/signup", "/rest"];
+  const noAuth = ["/", "/login", "/signup", "/rest", "/drinksrecipe"];
   const router = useRouter();
   return (
     <>
