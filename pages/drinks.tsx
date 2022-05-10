@@ -5,6 +5,7 @@ import { TextField } from "@mui/material";
 const recipes = require("../data/recipes.json");
 
 import styles from "../styles/Home.module.css";
+import Head from "next/head";
 const DrinlsRecipe = () => {
   const [filterRecipes, setFilterRecipes] = React.useState("");
   console.log(filterRecipes);
@@ -17,6 +18,9 @@ const DrinlsRecipe = () => {
 
   return (
     <div>
+      <Head>
+        <title>Drinks</title>
+      </Head>
       <div className={styles.recipesSearsh}>
         <TextField
           id="standard-basic"

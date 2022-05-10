@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React from "react";
 import { AllDailyReports } from "../components/AllDailyReports";
 
@@ -6,6 +7,9 @@ const Reports = () => {
 
   return (
     <div>
+      <Head>
+        <title>Reports</title>
+      </Head>
       <AllDailyReports />
     </div>
   );

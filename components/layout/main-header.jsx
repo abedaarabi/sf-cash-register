@@ -43,7 +43,7 @@ const MainHeader = () => {
           <div style={{ marginRight: "10px" }}>
             <Button
               onClick={() => {
-                router.push("/drinksrecipe");
+                router.push("/drinks");
               }}
             >
               Recipes

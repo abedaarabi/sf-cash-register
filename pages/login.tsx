@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
 import { Button } from "../components/ui/Button";
 import { Alerts } from "../components/Alerts";
+import Head from "next/head";
 const Login: React.FC = () => {
   const { user, logIn, signInWithGoogle } = useAuth();
   const router = useRouter();
@@ -32,6 +33,9 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Login</title>
+      </Head>
       <div>
         {hide && (
           <Alerts
