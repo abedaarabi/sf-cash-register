@@ -40,6 +40,15 @@ const MainHeader = () => {
               Reports
             </Button>
           </div>
+          <div style={{ marginRight: "10px" }}>
+            <Button
+              onClick={() => {
+                router.push("/drinksrecipe");
+              }}
+            >
+              Recipes
+            </Button>
+          </div>
 
           <div>
             <Button

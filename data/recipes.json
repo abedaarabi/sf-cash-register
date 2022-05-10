@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Espresso Martini",
+    "img": "https://www.insidehook.com/wp-content/uploads/2022/02/espresso-martini.jpg?fit=1200%2C800",
+    "recipe": "espresso shots for Espresso Martinis in glass bottleuse 3cl for 1 drink",
+    "id": 1
+  },
+  {
+    "name": "Negroni",
+    "img": "https://www.jyskvin.dk/image/data/opskrifter/drinks/Negroni-cocktail_web.jpg",
+    "recipe": "mix in Beefeater bottle [campari+martini+gin](pour 9cl for 1 drink in mixer, then add 3 dashes of orange bitters, mix, strain in glass w/ big ice, and add orange peel",
+    "id": 2
+  },
+  {
+    "name": "Old Fashioned",
+    "img": "https://images.ctfassets.net/3s5io6mnxfqz/2GV3nOsbYz0zYYlz2sBBiL/6ed548671a531a01ada62341302af1a4/AdobeStock_255971223.jpeg?fm=jpg&w=900&fl=progressive",
+    "recipe": " mix in Redemption bottle [Rye+angostura+syrup] (pour 9cl for 1 drink in glass w/ big ice, add 4 drops of chocolate bitters, mix, and add orange peel and cherry)",
+    "id": 3
+  }
+]
