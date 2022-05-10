@@ -88,6 +88,12 @@ export default async function handler(
 
   if (req.method === "GET") {
     const { startDte, endDate } = req.query;
+    const day = +startDte?.split("/")[1] - 1;
+    const month = startDte?.split("/")[0];
+    const year = startDte?.split("/")[2];
+
+    const startDate = `${month}/${day}/${year}`;
+    console.log(startDate);
 
     try {
       let data;
@@ -98,7 +104,7 @@ export default async function handler(
         data = await prisma.dailyReport.findMany({
           where: {
             closingDate: {
-              gte: String(startDte),
+              gte: String(startDate),
               lt: String(endDate),
             },
           },

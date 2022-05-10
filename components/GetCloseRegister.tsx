@@ -6,7 +6,6 @@ import { admin } from "../helper/emailAdmin";
 import { async } from "@firebase/util";
 import { CircularProgress } from "@mui/material";
 
-
 export const GetCloseRegister = ({
   dailyReport,
   prevFDC,
@@ -45,8 +44,6 @@ export const GetCloseRegister = ({
     two_kr,
     update_by,
   } = dailyReport;
-
-
 
   // const { comments, done, _id } = dailyReport;
   const [isDone, setISDone] = React.useState(done);
@@ -182,9 +179,9 @@ export const GetCloseRegister = ({
         }}
       >
         <div>
-          <p style={{ color: "#001219" }}>{`Closed by: ${close_by} ❤️ `}</p>
+          <p style={{ color: "#001219" }}>{`Closed by: ${close_by}  `}</p>
           {update_by && (
-            <p style={{ color: "#001219" }}>{`Edit by: ${update_by} ❤️ `}</p>
+            <p style={{ color: "#001219" }}>{`Edit by: ${update_by}  `}</p>
           )}
         </div>
 
