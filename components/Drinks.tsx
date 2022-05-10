@@ -19,9 +19,9 @@ export function Drinks({ img, name, decription, prise, repiece }: any) {
         </Typography>
         <Typography variant="body2" color="text.secondary" marginTop={"1rem"}>
           <h3>Repiece:</h3>
-          {repiece?.map((i: string) => (
+          {repiece?.map((i: string, idx: any) => (
             <ul>
-              <li key={i}>{i}</li>
+              <li key={idx}>{i}</li>
             </ul>
           ))}
         </Typography>
