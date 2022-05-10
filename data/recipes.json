@@ -4,6 +4,13 @@
     "img": "https://www.insidehook.com/wp-content/uploads/2022/02/espresso-martini.jpg?fit=1200%2C800",
     "decription": "espresso shots for Espresso Martinis in glass bottleuse 3cl for 1 drink",
     "id": 1,
+    "repiece": [
+      "5CL WILD TURKEY BOURBON",
+      "½ TSK ANGOSTURA BITTERS",
+      "2 TSKRØRSUKKER",
+      "1 STKAPPELSINSKRÆL",
+      "ISTERNINGER"
+    ],
     "prise": "110.00kr"
   },
   {
@@ -11,6 +18,13 @@
     "img": "https://www.jyskvin.dk/image/data/opskrifter/drinks/Negroni-cocktail_web.jpg",
     "decription": "mix in Beefeater bottle [campari+martini+gin](pour 9cl for 1 drink in mixer, then add 3 dashes of orange bitters, mix, strain in glass w/ big ice, and add orange peel",
     "id": 2,
+    "repiece": [
+      "5CL WILD TURKEY BOURBON",
+      "½ TSK ANGOSTURA BITTERS",
+      "2 TSKRØRSUKKER",
+      "1 STKAPPELSINSKRÆL",
+      "ISTERNINGER"
+    ],
     "prise": "90.00kr"
   },
   {

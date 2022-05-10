@@ -81,13 +81,14 @@
 
 .recipesCard {
   display: flex;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
+  margin: 1rem 0;
 }
 .recipes {
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 2rem 0;
 }
 
 .recipesSearsh {
@@ -99,7 +100,11 @@
 
 @media only screen and (max-width: 600px) {
   .recipes {
+    display: flex;
+
+    align-items: center;
     flex-direction: column;
+    justify-content: space-around;
   }
   .recipesCard {
     margin-top: 2rem;
