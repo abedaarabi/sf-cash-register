@@ -21,7 +21,7 @@ export function Drinks({ img, name, decription, prise, repiece }: any) {
           <h3>Repiece:</h3>
           {repiece?.map((i: string) => (
             <ul>
-              <li>{i}</li>
+              <li key={i}>{i}</li>
             </ul>
           ))}
         </Typography>
