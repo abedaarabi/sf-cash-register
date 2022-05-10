@@ -11,13 +11,18 @@ export function Drinks({ img, name, recipe, prise }: any) {
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia component="img" alt="green iguana" height="180" image={img} />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h5" component="div" color={"#a2d2ff"}>
           {name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {recipe}
         </Typography>
-        <Typography gutterBottom variant="h6" component="div">
+        <Typography
+          gutterBottom
+          component="div"
+          color={"#b5838d"}
+          marginTop={"1rem"}
+        >
           Prise: {prise}
         </Typography>
       </CardContent>
