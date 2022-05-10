@@ -20,8 +20,8 @@ export function Drinks({ img, name, decription, prise, repiece }: any) {
         <Typography variant="body2" color="text.secondary" marginTop={"1rem"}>
           <h3>Repiece:</h3>
           {repiece?.map((i: string, idx: any) => (
-            <ul>
-              <li key={idx}>{i}</li>
+            <ul key={idx}>
+              <li>{i}</li>
             </ul>
           ))}
         </Typography>
