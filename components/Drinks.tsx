@@ -9,7 +9,7 @@ import styles from "../styles/Home.module.css";
 export function Drinks({ img, name, recipe }: any) {
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardMedia component="img" alt="green iguana" height="140" image={img} />
+      <CardMedia component="img" alt="green iguana" height="180" image={img} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {name}
