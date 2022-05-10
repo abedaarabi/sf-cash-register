@@ -28,7 +28,7 @@ const DrinlsRecipe = () => {
       </div>
       <div className={styles.recipes}>
         {resultRecipes.map((recipe: any) => (
-          <div key={recipe.id}>
+          <div key={recipe.id} className={styles.recipesCard}>
             <Drinks
               name={recipe.name}
               img={recipe.img}

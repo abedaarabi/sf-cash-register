@@ -81,6 +81,7 @@
 
 .recipesCard {
   display: flex;
+  margin-top: 1rem;
 }
 .recipes {
   display: flex;
@@ -99,5 +100,8 @@
 @media only screen and (max-width: 600px) {
   .recipes {
     flex-direction: column;
+  }
+  .recipesCard {
+    margin-top: 2rem;
   }
 }
