@@ -16,17 +16,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fd9494;
+  color: #fff;
 }
 
 .logo a {
   text-decoration: none;
-  color: #fd9494;
+  color: #ffff;
 }
 
 .navigation a {
   text-decoration: none;
-  color: #fd9494;
+  color: #ffff;
   font-size: 1.5rem;
 }
 

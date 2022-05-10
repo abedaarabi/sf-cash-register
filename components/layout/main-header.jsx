@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import classes from "./main-header.module.css";
 import { admin } from "../../helper/emailAdmin";
 import { style } from "@mui/system";
+import Image from "next/image";
 
 const MainHeader = () => {
   const { user, logout } = useAuth();
@@ -23,12 +24,17 @@ const MainHeader = () => {
   return (
     <header className={classes.headerNav}>
       <div className={classes.logo}>
-        <Link href={user ? "/dashboard" : "/login"}>Sorte Firkant</Link>
+        <Link href={""}>
+          <h3 style={{ letterSpacing: "5px" }}>Sorte Firkant</h3>
+        </Link>
+        {/* <Image height={80} width={80} src={"/img/logo.svg"} /> */}
+        {/* <Link href={user ? "/dashboard" : "/login"}>Sorte Firkant</Link> */}
       </div>
+
       <p style={{ color: "white" }}>
-        {" "}
         {user ? `Hello ${user?.displayName} 😉 ` : ""}
       </p>
+
       {admin.includes(user?.email) && (
         <div className={classes.btnNv}>
           <div style={{ marginRight: "10px" }}>
@@ -66,7 +72,7 @@ const MainHeader = () => {
           {user ? (
             <Button onClick={handleSignOut}> Log Out</Button>
           ) : (
-            <Link href={""}>{user ? "Log out" : "Log in"}</Link>
+            <Link href={""}>{user ? "Log out" : ""}</Link>
           )}
         </ul>
       </nav>
