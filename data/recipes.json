@@ -4,7 +4,7 @@
     "img": "https://www.insidehook.com/wp-content/uploads/2022/02/espresso-martini.jpg?fit=1200%2C800",
     "decription": "espresso shots for Espresso Martinis in glass bottleuse 3cl for 1 drink",
     "id": 1,
-    "repiece": [
+    "recipe": [
       "5CL WILD TURKEY BOURBON",
       "½ TSK ANGOSTURA BITTERS",
       "2 TSKRØRSUKKER",
@@ -18,7 +18,7 @@
     "img": "https://www.jyskvin.dk/image/data/opskrifter/drinks/Negroni-cocktail_web.jpg",
     "decription": "mix in Beefeater bottle [campari+martini+gin](pour 9cl for 1 drink in mixer, then add 3 dashes of orange bitters, mix, strain in glass w/ big ice, and add orange peel",
     "id": 2,
-    "repiece": [
+    "recipe": [
       "5CL WILD TURKEY BOURBON",
       "½ TSK ANGOSTURA BITTERS",
       "2 TSKRØRSUKKER",
@@ -31,7 +31,7 @@
     "name": "Old Fashioned",
     "img": "https://images.ctfassets.net/3s5io6mnxfqz/2GV3nOsbYz0zYYlz2sBBiL/6ed548671a531a01ada62341302af1a4/AdobeStock_255971223.jpeg?fm=jpg&w=900&fl=progressive",
     "decription": " mix in Redemption bottle [Rye+angostura+syrup] (pour 9cl for 1 drink in glass w/ big ice, add 4 drops of chocolate bitters, mix, and add orange peel and cherry)",
-    "repiece": [
+    "recipe": [
       "5CL WILD TURKEY BOURBON",
       "½ TSK ANGOSTURA BITTERS",
       "2 TSKRØRSUKKER",
@@ -40,5 +40,61 @@
     ],
     "id": 3,
     "prise": "95.00kr"
+  },
+  {
+    "name": "Gin Basil Smash",
+    "img": "https://www.worldsbestbars.com/wp-content/uploads/2020/09/5-botanical-cocktails-you-need-to-try-basil-smash-scaled.jpg",
+    "decription": " mix in Redemption bottle [Rye+angostura+syrup] (pour 9cl for 1 drink in glass w/ big ice, add 4 drops of chocolate bitters, mix, and add orange peel and cherry)",
+    "recipe": [
+      "5CL WILD TURKEY BOURBON",
+      "½ TSK ANGOSTURA BITTERS",
+      "2 TSKRØRSUKKER",
+      "1 STKAPPELSINSKRÆL",
+      "ISTERNINGER"
+    ],
+    "id": 4,
+    "prise": "95.00kr"
+  },
+  {
+    "name": "White Russian",
+    "img": "https://www.thespruceeats.com/thmb/MZdODkc0EpBC2lk2IeEco9Bb1w4=/3000x2000/filters:fill(auto,1)/white-russian-recipe-761274-Hero_02-e1b64f0eac1f4b94b9dbe94fc66d83a8.jpg",
+    "decription": " mix in Redemption bottle [Rye+angostura+syrup] (pour 9cl for 1 drink in glass w/ big ice, add 4 drops of chocolate bitters, mix, and add orange peel and cherry)",
+    "recipe": [
+      "5CL WILD TURKEY BOURBON",
+      "½ TSK ANGOSTURA BITTERS",
+      "2 TSKRØRSUKKER",
+      "1 STKAPPELSINSKRÆL",
+      "ISTERNINGER"
+    ],
+    "id": 5,
+    "prise": "85.00kr"
+  },
+  {
+    "name": "Cherry Rum Sour",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZQ4H62Y32oFMR1pjpUCZV5_XXzl1LSn1y6A&usqp=CAU",
+    "decription": " mix in Redemption bottle [Rye+angostura+syrup] (pour 9cl for 1 drink in glass w/ big ice, add 4 drops of chocolate bitters, mix, and add orange peel and cherry)",
+    "recipe": [
+      "5CL WILD TURKEY BOURBON",
+      "½ TSK ANGOSTURA BITTERS",
+      "2 TSKRØRSUKKER",
+      "1 STKAPPELSINSKRÆL",
+      "ISTERNINGER"
+    ],
+    "id": 5,
+    "prise": "105.00kr"
+  },
+  {
+    "name": "Negroni",
+    "img": "https://www.jyskvin.dk/image/data/opskrifter/drinks/Negroni-cocktail_web.jpg",
+    "decription": " mix in Redemption bottle [Rye+angostura+syrup] (pour 9cl for 1 drink in glass w/ big ice, add 4 drops of chocolate bitters, mix, and add orange peel and cherry)",
+    "recipe": [
+      "5CL WILD TURKEY BOURBON",
+      "½ TSK ANGOSTURA BITTERS",
+      "2 TSKRØRSUKKER",
+      "1 STKAPPELSINSKRÆL",
+      "ISTERNINGER"
+    ],
+    "id": 5,
+    "prise": "115.00kr"
   }
 ]

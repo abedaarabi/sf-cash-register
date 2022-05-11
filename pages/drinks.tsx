@@ -42,7 +42,7 @@ const DrinlsRecipe = () => {
                 img={recipe.img}
                 decription={recipe.decription}
                 prise={recipe.prise}
-                repiece={recipe.repiece}
+                recipe={recipe.recipe}
               />
             </div>
           ))
