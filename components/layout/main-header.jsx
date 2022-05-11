@@ -34,15 +34,17 @@ const MainHeader = () => {
       <p style={{ color: "white" }}>
         {user ? `Hello ${user?.displayName} 😉 ` : ""}
       </p>
-      <div style={{ marginRight: "10px" }}>
-        <Button
-          onClick={() => {
-            router.push("/drinks");
-          }}
-        >
-          Drinks
-        </Button>
-      </div>
+      {user && (
+        <div style={{ marginRight: "10px" }}>
+          <Button
+            onClick={() => {
+              router.push("/drinks");
+            }}
+          >
+            Drinks
+          </Button>
+        </div>
+      )}
       {admin.includes(user?.email) && (
         <div className={classes.btnNv}>
           <div style={{ marginRight: "10px" }}>
