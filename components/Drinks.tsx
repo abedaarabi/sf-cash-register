@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 
 import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
-export function Drinks({ img, name, decription, prise, recipe }: any) {
+export function Drinks({ img, name, description, prise, recipe }: any) {
   const { user } = useAuth();
   const [isHide, setIsHide] = React.useState(false);
   const arrow = isHide ? faAngleDown : faAngleRight;
@@ -16,13 +16,23 @@ export function Drinks({ img, name, decription, prise, recipe }: any) {
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia component="img" alt="green iguana" height="180" image={img} />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div" color={"#343a40"}>
+        <Typography
+          gutterBottom
+          variant={"body2"}
+          component="div"
+          color={"#343a40"}
+        >
           {name}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {decription}
+        <Typography variant="body2" color="text.secondary" component="div">
+          {description}
         </Typography>
-        <Typography variant="body2" color="text.secondary" marginTop={"1rem"}>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          marginTop={"1rem"}
+          component="div"
+        >
           {user && (
             <div>
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -53,6 +63,7 @@ export function Drinks({ img, name, decription, prise, recipe }: any) {
           component="div"
           color={"#6c757d"}
           marginTop={"1rem"}
+          variant={"body2"}
         >
           Prise: {prise}
         </Typography>

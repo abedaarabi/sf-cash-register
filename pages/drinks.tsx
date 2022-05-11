@@ -9,10 +9,9 @@ import Head from "next/head";
 import { Alerts } from "../components/Alerts";
 const DrinlsRecipe = () => {
   const [filterRecipes, setFilterRecipes] = React.useState("");
-  console.log(filterRecipes);
 
-  const resultRecipes = recipes.filter((recipe: any) => {
-    return recipe?.name
+  const resultRecipes = recipes.filter((item: any) => {
+    return item?.name
       ?.toLowerCase()
       .includes(filterRecipes.toLocaleLowerCase());
   });
@@ -40,7 +39,7 @@ const DrinlsRecipe = () => {
               <Drinks
                 name={recipe.name}
                 img={recipe.img}
-                decription={recipe.decription}
+                description={recipe.description}
                 prise={recipe.prise}
                 recipe={recipe.recipe}
               />
