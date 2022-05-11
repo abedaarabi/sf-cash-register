@@ -93,7 +93,7 @@ export default async function handler(
     const year = startDte?.split("/")[2];
 
     const startDate = `${month}/${day}/${year}`;
-    console.log(startDate);
+    console.log(startDate, endDate);
 
     try {
       let data;

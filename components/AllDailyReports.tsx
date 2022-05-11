@@ -16,7 +16,7 @@ export const AllDailyReports = () => {
       return alert("select dates");
     } else {
       const startDate = new Date(date.startDate).toLocaleDateString();
-      const endDate = new Date(date.endDat).toLocaleDateString();
+      const endDate = new Date(date.endDate).toLocaleDateString();
 
       console.log({ startDate, endDate });
       fetch(
