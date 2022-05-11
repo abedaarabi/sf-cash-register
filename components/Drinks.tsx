@@ -5,8 +5,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Typography from "@mui/material/Typography";
+
+import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
 export function Drinks({ img, name, decription, prise, recipe }: any) {
+  const { user } = useAuth();
   const [isHide, setIsHide] = React.useState(false);
   const arrow = isHide ? faAngleDown : faAngleRight;
   return (
@@ -20,25 +23,29 @@ export function Drinks({ img, name, decription, prise, recipe }: any) {
           {decription}
         </Typography>
         <Typography variant="body2" color="text.secondary" marginTop={"1rem"}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <h3 style={{ paddingRight: "5px" }}>Recipe </h3>
-            <FontAwesomeIcon
-              className="arrow"
-              icon={arrow}
-              size="lg"
-              color={"#343a40"}
-              onClick={() => {
-                setIsHide(!isHide);
-              }}
-            />
-          </div>
+          {user && (
+            <div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h3 style={{ paddingRight: "5px" }}>Recipe </h3>
+                <FontAwesomeIcon
+                  className="arrow"
+                  icon={arrow}
+                  size="lg"
+                  color={"#343a40"}
+                  onClick={() => {
+                    setIsHide(!isHide);
+                  }}
+                />
+              </div>
 
-          {isHide && (
-            <ul>
-              {recipe?.map((i: string, idx: any) => (
-                <li key={idx}>{i}</li>
-              ))}
-            </ul>
+              {isHide && (
+                <ul>
+                  {recipe?.map((i: string, idx: any) => (
+                    <li key={idx}>{i}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
           )}
         </Typography>
         <Typography
