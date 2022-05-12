@@ -60,6 +60,7 @@ export default async function handler(
 
         //insert Report
         await prisma.dailyReport.create({
+          //@ts-ignore
           data: {
             ...report,
           },
@@ -74,6 +75,7 @@ export default async function handler(
           where: {
             id: payload.id,
           },
+          //@ts-ignore
           data: {
             ...acceptedObj,
           },
@@ -108,7 +110,9 @@ export default async function handler(
             closingDate: {
               // gte: "2022-04-27",
               // lte: "2022-05-05",
+              //@ts-ignore
               gte: new Date(start),
+              //@ts-ignore
               lte: new Date(endDate),
             },
           },
