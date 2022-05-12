@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { AllDailyReports } from "../components/AllDailyReports";
+import { DateSelector } from "../components/DateSelector";
 
 import { useAuth } from "../context/AuthContext";
 
@@ -9,7 +10,7 @@ const DataResult = () => {
 
   return (
     <div>
-      <AllDailyReports />
+      <DateSelector />
     </div>
   );
 };

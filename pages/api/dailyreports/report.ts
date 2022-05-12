@@ -10,9 +10,6 @@ export default async function handler(
 ) {
   const payload = req.body;
 
-  const date = new Date().toLocaleDateString();
-  const time = new Date().toLocaleTimeString();
-
   const employee = {
     id: payload.employeeId as string,
     displayName: payload.displayName as string,
@@ -41,13 +38,13 @@ export default async function handler(
     comments: payload.comments as string,
     productSales: payload.productSales || (0 as number),
     other: payload.other || (0 as number),
-    closingDate: payload.closingDate as string,
-    Date: date as string,
-    Time: time as string,
+    closingDate: payload.closingDate as Date,
+    Date: new Date().toLocaleDateString() as string,
+    Time: new Date().toLocaleTimeString() as string,
     cashOut: payload.cashOut || (0 as number),
     reason: payload.reason as string,
   };
-
+  console.log(report.closingDate);
   if (req.method === "POST") {
     try {
       if (!payload.id) {
@@ -90,8 +87,33 @@ export default async function handler(
   }
 
   if (req.method === "GET") {
+    const { startDate, endDate } = req.query as {
+      startDate: string;
+      endDate: string;
+    };
+    const day = +startDate?.split("-")[2] - 1;
+    const month = startDate?.split("-")[1];
+    const year = startDate?.split("-")[0];
+
+    const start = `${year}-${month}-${day}`;
+
     try {
-      const data = await prisma.dailyReport.findMany();
+      let data;
+
+      if (!startDate && !endDate) {
+        data = await prisma.dailyReport.findMany();
+      } else {
+        data = await prisma.dailyReport.findMany({
+          where: {
+            closingDate: {
+              // gte: "2022-04-27",
+              // lte: "2022-05-05",
+              gte: new Date(start),
+              lte: new Date(endDate),
+            },
+          },
+        });
+      }
 
       res
         .status(200)
