@@ -94,7 +94,7 @@ export default async function handler(
 
     const startDate = `${month}/${day}/${year}`;
     console.log(startDate, endDate);
-
+    // 5/9/2022 5/11/2022
     try {
       let data;
 
