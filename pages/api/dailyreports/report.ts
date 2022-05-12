@@ -87,27 +87,29 @@ export default async function handler(
   }
 
   if (req.method === "GET") {
-    const { startDte, endDate } = req.query;
-    const day = +startDte?.split("/")[1] - 1;
-    const month = startDte?.split("/")[0];
-    const year = startDte?.split("/")[2];
+    const { startDate, endDate } = req.query as {
+      startDate: string;
+      endDate: string;
+    };
+    const day = +startDate?.split("-")[2] - 1;
+    const month = startDate?.split("-")[1];
+    const year = startDate?.split("-")[0];
 
-    const startDate = `${year}-${month}-${day}`;
-    console.log(startDte, endDate);
+    const start = `${year}-${month}-${day}`;
 
     try {
       let data;
 
-      if (!startDte && !endDate) {
+      if (!startDate && !endDate) {
         data = await prisma.dailyReport.findMany();
       } else {
         data = await prisma.dailyReport.findMany({
           where: {
             closingDate: {
-              gte: "2022-05-08",
-              lt: "2022-05-13",
-              // gte: startDte as string,
-              // lt: endDate as string,
+              // gte: "2022-04-27",
+              // lte: "2022-05-05",
+              gte: new Date(start),
+              lte: new Date(endDate),
             },
           },
         });
@@ -119,16 +121,3 @@ export default async function handler(
     } catch (error) {}
   }
 }
-
-function addDays(days: any) {
-  var n = 5; //number of days to add.
-  var today = new Date(); //Today's Date
-  return new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() - days
-  ).toLocaleDateString();
-}
-// function addDays(theDate: any, days: any) {
-//   return new Date(theDate.getTime() - days * 24 * 60 * 60 * 1000).toLocaleDateString();
-// }

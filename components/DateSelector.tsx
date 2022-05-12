@@ -18,12 +18,31 @@ export function DateSelector({ getdate }: any) {
         flexDirection: "column",
       }}
     >
-      <div
-        style={{
-          paddingBottom: "1rem",
+      <TextField
+        type={"date"}
+        value={date?.startDate}
+        onChange={(e: any) => {
+          setDate({ ...date, startDate: e.target.value });
         }}
-      >
-        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+      />
+      <TextField
+        style={{ marginTop: "0.5rem" }}
+        type={"date"}
+        value={date?.endDate}
+        onChange={(e: any) => {
+          setDate({ ...date, endDate: e.target.value });
+        }}
+      />
+
+      <div>
+        <Button onClick={() => getdate(date)}>Filter By Date</Button>
+      </div>
+    </div>
+  );
+}
+
+{
+  /* <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             label="Start Date"
             value={date?.startDate}
@@ -44,27 +63,5 @@ export function DateSelector({ getdate }: any) {
           }}
           renderInput={(params) => <TextField {...params} />}
         />
-      </LocalizationProvider> */}
-
-        <TextField
-          type={"date"}
-          value={date?.endDate}
-          onChange={(e: any) => {
-            setDate({ ...date, endDate: e.target.value });
-          }}
-        />
-        <TextField
-          type={"date"}
-          value={date?.startDate}
-          onChange={(e: any) => {
-            setDate({ ...date, startDate: e.target.value });
-          }}
-        />
-
-        <div>
-          <Button onClick={() => getdate(date)}>Search By Date</Button>
-        </div>
-      </div>
-    </div>
-  );
+      </LocalizationProvider> */
 }

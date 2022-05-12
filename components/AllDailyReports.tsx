@@ -17,12 +17,9 @@ export const AllDailyReports = () => {
     } else {
       const startDate = date.startDate;
       const endDate = date.endDate;
-      // const startDate = new Date(date.startDate).toLocaleDateString();
-      // const endDate = new Date(date.endDate).toLocaleDateString();
-      console.log({ startDate, endDate });
 
       fetch(
-        `/api/dailyreports/report?startDte=${startDate}&endDate=${endDate} `
+        `/api/dailyreports/report?startDate=${startDate}&endDate=${endDate} `
       )
         .then((res) => res.json())
         .then(({ response }) => {
