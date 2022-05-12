@@ -15,10 +15,12 @@ export const AllDailyReports = () => {
     if (!date.startDate || !date.endDate) {
       return alert("select dates");
     } else {
-      const startDate = new Date(date.startDate).toLocaleDateString();
-      const endDate = new Date(date.endDate).toLocaleDateString();
-
+      const startDate = date.startDate;
+      const endDate = date.endDate;
+      // const startDate = new Date(date.startDate).toLocaleDateString();
+      // const endDate = new Date(date.endDate).toLocaleDateString();
       console.log({ startDate, endDate });
+
       fetch(
         `/api/dailyreports/report?startDte=${startDate}&endDate=${endDate} `
       )

@@ -23,7 +23,7 @@ export function DateSelector({ getdate }: any) {
           paddingBottom: "1rem",
         }}
       >
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             label="Start Date"
             value={date?.startDate}
@@ -44,10 +44,26 @@ export function DateSelector({ getdate }: any) {
           }}
           renderInput={(params) => <TextField {...params} />}
         />
-      </LocalizationProvider>
+      </LocalizationProvider> */}
 
-      <div>
-        <Button onClick={() => getdate(date)}>Search By Date</Button>
+        <TextField
+          type={"date"}
+          value={date?.endDate}
+          onChange={(e: any) => {
+            setDate({ ...date, endDate: e.target.value });
+          }}
+        />
+        <TextField
+          type={"date"}
+          value={date?.startDate}
+          onChange={(e: any) => {
+            setDate({ ...date, startDate: e.target.value });
+          }}
+        />
+
+        <div>
+          <Button onClick={() => getdate(date)}>Search By Date</Button>
+        </div>
       </div>
     </div>
   );

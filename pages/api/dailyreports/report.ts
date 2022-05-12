@@ -38,13 +38,13 @@ export default async function handler(
     comments: payload.comments as string,
     productSales: payload.productSales || (0 as number),
     other: payload.other || (0 as number),
-    closingDate: new Date(payload.closingDate).toLocaleDateString() as string,
+    closingDate: payload.closingDate as Date,
     Date: new Date().toLocaleDateString() as string,
     Time: new Date().toLocaleTimeString() as string,
     cashOut: payload.cashOut || (0 as number),
     reason: payload.reason as string,
   };
-
+  console.log(report.closingDate);
   if (req.method === "POST") {
     try {
       if (!payload.id) {
@@ -92,9 +92,9 @@ export default async function handler(
     const month = startDte?.split("/")[0];
     const year = startDte?.split("/")[2];
 
-    const startDate = `${month}/${day}/${year}`;
-    console.log(startDate, endDate);
-    // 5/9/2022 5/11/2022
+    const startDate = `${year}-${month}-${day}`;
+    console.log(startDte, endDate);
+
     try {
       let data;
 
@@ -104,8 +104,10 @@ export default async function handler(
         data = await prisma.dailyReport.findMany({
           where: {
             closingDate: {
-              gte: String(startDate),
-              lt: String(endDate),
+              gte: "2022-05-08",
+              lt: "2022-05-13",
+              // gte: startDte as string,
+              // lt: endDate as string,
             },
           },
         });
