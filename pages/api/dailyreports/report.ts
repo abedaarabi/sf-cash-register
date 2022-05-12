@@ -98,6 +98,7 @@ export default async function handler(
     const year = startDate?.split("-")[0];
 
     const start = `${year}-${month}-${day}`;
+    console.log(start);
 
     try {
       let data;
