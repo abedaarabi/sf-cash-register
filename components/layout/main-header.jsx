@@ -34,6 +34,7 @@ const MainHeader = () => {
       <p style={{ color: "white" }}>
         {user ? `Hello ${user?.displayName} 😉 ` : ""}
       </p>
+
       {user && (
         <div style={{ marginRight: "10px" }}>
           <Button
@@ -68,6 +69,7 @@ const MainHeader = () => {
           </div>
         </div>
       )}
+
       <nav className={classes.navigation}>
         <ul>
           {user ? (
