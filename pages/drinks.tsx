@@ -1,12 +1,13 @@
 import React from "react";
 import { Drinks } from "../components/Drinks";
 
-import { TextField } from "@mui/material";
+import { debounce, TextField } from "@mui/material";
 const recipes = require("../data/recipes.json");
 
 import styles from "../styles/Home.module.css";
 import Head from "next/head";
 import { Alerts } from "../components/Alerts";
+import { faN } from "@fortawesome/free-solid-svg-icons";
 const DrinlsRecipe = () => {
   const [filterRecipes, setFilterRecipes] = React.useState("");
 
@@ -16,9 +17,25 @@ const DrinlsRecipe = () => {
       .includes(filterRecipes.toLocaleLowerCase());
   });
 
-  const handelOnChange = debounce((text: any) => {
-    setFilterRecipes(text);
-  }, 200);
+  const debounce = React.useCallback(
+    (fn: any, delay: number) => {
+      let timeId: any;
+
+      return (...args: any) => {
+        if (timeId) clearTimeout(timeId);
+
+        timeId = setTimeout(() => {
+          fn(...args);
+        }, delay);
+      };
+    },
+    [filterRecipes]
+  );
+
+  const handelInput = debounce(
+    (e: any) => setFilterRecipes(e.target.value),
+    200
+  );
 
   return (
     <div>
@@ -31,7 +48,7 @@ const DrinlsRecipe = () => {
           label="Search For Drink"
           variant="standard"
           // value={filterRecipes}
-          onChange={(e: any) => handelOnChange(e.target.value)}
+          onChange={handelInput}
         />
       </div>
       <div className={styles.recipes}>
@@ -56,14 +73,3 @@ const DrinlsRecipe = () => {
 };
 
 export default DrinlsRecipe;
-
-const debounce = (cb: any, delay: number) => {
-  let time: any;
-
-  return (...args: any) => {
-    if (time) clearTimeout(time);
-    setTimeout(() => {
-      cb(...args);
-    }, delay);
-  };
-};
