@@ -44,7 +44,7 @@ model DailyReport{
   comments String
   productSales Decimal @db.Decimal(15,2)
   other Decimal @db.Decimal(15,2)
-  closingDate DateTime @unique
+  closingDate String @unique
   Date String
   Time String
   cashOut Decimal @db.Decimal(15,2)

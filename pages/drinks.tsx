@@ -16,6 +16,10 @@ const DrinlsRecipe = () => {
       .includes(filterRecipes.toLocaleLowerCase());
   });
 
+  const handelOnChange = debounce((text: any) => {
+    setFilterRecipes(text);
+  }, 200);
+
   return (
     <div>
       <Head>
@@ -26,8 +30,8 @@ const DrinlsRecipe = () => {
           id="standard-basic"
           label="Search For Drink"
           variant="standard"
-          value={filterRecipes}
-          onChange={(e: any) => setFilterRecipes(e.target.value)}
+          // value={filterRecipes}
+          onChange={(e: any) => handelOnChange(e.target.value)}
         />
       </div>
       <div className={styles.recipes}>
@@ -52,3 +56,14 @@ const DrinlsRecipe = () => {
 };
 
 export default DrinlsRecipe;
+
+const debounce = (cb: any, delay: number) => {
+  let time: any;
+
+  return (...args: any) => {
+    if (time) clearTimeout(time);
+    setTimeout(() => {
+      cb(...args);
+    }, delay);
+  };
+};
