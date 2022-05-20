@@ -44,7 +44,7 @@ export default async function handler(
     cashOut: payload.cashOut || (0 as number),
     reason: payload.reason as string,
   };
-  console.log(report.closingDate);
+
   if (req.method === "POST") {
     try {
       if (!payload.id) {

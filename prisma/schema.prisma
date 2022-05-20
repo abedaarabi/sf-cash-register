@@ -1,53 +1,60 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
-
   url      = env("DATABASE_URL")
 }
 
-
-
-model Employe{
-id String @unique @id 
-displayName String
-daily_reports DailyReport []
+model Employe {
+  id            String        @id @unique
+  displayName   String
+  daily_reports DailyReport[]
 }
 
-model DailyReport{
-  id       Int  @id @default(autoincrement()) @unique
-  employe Employe @relation(fields: [employeId], references: [id])
-  employeId String
-   done Boolean @default(false)
-  update_by String
-  close_by String
-  card_28 Decimal @db.Decimal(15,2)
-  card_43 Decimal @db.Decimal(15,2)
-  mobile_pay Decimal? @db.Decimal(15,2)
-  invoices Decimal? @db.Decimal(15,2)
-  one_thousand_kr Decimal @db.Decimal(15,2) 
-  five_hundred_kr Decimal @db.Decimal(15,2)
-  two_hundred_kr Decimal @db.Decimal(15,2)
-  one_hundred_kr Decimal @db.Decimal(15,2)
-  fifty_kr Decimal @db.Decimal(15,2)
-  twenty_kr Decimal @db.Decimal(15,2)
-  ten_kr Decimal @db.Decimal(15,2)
-  five_kr Decimal @db.Decimal(15,2)
-  two_kr Decimal @db.Decimal(15,2)
-  one_kr Decimal @db.Decimal(15,2)
-  half_kr Decimal @db.Decimal(15,2)
-  comments String
-  productSales Decimal @db.Decimal(15,2)
-  other Decimal @db.Decimal(15,2)
-  closingDate String @unique
-  Date String
-  Time String
-  cashOut Decimal @db.Decimal(15,2)
-  reason String
-  
+model DailyReport {
+  id              Int      @id @unique @default(autoincrement())
+  employeId       String
+  done            Boolean  @default(false)
+  update_by       String
+  close_by        String
+  card_28         Decimal  @db.Decimal(15, 2)
+  card_43         Decimal  @db.Decimal(15, 2)
+  mobile_pay      Decimal? @db.Decimal(15, 2)
+  invoices        Decimal? @db.Decimal(15, 2)
+  one_thousand_kr Decimal  @db.Decimal(15, 2)
+  five_hundred_kr Decimal  @db.Decimal(15, 2)
+  two_hundred_kr  Decimal  @db.Decimal(15, 2)
+  one_hundred_kr  Decimal  @db.Decimal(15, 2)
+  fifty_kr        Decimal  @db.Decimal(15, 2)
+  twenty_kr       Decimal  @db.Decimal(15, 2)
+  ten_kr          Decimal  @db.Decimal(15, 2)
+  five_kr         Decimal  @db.Decimal(15, 2)
+  two_kr          Decimal  @db.Decimal(15, 2)
+  one_kr          Decimal  @db.Decimal(15, 2)
+  half_kr         Decimal  @db.Decimal(15, 2)
+  comments        String
+  productSales    Decimal  @db.Decimal(15, 2)
+  other           Decimal  @db.Decimal(15, 2)
+  closingDate     String   @unique
+  Date            String
+  Time            String
+  cashOut         Decimal  @db.Decimal(15, 2)
+  reason          String
+  employe         Employe  @relation(fields: [employeId], references: [id])
+
+  @@index([employeId], map: "DailyReport_employeId_fkey")
+}
+
+
+
+model Drinks {
+  id          String    @id @unique @default(uuid())
+  image       String
+  name        String
+  description String
+  recipe      String
+  price       Int
+  createdAt   DateTime? @default(now())
 }
