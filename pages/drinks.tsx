@@ -1,21 +1,34 @@
 import React from "react";
 import { Drinks } from "../components/Drinks";
 
-import { debounce, TextField } from "@mui/material";
+import { CircularProgress, debounce, TextField } from "@mui/material";
 const recipes = require("../data/recipes.json");
 
 import styles from "../styles/Home.module.css";
 import Head from "next/head";
 import { Alerts } from "../components/Alerts";
-import { faN } from "@fortawesome/free-solid-svg-icons";
+import { useQuery } from "react-query";
+import { Button } from "../components/ui/Button";
+import { admin } from "../helper/emailAdmin";
+import { useAuth } from "../context/AuthContext";
+
+const getDrinks = async () => {
+  return await (await fetch("api/drinks/drink")).json();
+};
+
 const DrinlsRecipe = () => {
+  const { user } = useAuth();
+  const { isLoading, isError, data, error } = useQuery("drinks", getDrinks);
+
   const [filterRecipes, setFilterRecipes] = React.useState("");
 
-  const resultRecipes = recipes.filter((item: any) => {
-    return item?.name
-      ?.toLowerCase()
-      .includes(filterRecipes.toLocaleLowerCase());
-  });
+  const resultRecipes =
+    data &&
+    data?.response.filter((item: any) => {
+      return item?.name
+        ?.toLowerCase()
+        .includes(filterRecipes.toLocaleLowerCase());
+    });
 
   const debounce = React.useCallback(
     (fn: any, delay: number) => {
@@ -37,11 +50,20 @@ const DrinlsRecipe = () => {
     200
   );
 
+  if (isLoading) {
+    return (
+      <div>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Head>
         <title>Drinks</title>
       </Head>
+
       <div className={styles.recipesSearsh}>
         <TextField
           id="standard-basic"
@@ -50,6 +72,16 @@ const DrinlsRecipe = () => {
           // value={filterRecipes}
           onChange={handelInput}
         />
+
+        {admin.includes(user?.email) && (
+          <Button
+            href={{
+              pathname: `/drinkspanel`,
+            }}
+          >
+            Add new Drink
+          </Button>
+        )}
       </div>
       <div className={styles.recipes}>
         {resultRecipes.length === 0 ? (
@@ -58,10 +90,11 @@ const DrinlsRecipe = () => {
           resultRecipes.map((recipe: any) => (
             <div key={recipe.id} className={styles.recipesCard}>
               <Drinks
+                id={recipe.id}
                 name={recipe.name}
-                img={recipe.img}
+                img={recipe.image}
                 description={recipe.description}
-                prise={recipe.prise}
+                prise={recipe.price}
                 recipe={recipe.recipe}
               />
             </div>

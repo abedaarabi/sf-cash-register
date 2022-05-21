@@ -6,7 +6,6 @@ import { GetCloseRegister } from "./GetCloseRegister";
 import CircularProgress from "@mui/material/CircularProgress";
 import { DateSelector } from "./DateSelector";
 
-import { Alerts } from "./Alerts";
 export const AllDailyReports = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);

@@ -4,22 +4,59 @@ import { Interface } from "readline";
 import { Alerts } from "./Alerts";
 import { MyField } from "./MyField";
 import styles from "../styles/Home.module.css";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+
 interface Inputs {
   image: string;
   price: number;
   description: string;
   name: string;
 }
+
 export const DrinkPanel = () => {
+  const [drinkById, setDrinkById] = React.useState() as any;
+  const router = useRouter();
+  const { id } = router.query;
+
+  const getDrinkByID = async () => {
+    return await (await fetch(`api/drinks/drink`)).json();
+  };
+  const { isLoading, isError, data, error, status } = useQuery(
+    "drinks",
+    getDrinkByID
+  );
+
   const [addReport, setAddReport] = React.useState(null) as any;
   const [isAddReport, setIsAddReport] = React.useState(false) as any;
   const [recipes, setRecipes] = React.useState([{ rRecipe: "" }]) as any;
+
   const [inputsValue, setInputsValue] = React.useState({
     image: "",
     price: 0,
     description: "",
     name: "",
   } as Inputs);
+
+  React.useEffect(() => {
+    const result = data?.response.find((drinkId: any) => drinkId.id === id);
+    const allRecipe = result && JSON.parse(result?.recipe);
+
+    const rRecipes = allRecipe?.map((item: string) => {
+      return { rRecipe: item };
+    });
+
+    id && setRecipes(rRecipes);
+
+    id &&
+      setInputsValue({
+        image: result?.image || "",
+        price: result?.price || 0,
+        description: result?.description || "",
+        name: result?.name || "",
+      });
+  }, [isLoading]);
+
   const addField = () => {
     let newRecipe = {
       rRecipe: "",
@@ -39,7 +76,6 @@ export const DrinkPanel = () => {
 
   const handleInput = (event: any, index: number) => {
     const addedInput = [...recipes];
-    console.log(addedInput[index], [event.target.name]);
 
     addedInput[index][event.target.name] = event.target.value;
     setRecipes(addedInput);
@@ -49,6 +85,7 @@ export const DrinkPanel = () => {
     return await fetch("/api/drinks/drink/", {
       method: "POST",
       body: JSON.stringify({
+        id,
         recipes,
         inputsValue,
       }),
@@ -63,13 +100,15 @@ export const DrinkPanel = () => {
 
   const addDrink = async (e: any) => {
     e.preventDefault();
-    if (inputsValue.name === "") alert("fill the inputs");
+    if (inputsValue.name === "") {
+      alert("fill the inputs");
+    } else {
+      setIsAddReport(true);
+      const response = await addDrinksDataBase();
 
-    setIsAddReport(true);
-    const response = await addDrinksDataBase();
-
-    setAddReport(response.message);
-    setIsAddReport(false);
+      setAddReport(response.message);
+      setIsAddReport(false);
+    }
   };
 
   React.useEffect(() => {
@@ -152,14 +191,12 @@ export const DrinkPanel = () => {
             <h3>Recipes:</h3>
             {recipes &&
               recipes.map((item: any, index: any) => {
-                console.log(item);
-
                 return (
                   <div
                     key={index}
                     style={{
                       display: "flex",
-                      marginBottom: "0.3rem",
+                      marginBottom: "0.8rem",
                       alignItems: "center",
                     }}
                   >
@@ -211,7 +248,7 @@ export const DrinkPanel = () => {
           </div>
         </div>
         <div>
-          <Button type="submit">Add Drink</Button>
+          <Button type="submit"> Add Drink</Button>
         </div>
       </form>
     </div>

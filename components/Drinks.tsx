@@ -8,10 +8,17 @@ import Typography from "@mui/material/Typography";
 
 import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
-export function Drinks({ img, name, description, prise, recipe }: any) {
+import { Button } from "./ui/Button";
+import { admin } from "../helper/emailAdmin";
+export function Drinks({ img, name, description, prise, recipe, id }: any) {
   const { user } = useAuth();
   const [isHide, setIsHide] = React.useState(false);
   const arrow = isHide ? faAngleDown : faAngleRight;
+
+  const rRecipe = JSON.parse(recipe);
+
+  
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia component="img" alt="green iguana" height="180" image={img} />
@@ -33,6 +40,27 @@ export function Drinks({ img, name, description, prise, recipe }: any) {
           marginTop={"1rem"}
           component="div"
         >
+          {admin.includes(user?.email) && (
+            <div
+              style={{
+                marginBottom: "15px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Button
+                href={{
+                  pathname: `/drinkspanel`,
+                  query: {
+                    id: id,
+                  },
+                }}
+              >
+                Edit
+              </Button>
+            </div>
+          )}
           {user && (
             <div>
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -50,7 +78,7 @@ export function Drinks({ img, name, description, prise, recipe }: any) {
 
               {isHide && (
                 <ul>
-                  {recipe?.map((i: string, idx: any) => (
+                  {rRecipe?.map((i: string, idx: any) => (
                     <li key={idx}>{i}</li>
                   ))}
                 </ul>
@@ -58,6 +86,7 @@ export function Drinks({ img, name, description, prise, recipe }: any) {
             </div>
           )}
         </Typography>
+
         <Typography
           gutterBottom
           component="div"
@@ -65,7 +94,7 @@ export function Drinks({ img, name, description, prise, recipe }: any) {
           marginTop={"1rem"}
           variant={"body2"}
         >
-          Prise: {prise}
+          Prise: {prise} kr
         </Typography>
       </CardContent>
     </Card>
