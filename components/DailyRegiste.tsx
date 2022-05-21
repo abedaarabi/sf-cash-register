@@ -95,7 +95,9 @@ export const RegisterHours = ({ id }: any) => {
 
   const noteTotal = getTotal(Note);
   const coinsTotal = getTotal(Coins);
-  const opening = noteTotal + coinsTotal - (fdc?.cashOut.amount || 0);
+
+  const cashOut = fdc.cashOut || 0;
+  const opening = noteTotal + coinsTotal - cashOut;
 
   let formikvalues;
 
