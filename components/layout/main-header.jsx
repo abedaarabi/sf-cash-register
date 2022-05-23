@@ -6,8 +6,10 @@ import classes from "./main-header.module.css";
 import { admin } from "../../helper/emailAdmin";
 import { style } from "@mui/system";
 import Image from "next/image";
+import React from "react";
 
 const MainHeader = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
   const { user, logout } = useAuth();
 
   const router = useRouter();
@@ -16,62 +18,70 @@ const MainHeader = () => {
     try {
       await logout();
       router.push("/login");
+      setIsOpen(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <header className={classes.headerNav}>
+    <header
+      className={classes.headerNav}
+      id={isOpen ? classes["nav-responsive"] : ""}
+    >
       <div className={classes.logo}>
         <Link href={""}>
-          <h3 style={{ letterSpacing: "5px" }}>Sorte Firkant</h3>
+          <h2>Sorte Firkant</h2>
         </Link>
-        {/* <Image height={80} width={80} src={"/img/logo.svg"} /> */}
-        {/* <Link href={user ? "/dashboard" : "/login"}>Sorte Firkant</Link> */}
+
+        <p style={{ color: "white" }}>
+          {user ? `Hello! ${user?.displayName}` : ""}
+        </p>
       </div>
 
-      <p style={{ color: "white" }}>
-        {user ? `Hello ${user?.displayName} 😉 ` : ""}
-      </p>
-
-      {user && (
-        <div style={{ marginRight: "10px" }}>
-          <Button
-            onClick={() => {
-              router.push("/drinks");
-            }}
-          >
-            Drinks
-          </Button>
-        </div>
-      )}
-      {admin.includes(user?.email) && (
-        <div className={classes.btnNv}>
-          <div style={{ marginRight: "10px" }}>
-            <Button
-              onClick={() => {
-                router.push("/reports");
-              }}
-            >
-              Reports
-            </Button>
-          </div>
-
-          <div>
-            <Button
-              onClick={() => {
-                router.push("/dashboard");
-              }}
-            >
-              Home
-            </Button>
-          </div>
-        </div>
-      )}
-
       <nav className={classes.navigation}>
-        <ul>
+        {user && (
+          <h1
+            className={classes.responsiveMenu}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? "X" : "|||"}
+          </h1>
+        )}
+
+        <ul className={isOpen ? classes["list-responsive"] : classes.list}>
+          {user && (
+            <Button
+              onClick={() => {
+                router.push("/drinks");
+                setIsOpen(false);
+              }}
+            >
+              Drinks
+            </Button>
+          )}
+          {admin.includes(user?.email) && (
+            <>
+              <Button
+                onClick={() => {
+                  router.push("/reports");
+                  setIsOpen(false);
+                }}
+              >
+                Reports
+              </Button>
+
+              <Button
+                onClick={() => {
+                  router.push("/dashboard");
+                  setIsOpen(false);
+                }}
+              >
+                Home
+              </Button>
+            </>
+          )}
+
           {user ? (
             <Button onClick={handleSignOut}> Log Out</Button>
           ) : (

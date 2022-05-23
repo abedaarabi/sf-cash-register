@@ -81,20 +81,20 @@ const Login: React.FC = () => {
                   component={MyField}
                 />
               </div>
-
-              <Button type="submit">Log In</Button>
+              <div style={{ marginTop: "2rem" }}>
+                <Button type="submit">Log In</Button>
+              </div>
             </Form>
           )}
         </Formik>
         {/* <Button onClick={loginWithGoogle}> Login with Google</Button> */}
       </div>
 
-      <Link href={"/rest"}>Reset Password</Link>
-
-      <div>
-        <p>
-          Do not have an account? <Link href={"/signup"}>Register</Link> now.
-        </p>
+      <div style={{ marginTop: "6rem" }}>
+        <div>
+          <Link href={"/rest"}>Reset Password</Link>
+        </div>
+        Do not have an account? <Link href={"/signup"}>Register</Link> now.
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ export const Button = ({
   href,
   onClick,
   disabled,
+  style,
   ...props
 }: any) => {
   if (href) {
@@ -16,6 +17,7 @@ export const Button = ({
   }
   return (
     <button
+      style={style}
       className={classes.btn}
       onClick={onClick}
       disabled={disabled}

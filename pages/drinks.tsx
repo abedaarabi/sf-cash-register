@@ -74,13 +74,15 @@ const DrinlsRecipe = () => {
         />
 
         {admin.includes(user?.email) && (
-          <Button
-            href={{
-              pathname: `/drinkspanel`,
-            }}
-          >
-            Add new Drink
-          </Button>
+          <div style={{ marginTop: "1rem" }}>
+            <Button
+              href={{
+                pathname: `/drinkspanel`,
+              }}
+            >
+              Add new Drink
+            </Button>
+          </div>
         )}
       </div>
       <div className={styles.recipes}>

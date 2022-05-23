@@ -1,6 +1,6 @@
 .btn {
   text-decoration: none;
-  margin-top: 1rem;
+
   cursor: pointer;
   font: inherit;
   background-color: #40916c;
@@ -21,6 +21,7 @@
 
 @media only screen and (max-width: 600px) {
   .btn {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    width: 8rem;
   }
 }
