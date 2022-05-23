@@ -1,7 +1,6 @@
 .container {
   display: flex;
 
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   margin-bottom: 30px;
@@ -37,14 +36,24 @@
   flex-direction: column;
   justify-content: center;
 }
-@media only screen and (max-width: 600px) {
+
+@media only screen and (max-width: 750px) {
+  .container {
+    margin-left: 4rem;
+  }
+  .inputsContainer {
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+  }
   .selsePyament {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    /* height: auto; */
+    margin: auto;
+    height: auto;
   }
   .sales {
     height: auto;
@@ -98,15 +107,29 @@
   flex-direction: column;
 }
 
-@media only screen and (max-width: 600px) {
+.reports {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+@media only screen and (max-width: 750px) {
+  .reports {
+    margin-left: 5rem;
+  }
+  .recipesSearsh {
+    margin-left: 5rem;
+  }
   .recipes {
     display: flex;
-
+    margin-left: 5rem;
     align-items: center;
     flex-direction: column;
     justify-content: space-around;
   }
   .recipesCard {
     margin-top: 2rem;
+  }
+  .zoom {
+    width: 200px;
   }
 }

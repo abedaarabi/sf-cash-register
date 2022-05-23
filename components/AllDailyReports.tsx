@@ -63,19 +63,12 @@ export const AllDailyReports = () => {
     <div>
       <div
         style={{
-          margin: "auto",
+          marginLeft: "5rem",
         }}
       >
         {admin.includes(user.email) && <DateSelector getdate={getdate} />}
       </div>
-      <div
-        style={{
-          flexWrap: "wrap",
-          display: "flex",
-
-          justifyContent: "space-around",
-        }}
-      >
+      <div className={styles.reports}>
         {fakeArr.map((report: any, index: any) => {
           const firstItem = index >= 0 && dailyReport[index];
 

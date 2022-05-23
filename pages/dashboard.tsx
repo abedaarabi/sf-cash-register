@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   const { id } = router.query;
   return (
-    <div className={styles.container}>
+    <div>
       <div>
         <RegisterHours id={id} />
       </div>

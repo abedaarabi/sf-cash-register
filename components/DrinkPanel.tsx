@@ -146,7 +146,7 @@ export const DrinkPanel = () => {
             flexDirection: "column",
             alignItems: "center",
 
-            justifyContent: "space-around",
+            justifyContent: "space-between",
           }}
         >
           <div style={{ marginBottom: "1rem" }}>

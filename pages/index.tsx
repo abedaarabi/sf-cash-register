@@ -10,9 +10,7 @@ import Login from "./login";
 const Home: NextPage = () => {
   const { user } = useAuth();
 
-  return (
-    <div className={styles.container}>{user ? <Dashboard /> : <Login />}</div>
-  );
+  return <div>{user ? <Dashboard /> : <Login />}</div>;
 };
 
 export default Home;
