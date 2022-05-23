@@ -24,6 +24,14 @@ const MainHeader = () => {
     }
   };
 
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]);
+
   return (
     <header
       className={classes.headerNav}
