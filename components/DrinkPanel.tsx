@@ -137,6 +137,7 @@ export const DrinkPanel = () => {
         alignItems: "center",
         justifyContent: "space-around",
         flexDirection: "column",
+        marginLeft: "2rem",
       }}
     >
       <form onSubmit={addDrink}>
