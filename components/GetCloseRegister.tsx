@@ -191,6 +191,7 @@ export const GetCloseRegister = ({
               <CircularProgress />
             ) : (
               <Button
+                style={{ marginBottom: "1rem" }}
                 onClick={() => {
                   setISDone(!isDone);
                 }}
