@@ -247,7 +247,7 @@ export const DrinkPanel = () => {
             {isAddReport && <CircularProgress />}
           </div>
         </div>
-        <div>
+        <div style={{ marginLeft: "6rem" }}>
           <Button type="submit"> Add Drink</Button>
         </div>
       </form>
