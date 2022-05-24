@@ -1,5 +1,5 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 import { CircularProgress } from "@mui/material";
@@ -43,18 +43,22 @@ const IncomeChart = () => {
       </h2>
     );
   }
+
+  console.log(window.innerWidth);
+
   return (
-    <div className={styles.container}>
-      <div className={styles.container}>
+    <div className={styles.charts}>
+      <div className={styles.charts}>
         <h2 style={{ color: "#6d6875" }}>Total: {dailyReport.total} kr</h2>
         <p style={{ color: "#6d6875" }}>
           From: {dailyReport.label[0]} To:
           {dailyReport.label[dailyReport.label.length - 1]}
         </p>
       </div>
+
       <Line
-        height={70}
-        width={230}
+        height={window.innerWidth < 450 ? 85 : 35}
+        width={window.innerWidth < 450 ? 100 : 120}
         datasetIdKey="id"
         data={{
           labels: dailyReport.label,
