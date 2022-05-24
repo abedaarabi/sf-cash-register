@@ -10,14 +10,39 @@ import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Home.module.css";
 import { Button } from "./ui/Button";
 import { admin } from "../helper/emailAdmin";
+import axios from "axios";
+import { useMutation, useQueryClient } from "react-query";
 export function Drinks({ img, name, description, prise, recipe, id }: any) {
   const { user } = useAuth();
   const [isHide, setIsHide] = React.useState(false);
   const arrow = isHide ? faAngleDown : faAngleRight;
 
+  const deleteDrinkById = async (id: any) => {
+    return await axios.delete("api/drinks/drink", {
+      data: {
+        id,
+      },
+    });
+  };
+
+  const useDeleteDrink = () => {
+    const queryClinet = useQueryClient();
+    return useMutation(deleteDrinkById, {
+      onSuccess: () => {
+        queryClinet.invalidateQueries("drinks");
+      },
+    });
+  };
+
+  const { mutate } = useDeleteDrink();
+
   const rRecipe = JSON.parse(recipe);
 
-  
+  const deleteDrink = (id: string) => {
+    const result = mutate(id);
+    // deleteDrinkById(id);
+    console.log(id, "### id", result);
+  };
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -46,10 +71,14 @@ export function Drinks({ img, name, description, prise, recipe, id }: any) {
                 marginBottom: "15px",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-between",
+                justifyContent: "space-evenly",
               }}
             >
               <Button
+                style={{
+                  width: "4rem",
+                  backgroundColor: "#0077b6",
+                }}
                 href={{
                   pathname: `/drinkspanel`,
                   query: {
@@ -58,6 +87,15 @@ export function Drinks({ img, name, description, prise, recipe, id }: any) {
                 }}
               >
                 Edit
+              </Button>
+              <Button
+                style={{
+                  width: "4rem",
+                  backgroundColor: "#e63946",
+                }}
+                onClick={() => deleteDrink(id)}
+              >
+                Delete
               </Button>
             </div>
           )}

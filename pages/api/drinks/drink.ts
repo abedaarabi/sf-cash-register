@@ -11,11 +11,20 @@ export default async function handler(
   const { recipes, inputsValue } = req.body;
   const { id } = req.body;
 
-  
-
   const drinkId = uuid();
- 
-  
+
+  if (req.method === "DELETE") {
+    const { id } = req.body;
+
+    try {
+      console.log(id);
+      const data = await prisma.drinks.delete({ where: { id } });
+      res.status(201).json({ message: "Drink Deleted successfully!", data });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Data Error!" });
+    }
+  }
   if (req.method === "POST") {
     const allRecipes = JSON.stringify(recipes.map((item: any) => item.rRecipe));
 

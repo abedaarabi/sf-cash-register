@@ -10,14 +10,14 @@ export const Button = ({
 }: any) => {
   if (href) {
     return (
-      <div className={classes.btn}>
+      <button className={classes.btn} style={{ ...style }}>
         <Link href={href}>{children}</Link>
-      </div>
+      </button>
     );
   }
   return (
     <button
-      style={style}
+      style={{ ...style }}
       className={classes.btn}
       onClick={onClick}
       disabled={disabled}
