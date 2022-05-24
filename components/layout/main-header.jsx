@@ -78,6 +78,14 @@ const MainHeader = () => {
               >
                 Reports
               </Button>
+              <Button
+                onClick={() => {
+                  router.push("/chart");
+                  setIsOpen(false);
+                }}
+              >
+                Charts
+              </Button>
 
               <Button
                 onClick={() => {
