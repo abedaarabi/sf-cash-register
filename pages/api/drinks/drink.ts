@@ -2,12 +2,15 @@ import { async } from "@firebase/util";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../lib/prisma";
+// import { prisma } from "../../../lib/prisma";
+
+import { PrismaClient } from "@prisma/client";
 import { uuid } from "uuidv4";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+  const prisma = new PrismaClient();
   const { recipes, inputsValue } = req.body;
   const { id } = req.body;
 

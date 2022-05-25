@@ -49,11 +49,11 @@ model DailyReport {
 
 model Drinks {
   id          String    @id @unique @default(uuid())
-  image       String @db.VarChar(10000)
+  image       String    @db.VarChar(10000)
   name        String
   description String
   recipe      String
   price       Int
   createdAt   DateTime? @default(now())
-  preparation String    
+  preparation String
 }
