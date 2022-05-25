@@ -77,40 +77,41 @@ export function Drinks({
           marginTop={"1rem"}
           component="div"
         >
-          {admin.includes(user?.email) && (
-            <div
-              style={{
-                marginBottom: "15px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-evenly",
-              }}
-            >
-              <Button
+          {admin.includes(user?.email) ||
+            (user?.email === "yas.kh24@gmail.com" && (
+              <div
                 style={{
-                  width: "4rem",
-                  backgroundColor: "#0077b6",
-                }}
-                href={{
-                  pathname: `/drinkspanel`,
-                  query: {
-                    id: id,
-                  },
+                  marginBottom: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
                 }}
               >
-                Edit
-              </Button>
-              <Button
-                style={{
-                  width: "4rem",
-                  backgroundColor: "#e63946",
-                }}
-                onClick={() => deleteDrink(id)}
-              >
-                Delete
-              </Button>
-            </div>
-          )}
+                <Button
+                  style={{
+                    width: "4rem",
+                    backgroundColor: "#0077b6",
+                  }}
+                  href={{
+                    pathname: `/drinkspanel`,
+                    query: {
+                      id: id,
+                    },
+                  }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  style={{
+                    width: "4rem",
+                    backgroundColor: "#e63946",
+                  }}
+                  onClick={() => deleteDrink(id)}
+                >
+                  Delete
+                </Button>
+              </div>
+            ))}
           {user && (
             <div>
               <div style={{ display: "flex", alignItems: "center" }}>

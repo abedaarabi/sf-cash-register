@@ -73,17 +73,18 @@ const DrinlsRecipe = () => {
           onChange={handelInput}
         />
 
-        {admin.includes(user?.email) && (
-          <div style={{ marginTop: "1rem" }}>
-            <Button
-              href={{
-                pathname: `/drinkspanel`,
-              }}
-            >
-              Add new Drink
-            </Button>
-          </div>
-        )}
+        {admin.includes(user?.email) ||
+          (user?.email === "yas.kh24@gmail.com" && (
+            <div style={{ marginTop: "1rem" }}>
+              <Button
+                href={{
+                  pathname: `/drinkspanel`,
+                }}
+              >
+                Add new Drink
+              </Button>
+            </div>
+          ))}
       </div>
       <div className={styles.recipes}>
         {resultRecipes.length === 0 ? (
