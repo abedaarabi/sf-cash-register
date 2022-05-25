@@ -77,7 +77,7 @@ export function Drinks({
           marginTop={"1rem"}
           component="div"
         >
-          {(admin.includes(user?.email) || "yas.kh24@gmail.com") && (
+          {admin.includes(user?.email) && (
             <div
               style={{
                 marginBottom: "15px",
