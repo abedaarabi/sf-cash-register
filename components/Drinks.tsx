@@ -48,8 +48,6 @@ export function Drinks({
 
   const deleteDrink = (id: string) => {
     const result = mutate(id);
-    // deleteDrinkById(id);
-    console.log(id, "### id", result);
   };
 
   return (
@@ -79,7 +77,7 @@ export function Drinks({
           marginTop={"1rem"}
           component="div"
         >
-          {admin.includes(user?.email) && (
+          {(admin.includes(user?.email) || "yas.kh24@gmail.com") && (
             <div
               style={{
                 marginBottom: "15px",
