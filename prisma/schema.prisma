@@ -49,7 +49,7 @@ model DailyReport {
 
 model Drinks {
   id          String    @id @unique @default(uuid())
-  image       String
+  image       String @db.VarChar(10000)
   name        String
   description String
   recipe      String

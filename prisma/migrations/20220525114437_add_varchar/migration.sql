@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Drinks` MODIFY `image` VARCHAR(10000) NOT NULL;
