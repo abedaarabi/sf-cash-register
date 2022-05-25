@@ -12,6 +12,7 @@ interface Inputs {
   price: number;
   description: string;
   name: string;
+  preparation: string;
 }
 
 export const DrinkPanel = () => {
@@ -36,6 +37,7 @@ export const DrinkPanel = () => {
     price: 0,
     description: "",
     name: "",
+    preparation: "",
   } as Inputs);
 
   React.useEffect(() => {
@@ -54,6 +56,7 @@ export const DrinkPanel = () => {
         price: result?.price || 0,
         description: result?.description || "",
         name: result?.name || "",
+        preparation: result?.preparation || "",
       });
   }, [isLoading]);
 
@@ -119,6 +122,7 @@ export const DrinkPanel = () => {
           price: 0,
           description: "",
           name: "",
+          preparation: "",
         });
         setRecipes([{ rRecipe: "" }]);
       }
@@ -190,6 +194,7 @@ export const DrinkPanel = () => {
 
           <div>
             <h3>Recipes:</h3>
+
             {recipes &&
               recipes.map((item: any, index: any) => {
                 return (
@@ -218,6 +223,22 @@ export const DrinkPanel = () => {
                   </div>
                 );
               })}
+            <div style={{ marginBottom: "1rem" }}>
+              <TextField
+                placeholder="Preparation"
+                label="Preparation"
+                rows={5}
+                multiline
+                style={{ width: "25rem" }}
+                value={inputsValue.preparation}
+                onChange={(event: any) => {
+                  setInputsValue({
+                    ...inputsValue,
+                    preparation: event.target.value,
+                  });
+                }}
+              />
+            </div>
           </div>
 
           <div style={{ marginTop: "1rem" }}>

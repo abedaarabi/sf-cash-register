@@ -47,8 +47,6 @@ model DailyReport {
   @@index([employeId], map: "DailyReport_employeId_fkey")
 }
 
-
-
 model Drinks {
   id          String    @id @unique @default(uuid())
   image       String
@@ -57,4 +55,5 @@ model Drinks {
   recipe      String
   price       Int
   createdAt   DateTime? @default(now())
+  preparation String    
 }

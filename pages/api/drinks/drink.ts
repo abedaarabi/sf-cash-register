@@ -35,6 +35,7 @@ export default async function handler(
       recipe: allRecipes as string,
       description: inputsValue.description as string,
       price: +inputsValue.price as number,
+      preparation: inputsValue.preparation as string,
     };
 
     try {
@@ -65,6 +66,7 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       const data = await prisma.drinks.findMany();
+
       res
         .status(201)
         .json({ message: "Data Added successfully!", response: data });

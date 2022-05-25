@@ -12,7 +12,15 @@ import { Button } from "./ui/Button";
 import { admin } from "../helper/emailAdmin";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-export function Drinks({ img, name, description, prise, recipe, id }: any) {
+export function Drinks({
+  img,
+  name,
+  description,
+  prise,
+  recipe,
+  id,
+  preparation,
+}: any) {
   const { user } = useAuth();
   const [isHide, setIsHide] = React.useState(false);
   const arrow = isHide ? faAngleDown : faAngleRight;
@@ -45,8 +53,14 @@ export function Drinks({ img, name, description, prise, recipe, id }: any) {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia component="img" alt="green iguana" height="180" image={img} />
+    <Card sx={{ maxWidth: 360 }}>
+      <CardMedia
+        component="img"
+        alt="green iguana"
+        height="250"
+        width={"350"}
+        image={img}
+      />
       <CardContent>
         <Typography
           gutterBottom
@@ -115,11 +129,23 @@ export function Drinks({ img, name, description, prise, recipe, id }: any) {
               </div>
 
               {isHide && (
-                <ul>
-                  {rRecipe?.map((i: string, idx: any) => (
-                    <li key={idx}>{i}</li>
-                  ))}
-                </ul>
+                <div>
+                  <ul>
+                    {rRecipe?.map((i: string, idx: any) => (
+                      <li key={idx}>{i}</li>
+                    ))}
+                  </ul>
+                  <div>
+                    <p>Preparation:</p>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      component="div"
+                    >
+                      {preparation}
+                    </Typography>
+                  </div>
+                </div>
               )}
             </div>
           )}
