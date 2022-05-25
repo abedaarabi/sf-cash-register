@@ -28,6 +28,7 @@ export default async function handler(
       res.status(500).json({ message: "Data Error!" });
     }
   }
+
   if (req.method === "POST") {
     const allRecipes = JSON.stringify(recipes.map((item: any) => item.rRecipe));
 

@@ -28,9 +28,10 @@ export const DrinkPanel = () => {
     getDrinkByID
   );
 
+  // const [recipes, setRecipes] = React.useState([{ rRecipe: "" }]) as any;
+  const [recipes, setRecipes] = React.useState([{ rRecipe: "" }]) as any;
   const [addReport, setAddReport] = React.useState(null) as any;
   const [isAddReport, setIsAddReport] = React.useState(false) as any;
-  const [recipes, setRecipes] = React.useState([{ rRecipe: "" }]) as any;
 
   const [inputsValue, setInputsValue] = React.useState({
     image: "",
@@ -48,15 +49,16 @@ export const DrinkPanel = () => {
       return { rRecipe: item };
     });
 
-    setRecipes(rRecipes);
+    id && setRecipes(rRecipes);
 
-    setInputsValue({
-      image: result?.image || "",
-      price: result?.price || 0,
-      description: result?.description || "",
-      name: result?.name || "",
-      preparation: result?.preparation || "",
-    });
+    id &&
+      setInputsValue({
+        image: result?.image || "",
+        price: result?.price || 0,
+        description: result?.description || "",
+        name: result?.name || "",
+        preparation: result?.preparation || "",
+      });
   }, [isLoading]);
 
   const addField = () => {
@@ -130,6 +132,16 @@ export const DrinkPanel = () => {
 
     return () => clearTimeout(time);
   }, [isAddReport, addReport]);
+
+  console.log({ recipes });
+
+  if (isLoading || !data) {
+    return (
+      <div className={styles.container}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div

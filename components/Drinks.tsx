@@ -77,41 +77,41 @@ export function Drinks({
           marginTop={"1rem"}
           component="div"
         >
-          {admin.includes(user?.email) ||
-            (user?.email === "yas.kh24@gmail.com" && (
-              <div
+          {(admin.includes(user?.email) ||
+            user?.email === "yas.kh24@gmail.com") && (
+            <div
+              style={{
+                marginBottom: "15px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <Button
                 style={{
-                  marginBottom: "15px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-evenly",
+                  width: "4rem",
+                  backgroundColor: "#555b6e",
+                }}
+                href={{
+                  pathname: `/drinkspanel`,
+                  query: {
+                    id: id,
+                  },
                 }}
               >
-                <Button
-                  style={{
-                    width: "4rem",
-                    backgroundColor: "#0077b6",
-                  }}
-                  href={{
-                    pathname: `/drinkspanel`,
-                    query: {
-                      id: id,
-                    },
-                  }}
-                >
-                  Edit
-                </Button>
-                <Button
-                  style={{
-                    width: "4rem",
-                    backgroundColor: "#e63946",
-                  }}
-                  onClick={() => deleteDrink(id)}
-                >
-                  Delete
-                </Button>
-              </div>
-            ))}
+                Edit
+              </Button>
+              <Button
+                style={{
+                  width: "4rem",
+                  backgroundColor: "#a53860",
+                }}
+                onClick={() => deleteDrink(id)}
+              >
+                Delete
+              </Button>
+            </div>
+          )}
           {user && (
             <div>
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -135,7 +135,7 @@ export function Drinks({
                     ))}
                   </ul>
                   <div>
-                    <p>Preparation:</p>
+                    <p style={{ color: "#9a8c98" }}>Preparation:</p>
                     <Typography
                       variant="body2"
                       color="text.secondary"
