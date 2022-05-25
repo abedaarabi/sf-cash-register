@@ -51,7 +51,7 @@ const DrinlsRecipe = () => {
     200
   );
 
-  if (isLoading) {
+  if (isLoading || !data) {
     return (
       <div>
         <CircularProgress />

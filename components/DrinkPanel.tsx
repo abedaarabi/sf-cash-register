@@ -48,16 +48,15 @@ export const DrinkPanel = () => {
       return { rRecipe: item };
     });
 
-    id && setRecipes(rRecipes);
+    setRecipes(rRecipes);
 
-    id &&
-      setInputsValue({
-        image: result?.image || "",
-        price: result?.price || 0,
-        description: result?.description || "",
-        name: result?.name || "",
-        preparation: result?.preparation || "",
-      });
+    setInputsValue({
+      image: result?.image || "",
+      price: result?.price || 0,
+      description: result?.description || "",
+      name: result?.name || "",
+      preparation: result?.preparation || "",
+    });
   }, [isLoading]);
 
   const addField = () => {
