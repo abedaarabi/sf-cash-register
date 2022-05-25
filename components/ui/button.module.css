@@ -1,4 +1,7 @@
 .btn {
+  padding: 0;
+  border: none;
+  background: none;
   text-decoration: none;
 
   cursor: pointer;

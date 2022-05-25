@@ -68,10 +68,7 @@ export default async function handler(
 
   if (req.method === "GET") {
     try {
-      console.log("test");
-
       const data = await prisma.drinks.findMany();
-      console.log(data);
 
       res
         .status(201)

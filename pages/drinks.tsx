@@ -21,7 +21,6 @@ const DrinlsRecipe = () => {
   const { isLoading, isError, data, error } = useQuery("drinks", getDrinks);
 
   const [filterRecipes, setFilterRecipes] = React.useState("");
-  console.log(data?.response);
 
   const resultRecipes =
     data &&
