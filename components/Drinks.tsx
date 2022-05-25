@@ -47,7 +47,7 @@ export function Drinks({
   const rRecipe = JSON.parse(recipe);
 
   const deleteDrink = (id: string) => {
-    const result = mutate(id);
+    mutate(id);
   };
 
   return (
