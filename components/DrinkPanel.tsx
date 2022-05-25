@@ -21,7 +21,7 @@ export const DrinkPanel = () => {
   const { id } = router.query;
 
   const getDrinkByID = async () => {
-    return await (await fetch(`api/drinks/drink`)).json();
+    return await (await fetch("api/drinks/drink")).json();
   };
   const { isLoading, isError, data, error, status } = useQuery(
     "drinks",

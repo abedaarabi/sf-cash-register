@@ -38,7 +38,7 @@ export default async function handler(
       recipe: allRecipes as string,
       description: inputsValue.description as string,
       price: +inputsValue.price as number,
-      preparation: inputsValue.preparation as string,
+      // preparation: inputsValue.preparation as string,
     };
 
     try {

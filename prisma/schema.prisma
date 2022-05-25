@@ -55,5 +55,5 @@ model Drinks {
   recipe      String
   price       Int
   createdAt   DateTime? @default(now())
-  preparation String
+  // preparation String
 }
