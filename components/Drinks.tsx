@@ -12,6 +12,8 @@ import { Button } from "./ui/Button";
 import { admin } from "../helper/emailAdmin";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
+import { Box } from "@mui/material";
+import Image from "next/image";
 export function Drinks({
   img,
   name,
@@ -51,13 +53,25 @@ export function Drinks({
   };
 
   return (
-    <Card sx={{ maxWidth: 360 }}>
-      <CardMedia
+    <Card sx={{ minWidth: 350 }}>
+      {/* <CardMedia
         component="img"
-        alt="green iguana"
-        height="250"
-        width={"350"}
+        alt={name}
+        height="200"
+         width="250"
         image={img}
+      /> */}
+
+      <Box
+        component="img"
+        sx={{
+          height: 233,
+          width: 350,
+          // maxHeight: { xs: 200, md: 167 },
+          // maxWidth: { xs: 350, md: 250 },
+        }}
+        alt={name}
+        src={img}
       />
       <CardContent>
         <Typography
