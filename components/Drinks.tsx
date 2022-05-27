@@ -53,7 +53,7 @@ export function Drinks({
   };
 
   return (
-    <Card sx={{ minWidth: 350 }}>
+    <Card sx={{ maxWidth: 350 }}>
       {/* <CardMedia
         component="img"
         alt={name}
