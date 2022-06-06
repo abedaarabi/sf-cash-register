@@ -48,13 +48,14 @@ export const GetCloseRegister = ({
   // const { comments, done, _id } = dailyReport;
   const [isDone, setISDone] = React.useState(done);
   const [loading, setLoading] = React.useState(false);
-
+  //- Number(cashOut);
   const payments = { card_28, card_43, mobile_pay, invoices };
   const payment = getTotal(payments);
   const neededCash = payment - prevFDC - productSales;
-  const totalCash = totalCoins + totalNotes - Number(cashOut);
+  const totalCash = totalCoins + totalNotes;
   const incomeCash = totalCoins + totalNotes - prevFDC;
   const cashDiff = totalCash + neededCash;
+  const CloseFDC = totalCash - Number(cashOut);
 
   async function updateDone() {
     try {
@@ -152,7 +153,7 @@ export const GetCloseRegister = ({
         )}
         <h4
           style={{ color: "#61a5c2", listStyle: "none" }}
-        >{`Close FDC: ${totalCash.toFixed(2)}kr.`}</h4>
+        >{`Close FDC: ${CloseFDC.toFixed(2)}kr.`}</h4>
         <h4 style={{ color: "#4a4e69" }}>Comments:</h4>
         <div
           style={{
