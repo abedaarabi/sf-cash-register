@@ -83,9 +83,9 @@ export const BasicSelect: React.FC<(FieldProps & TextFieldProps) | any> = ({
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={"save"}>Safe</MenuItem>
-          <MenuItem value={"music"}>Music</MenuItem>
-          <MenuItem value={"invoice"}>Invoice</MenuItem>
+          <MenuItem value={"Safe"}>Safe</MenuItem>
+          <MenuItem value={"Music"}>Music</MenuItem>
+          <MenuItem value={"Invoice"}>Invoice</MenuItem>
         </Select>
       </FormControl>
     </Box>
