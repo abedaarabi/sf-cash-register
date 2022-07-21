@@ -81,7 +81,9 @@ const IncomeChart = () => {
       ) : (
         <>
           <div className={styles.charts}>
-            <h2 style={{ color: "#6d6875" }}>Total: {+dailyReport.total} kr</h2>
+            <h2 style={{ color: "#6d6875" }}>
+              Total: {Number.parseFloat(dailyReport.total).toFixed(2)} kr
+            </h2>
             <p style={{ color: "#6d6875" }}>
               From: {dailyReport.label[0]} To:
               {dailyReport.label[dailyReport.label.length - 1]}
