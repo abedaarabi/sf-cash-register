@@ -5,17 +5,51 @@ import Chart from "chart.js/auto";
 import { CircularProgress } from "@mui/material";
 
 import styles from "../../styles/Home.module.css";
+import { DateSelector } from "../DateSelector";
 Chart.register(CategoryScale);
 const IncomeChart = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);
 
+  function getdate(date: any) {
+    if (!date.startDate || !date.endDate) {
+      return alert("select dates");
+    } else {
+      const startDate = date.startDate;
+      const endDate = date.endDate;
+
+      fetch(
+        `/api/dailyreports/report?startDate=${startDate}&endDate=${endDate} `
+      )
+        .then((res) => res.json())
+        .then(({ response }) => {
+          console.log({ response });
+
+          const chartLabel = response.map((item: any) => item.closingDate);
+          const chartDataset = response.map((item: any) => {
+            return Number(item.productSales);
+          });
+
+          const totalItems = chartDataset.reduce(
+            (sum: any, item: any) => sum + item
+          );
+
+          setDailyReport({
+            label: chartLabel,
+            data: chartDataset,
+            total: totalItems,
+          });
+          setLoading(false);
+        })
+
+        .catch((err) => console.log(err));
+    }
+  }
+
   React.useEffect(() => {
     fetch(`/api/dailyreports/report`)
       .then((res) => res.json())
       .then(({ response }) => {
-        console.log({ response });
-
         const chartLabel = response.map((item: any) => item.closingDate);
         const chartDataset = response.map((item: any) => {
           return Number(item.productSales);
@@ -38,18 +72,19 @@ const IncomeChart = () => {
 
   if (loading) {
     return (
-      <h2 className={styles.container}>
-        <CircularProgress />
-      </h2>
+      <div>
+        <h2 className={styles.container}>
+          <CircularProgress />
+        </h2>
+      </div>
     );
   }
 
-  console.log(window.innerWidth);
-
   return (
     <div className={styles.charts}>
+      <DateSelector getdate={getdate} />
       <div className={styles.charts}>
-        <h2 style={{ color: "#6d6875" }}>Total: {dailyReport.total} kr</h2>
+        <h2 style={{ color: "#6d6875" }}>Total: {+dailyReport.total} kr</h2>
         <p style={{ color: "#6d6875" }}>
           From: {dailyReport.label[0]} To:
           {dailyReport.label[dailyReport.label.length - 1]}
