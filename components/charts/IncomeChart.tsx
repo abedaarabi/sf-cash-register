@@ -24,10 +24,14 @@ const IncomeChart = () => {
       )
         .then((res) => res.json())
         .then(({ response }) => {
-          console.log({ response });
+          const result = response.sort(
+            (a: Date, b: Date) =>
+              // @ts-ignore
+              new Date(a.closingDate) - new Date(b.closingDate)
+          );
 
-          const chartLabel = response.map((item: any) => item.closingDate);
-          const chartDataset = response.map((item: any) => {
+          const chartLabel = result.map((item: any) => item.closingDate);
+          const chartDataset = result.map((item: any) => {
             return Number(item.productSales);
           });
 
@@ -52,8 +56,14 @@ const IncomeChart = () => {
     fetch(`/api/dailyreports/report`)
       .then((res) => res.json())
       .then(({ response }) => {
-        const chartLabel = response.map((item: any) => item.closingDate);
-        const chartDataset = response.map((item: any) => {
+        const result = response.sort(
+          (a: Date, b: Date) =>
+            // @ts-ignore
+            new Date(a.closingDate) - new Date(b.closingDate)
+        );
+
+        const chartLabel = result.map((item: any) => item.closingDate);
+        const chartDataset = result.map((item: any) => {
           return Number(item.productSales);
         });
 
