@@ -22,8 +22,6 @@ export const AllDailyReports = () => {
       )
         .then((res) => res.json())
         .then(({ response }) => {
-          console.log({ response });
-
           setDailyReport(response || []);
           setLoading(false);
         })
@@ -38,9 +36,12 @@ export const AllDailyReports = () => {
     fetch(`/api/dailyreports/report`)
       .then((res) => res.json())
       .then(({ response }) => {
-        console.log({ response });
-
-        setDailyReport(response || []);
+        const result = response.sort(
+          (a: Date, b: Date) =>
+            // @ts-ignore
+            new Date(a.closingDate) - new Date(b.closingDate)
+        );
+        setDailyReport(result || []);
         setLoading(false);
       })
 
