@@ -18,6 +18,7 @@ import {
 
 import { useRouter } from "next/router";
 import { CircularProgress, TextField } from "@mui/material";
+import { convertCurrencyToal } from "./charts/IncomeChart";
 
 export const RegisterHours = ({ id }: any) => {
   const { user } = useAuth();
@@ -167,7 +168,8 @@ export const RegisterHours = ({ id }: any) => {
     <div className={styles.container}>
       <div className={styles.zoom}>
         <h4 style={{ margin: "auto", color: "white" }}>
-          Opening FDC: {opening && opening.toFixed(2)}kr.
+          {/* Opening FDC: {opening && opening.toFixed(2)}kr.  */}
+          Opening FDC: {opening && convertCurrencyToal(opening)}
         </h4>
       </div>
 

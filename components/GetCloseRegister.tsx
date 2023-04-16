@@ -74,7 +74,7 @@ export const GetCloseRegister = ({
   return (
     <div
       style={{
-        backgroundColor: isDone ? "#ffb3c1" : "#e9ecef",
+        backgroundColor: isDone ? "#ffb3c1" : "#355070",
         display: "flex",
         width: "20rem",
         alignItems: "center",

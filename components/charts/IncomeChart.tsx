@@ -92,7 +92,8 @@ const IncomeChart = () => {
         <>
           <div className={styles.charts}>
             <h2 style={{ color: "#6d6875" }}>
-              Total: {Number.parseFloat(dailyReport.total).toFixed(2)} kr
+              Total: {convertCurrencyToal(dailyReport.total)} kr
+              {/* Total:   {Number.parseFloat(dailyReport.total).toFixed(2)} kr */}
             </h2>
             <p style={{ color: "#6d6875" }}>
               From: {dailyReport.label[0]} To:
@@ -100,7 +101,7 @@ const IncomeChart = () => {
             </p>
           </div>
 
-          <Line
+          <Bar
             height={window.innerWidth < 450 ? 85 : 35}
             width={window.innerWidth < 450 ? 100 : 120}
             datasetIdKey="id"
@@ -128,7 +129,7 @@ const IncomeChart = () => {
                     "rgba(153, 102, 255, 1)",
                     "rgba(255, 159, 64, 1)",
                   ],
-                  borderWidth: 3,
+                  borderWidth: 1,
                 },
               ],
             }}
@@ -140,3 +141,10 @@ const IncomeChart = () => {
 };
 
 export default IncomeChart;
+
+export function convertCurrencyToal(currency: number) {
+  return new Intl.NumberFormat("da-DK", {
+    style: "currency",
+    currency: "DKK",
+  }).format(currency);
+}
