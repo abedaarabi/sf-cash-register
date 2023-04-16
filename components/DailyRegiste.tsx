@@ -34,7 +34,8 @@ export const RegisterHours = ({ id }: any) => {
     fetch("/api/dailyreports/report/")
       .then((res) => res.json())
       .then(({ response }) => {
-        setFdc(response[response.length - 1]);
+        setFdc(response[0]);
+        // setFdc(response[response.length - 1]);
         const byId = response.find((item: any) => item.id === +id);
 
         setDailyUpdate(byId);
@@ -95,6 +96,8 @@ export const RegisterHours = ({ id }: any) => {
 
   const noteTotal = getTotal(Note);
   const coinsTotal = getTotal(Coins);
+
+  console.log({ coinsTotal, noteTotal });
 
   const cashOut = fdc.cashOut || 0;
   const opening = noteTotal + coinsTotal - cashOut;

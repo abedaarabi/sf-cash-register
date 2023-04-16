@@ -104,7 +104,10 @@ export default async function handler(
       let data;
 
       if (!startDate && !endDate) {
-        data = await prisma.dailyReport.findMany();
+        data = await prisma.dailyReport.findMany({
+          orderBy: { closingDate: "desc" },
+          take: 5,
+        });
       } else {
         data = await prisma.dailyReport.findMany({
           where: {
