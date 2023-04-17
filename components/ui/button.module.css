@@ -6,7 +6,7 @@
 
   cursor: pointer;
   font: inherit;
-  background-color: #40916c;
+  background-color: #b5838d;
 
   border-radius: 6px;
 
@@ -22,8 +22,8 @@
 }
 .btn:hover,
 .btn:active {
-  background-color: #2b6149;
-  border-color: #275a43;
+  background-color: #e5989b;
+  border-color: #e5989b;
 }
 
 @media only screen and (max-width: 600px) {

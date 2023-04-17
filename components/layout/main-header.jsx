@@ -43,7 +43,7 @@ const MainHeader = () => {
         </Link>
 
         <p style={{ color: "white" }}>
-          {user ? `Hello! ${user?.displayName}` : ""}
+          {user ? `Hello ${user?.displayName}` : ""}
         </p>
       </div>
 
