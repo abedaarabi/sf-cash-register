@@ -26,7 +26,7 @@ const SignUp: React.FC<Props> = () => {
   }, [router, user]);
   return (
     <div className={styles.container}>
-      <Formik
+      {/* <Formik
         initialValues={{ email: "", password: "", displayName: "" }}
         onSubmit={async (value) => {
           try {
@@ -74,7 +74,8 @@ const SignUp: React.FC<Props> = () => {
             <Button type="submit">Sign Up</Button>
           </Form>
         )}
-      </Formik>
+      </Formik> */}
+      <h2>Contact Admin</h2>
       <div>
         <Link href={"/login"}> Log In</Link>
       </div>
