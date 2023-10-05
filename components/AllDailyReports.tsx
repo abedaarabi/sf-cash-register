@@ -22,6 +22,8 @@ export const AllDailyReports = () => {
       )
         .then((res) => res.json())
         .then(({ response }) => {
+          console.log(response);
+
           setDailyReport(response || []);
           setLoading(false);
         })
@@ -41,7 +43,9 @@ export const AllDailyReports = () => {
             // @ts-ignore
             new Date(a.closingDate) - new Date(b.closingDate)
         );
+
         setDailyReport(result || []);
+
         setLoading(false);
       })
 

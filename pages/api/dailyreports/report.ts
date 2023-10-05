@@ -9,6 +9,8 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   const payload = req.body;
+  const { id } = req.query;
+  console.log({ id });
 
   const employee = {
     id: payload.employeeId as string,
@@ -56,7 +58,9 @@ export default async function handler(
               ...employee,
             },
           });
-        } catch (error) {}
+        } catch (error) {
+          console.log(error);
+        }
 
         //insert Report
         await prisma.dailyReport.create({
@@ -102,8 +106,11 @@ export default async function handler(
 
     try {
       let data;
-
-      if (!startDate && !endDate) {
+      if (id) {
+        data = await prisma.dailyReport.findMany({
+          where: { id: +id },
+        });
+      } else if (!startDate && !endDate) {
         data = await prisma.dailyReport.findMany({
           orderBy: { closingDate: "desc" },
           take: 5,

@@ -32,7 +32,7 @@ export const RegisterHours = ({ id }: any) => {
   const [isAddReport, setIsAddReport] = React.useState(false) as any;
 
   React.useEffect(() => {
-    fetch("/api/dailyreports/report/")
+    fetch(`/api/dailyreports/report?id=${id}`)
       .then((res) => res.json())
       .then(({ response }) => {
         setFdc(response[0]);
@@ -97,8 +97,6 @@ export const RegisterHours = ({ id }: any) => {
 
   const noteTotal = getTotal(Note);
   const coinsTotal = getTotal(Coins);
-
-  console.log({ coinsTotal, noteTotal });
 
   const cashOut = fdc.cashOut || 0;
   const opening = noteTotal + coinsTotal - cashOut;
