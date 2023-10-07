@@ -30,9 +30,10 @@ export const RegisterHours = ({ id }: any) => {
   const [fdc, setFdc] = React.useState(null) as any;
   const [addReport, setAddReport] = React.useState(null) as any;
   const [isAddReport, setIsAddReport] = React.useState(false) as any;
+  console.log({ id });
 
   React.useEffect(() => {
-    fetch(`/api/dailyreports/report?id=${id}`)
+    fetch(id ? `/api/dailyreports/report?id=${id}` : `/api/dailyreports/report`)
       .then((res) => res.json())
       .then(({ response }) => {
         setFdc(response[0]);
