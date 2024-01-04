@@ -49,7 +49,7 @@ export const DateINput: React.FC<(FieldProps & TextFieldProps) | any> = ({
       {...field}
       type={type}
       defaultValue={defaultValue}
-      inputProps={{ min: "2022-04-01", max: "2024-01-01" }}
+      inputProps={{ min: "2022-04-01", max: "2028-01-01" }}
       required={true}
       {...props}
     />
