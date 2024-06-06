@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 // import { Button, Icon } from "@mui/material";
 import { Button } from "./ui/Button";
 import { Field, Form, Formik } from "formik";
@@ -23,14 +23,15 @@ import { convertCurrencyToal } from "./charts/IncomeChart";
 export const RegisterHours = ({ id }: any) => {
   const { user } = useAuth();
   const router = useRouter();
-
+  const valueRef = useRef() as any;
   const [dailyUpdate, setDailyUpdate] = React.useState(null) as any;
+  const [totalCountedCash, setTotalCountedCash] = React.useState(0) as any;
+  const [x, setX] = React.useState(null) as any;
 
   const [loading, setLoading] = React.useState(true);
   const [fdc, setFdc] = React.useState(null) as any;
   const [addReport, setAddReport] = React.useState(null) as any;
   const [isAddReport, setIsAddReport] = React.useState(false) as any;
-  console.log({ id });
 
   React.useEffect(() => {
     fetch(id ? `/api/dailyreports/report?id=${id}` : `/api/dailyreports/report`)
@@ -52,6 +53,20 @@ export const RegisterHours = ({ id }: any) => {
 
     return () => clearTimeout(time);
   }, [addReport, router]);
+
+  // useEffect(() => {
+  //   const values = valueRef.current?.values;
+  //   let total = 0;
+  //   for (const key in values as any) {
+  //     const element = +values[key];
+
+  //     if (element) {
+  //       total += element * money[key];
+  //     }
+  //   }
+
+  //   setTotalCountedCash(total);
+  // }, [valueRef.current?.values, x]);
 
   async function addCommentHandlerPrisma(inputsValue: any) {
     return await fetch("/api/dailyreports/report/", {
@@ -87,7 +102,6 @@ export const RegisterHours = ({ id }: any) => {
     one_kr: fdc?.one_kr,
     half_kr: fdc?.half_kr,
   };
-
   const Note = {
     one_thousand_kr: fdc?.one_thousand_kr,
     five_hundred_kr: fdc?.five_hundred_kr,
@@ -171,10 +185,38 @@ export const RegisterHours = ({ id }: any) => {
           Opening FDC: {opening && convertCurrencyToal(opening)}
         </h4>
       </div>
+      <div style={{}}>
+        <button
+          style={{
+            backgroundColor: "#6d6875",
+            color: "white",
+
+            marginTop: "5px",
+          }}
+          onClick={() => {
+            const values = valueRef.current.values;
+
+            let total = 0;
+            for (const key in values as any) {
+              const element = +values[key];
+
+              if (element && money[key]) {
+                total += element * money[key];
+              }
+            }
+            setTotalCountedCash(total);
+            console.log(+valueRef.current.values["1000s"] * 1000);
+          }}
+        >
+          Count Cash
+        </button>
+        <h4> {convertCurrencyToal(totalCountedCash)}</h4>
+      </div>
 
       <div className={styles.inputsContainer}>
         <Formik
           initialValues={formikvalues}
+          innerRef={valueRef}
           onSubmit={async (value) => {
             try {
               if (!value.productSales) {
@@ -191,7 +233,11 @@ export const RegisterHours = ({ id }: any) => {
           }}
         >
           {() => (
-            <Form>
+            <Form
+              onChange={(e: any) => {
+                // setX(e.target.value);
+              }}
+            >
               <div>
                 <div className={styles.selsePyament}>
                   <div className={styles.sales}>
@@ -375,3 +421,17 @@ const getTotal = (obj: any) => {
   }
   return total;
 };
+
+const money = {
+  half: 0.5,
+  "1s": 1,
+  "2s": 2,
+  "5s": 5,
+  "10s": 10,
+  "20s": 2,
+  "50s": 50,
+  "100s": 100,
+  "200s": 200,
+  "500s": 500,
+  "1000s": 1000,
+} as any;
