@@ -186,7 +186,7 @@ export const RegisterHours = ({ id }: any) => {
         </h4>
       </div>
       <div style={{}}>
-        <button
+        <Button
           style={{
             backgroundColor: "#6d6875",
             color: "white",
@@ -209,7 +209,7 @@ export const RegisterHours = ({ id }: any) => {
           }}
         >
           Count Cash
-        </button>
+        </Button>
         <h4> {convertCurrencyToal(totalCountedCash)}</h4>
       </div>
 
