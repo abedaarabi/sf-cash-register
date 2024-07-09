@@ -39,9 +39,8 @@ export const AllDailyReports = () => {
       .then((res) => res.json())
       .then(({ response }) => {
         const result = response.sort(
-          (a: Date, b: Date) =>
-            // @ts-ignore
-            new Date(a.closingDate) - new Date(b.closingDate)
+          //@ts-ignore
+          (a, b) => new Date(a.Date) - new Date(b.Date)
         );
 
         setDailyReport(result || []);
