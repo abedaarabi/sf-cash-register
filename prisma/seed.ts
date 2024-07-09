@@ -5,10 +5,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient() as any;
 
 import { dailyReports } from "./dailyReports";
+console.log(dailyReports);
 
 async function main() {
   await prisma.dailyReport.create({
-    data: {},
+    data: dailyReports[3],
   });
 }
 

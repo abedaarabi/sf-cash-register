@@ -105,6 +105,9 @@ export default async function handler(
     console.log(start);
 
     try {
+      // const xx = await prisma.dailyReport.findMany();
+      // console.log(xx);
+
       let data;
       if (id) {
         data = await prisma.dailyReport.findMany({
