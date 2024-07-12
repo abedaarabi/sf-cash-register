@@ -37,7 +37,7 @@ export const RegisterHours = ({ id }: any) => {
     fetch(id ? `/api/dailyreports/report?id=${id}` : `/api/dailyreports/report`)
       .then((res) => res.json())
       .then(({ response }) => {
-        setFdc(response[response.length - 1]);
+        setFdc(response[0]);
         // setFdc(response[response.length - 1]);
         const byId = response.find((item: any) => item.id === +id);
 
@@ -115,7 +115,6 @@ export const RegisterHours = ({ id }: any) => {
 
   const cashOut = fdc.cashOut || 0;
   const opening = noteTotal + coinsTotal - cashOut;
- 
 
   let formikvalues;
 

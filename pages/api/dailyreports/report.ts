@@ -112,7 +112,7 @@ export default async function handler(
         });
       } else if (!startDate && !endDate) {
         data = await prisma.dailyReport.findMany({
-          orderBy: { closingDate: "asc" },
+          orderBy: { closingDate: "desc" },
           take: 5,
         });
       } else {
