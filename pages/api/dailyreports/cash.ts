@@ -36,6 +36,13 @@ export default async function handler(
             closingDate: "2024-07-10",
             comments: "",
           },
+          {
+            cashOut: "300",
+            reason: "Abed",
+            Date: "6/10/2024",
+            closingDate: "2024-07-10",
+            comments: "",
+          },
         ],
       });
     } catch (error) {
