@@ -95,6 +95,14 @@ const MainHeader = () => {
               >
                 Home
               </Button>
+              <Button
+                onClick={() => {
+                  router.push("/cashout");
+                  setIsOpen(false);
+                }}
+              >
+                Cash Out
+              </Button>
             </>
           )}
 
