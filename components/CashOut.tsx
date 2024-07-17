@@ -4,7 +4,7 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from "material-react-table";
-import { Box, darken } from "@mui/material";
+import { Box, Stack, darken } from "@mui/material";
 
 type DailyReport = {
   cashOut: string;
@@ -58,6 +58,23 @@ const CashOut = () => {
         accessorKey: "cashOut", //access nested data with dot notation
         header: "Cash Out",
         size: 150,
+        // AggregatedCell: ({ cell, table }) => (
+        //   <>
+
+        //     {table.getColumn(cell.row.groupingColumnId ?? "").columnDef.header}:{" "}
+        //     <Box
+        //       sx={{ color: "info.main", display: "inline", fontWeight: "bold" }}
+        //     >
+        //       {cell.getValue<number>()}
+        //     </Box>
+        //   </>
+        // ),
+        // Footer: () => (
+        //   <Stack>
+
+        //     <Box color="warning.main">{Math.round(200)}</Box>
+        //   </Stack>
+        // ),
       },
       {
         accessorKey: "Date", //normal accessorKey
@@ -100,6 +117,7 @@ const CashOut = () => {
         data={cash || []}
         columns={columns}
         state={{ isLoading: cashIsLoading }}
+        initialState={{ grouping: ["reason"] }}
         enableStickyHeader
         pageCount={60}
         muiTablePaperProps={{
@@ -108,6 +126,9 @@ const CashOut = () => {
             overflowX: "scroll",
           },
         }}
+        //expand all groups by default
+        //an array of columns to group by by default (can be multiple)
+
         muiTableContainerProps={{
           sx: { overflowX: "scroll" },
         }}
