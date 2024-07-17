@@ -7,12 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Employe {
-  id            String        @id @unique
-  displayName   String
-  daily_reports DailyReport[]
-}
-
 model DailyReport {
   id              Int      @id @unique @default(autoincrement())
   employeId       String
@@ -42,18 +36,24 @@ model DailyReport {
   Time            String
   cashOut         Decimal  @db.Decimal(15, 2)
   reason          String
-  employe         Employe  @relation(fields: [employeId], references: [id])
+  Employe         Employe  @relation(fields: [employeId], references: [id])
 
   @@index([employeId], map: "DailyReport_employeId_fkey")
 }
 
 model Drinks {
-  id          String    @id @unique @default(uuid())
+  id          String    @id @unique
   image       String    @db.VarChar(10000)
   name        String
   description String
   recipe      String
   price       Int
   createdAt   DateTime? @default(now())
-  preparation String @default(" ")
+  preparation String    @default("")
+}
+
+model Employe {
+  id          String        @id @unique
+  displayName String
+  DailyReport DailyReport[]
 }

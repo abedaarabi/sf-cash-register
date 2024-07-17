@@ -22,27 +22,27 @@ export default async function handler(
         message: "Data Fetched successfully!",
         response: [
           ...data,
-          {
-            cashOut: "15000",
-            reason: "Abbas",
-            Date: "7/11/2024",
-            closingDate: "2024-07-10",
-            comments: "",
-          },
-          {
-            cashOut: "250",
-            reason: "Katrine",
-            Date: "6/11/2024",
-            closingDate: "2024-07-10",
-            comments: "",
-          },
-          {
-            cashOut: "300",
-            reason: "Abed",
-            Date: "6/10/2024",
-            closingDate: "2024-07-10",
-            comments: "",
-          },
+        //   {
+        //     cashOut: "15000",
+        //     reason: "Abbas",
+        //     Date: "7/11/2024",
+        //     closingDate: "2024-07-10",
+        //     comments: "",
+        //   },
+        //   {
+        //     cashOut: "250",
+        //     reason: "Katrine",
+        //     Date: "6/11/2024",
+        //     closingDate: "2024-07-10",
+        //     comments: "",
+        //   },
+        //   {
+        //     cashOut: "300",
+        //     reason: "Abed",
+        //     Date: "6/10/2024",
+        //     closingDate: "2024-07-10",
+        //     comments: "",
+        //   },
         ],
       });
     } catch (error) {
