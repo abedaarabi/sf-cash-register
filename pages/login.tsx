@@ -97,14 +97,9 @@ const Login: React.FC = () => {
           </Formik>
 
           <div className={styles.loginFooter}>
-            <Link href="/rest" className={styles.loginFooter}>
-              Forgot Password?
-            </Link>
+            <Link href="/rest">Forgot Password?</Link>
             <p className={styles.registerText}>
-              Don't have an account?{" "}
-              <Link href="/signup" className={styles.registerLink}>
-                Register
-              </Link>
+              Don't have an account? <Link href="/signup">Register</Link>
             </p>
           </div>
         </div>
