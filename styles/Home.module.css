@@ -140,3 +140,105 @@
     width: 200px;
   }
 }
+
+.loginContainer {
+  min-height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)),
+    url('/images/cocktail-bg.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.loginWrapper {
+  width: 100%;
+  max-width: 450px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 2rem;
+}
+
+.loginContent {
+  width: 100%;
+}
+
+.loginTitle {
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.loginSubtitle {
+  color: #9ca3af;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formField {
+  margin-bottom: 1rem;
+}
+
+.buttonWrapper {
+  margin-top: 2rem;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 1rem;
+  background: #d4af37;
+  color: #000000;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.loginButton:hover {
+  background: #c19b26;
+  transform: translateY(-2px);
+}
+
+.loginFooter {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.forgotPassword {
+  color: #d4af37;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.forgotPassword:hover {
+  color: #c19b26;
+}
+
+.registerText {
+  color: #9ca3af;
+  margin-top: 1rem;
+}
+
+.registerLink {
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.registerLink:hover {
+  color: #c19b26;
+}
+
+.alertWrapper {
+  margin-bottom: 1.5rem;
+}

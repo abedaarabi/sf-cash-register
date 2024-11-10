@@ -1,4 +1,3 @@
-// import { Button, Icon } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,6 +8,7 @@ import styles from "../styles/Home.module.css";
 import { Button } from "../components/ui/Button";
 import { Alerts } from "../components/Alerts";
 import Head from "next/head";
+
 const Login: React.FC = () => {
   const { user, logIn, signInWithGoogle } = useAuth();
   const router = useRouter();
@@ -32,69 +32,82 @@ const Login: React.FC = () => {
   }, [alert, hide]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.loginContainer}>
       <Head>
-        <title>Login</title>
+        <title>Sorte Firkant - Login</title>
       </Head>
-      <div>
-        {hide && (
-          <Alerts
-            msg={alert?.code ? alert?.code : "Login Success"}
-            severity={alert?.code ? "error" : "success"}
-          />
-        )}
-      </div>
-      <div>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          onSubmit={async (value) => {
-            try {
-              const loginResult = await logIn(value.email, value.password);
-              setAlert(loginResult);
-              setHide(true);
-            } catch (error) {
-              console.log(error);
-            }
-          }}
-        >
-          {() => (
-            <Form>
-              <div>
-                <Field
-                  label="email"
-                  name="email"
-                  placeholder="email"
-                  variant="standard"
-                  color="success"
-                  type="email"
-                  component={MyField}
-                />
-              </div>
-              <div>
-                <Field
-                  label="password"
-                  name="password"
-                  placeholder="password"
-                  variant="standard"
-                  color="success"
-                  type="password"
-                  component={MyField}
-                />
-              </div>
-              <div style={{ marginTop: "2rem" }}>
-                <Button type="submit">Log In</Button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-        {/* <Button onClick={loginWithGoogle}> Login with Google</Button> */}
-      </div>
 
-      <div style={{ marginTop: "6rem" }}>
-        <div>
-          <Link href={"/rest"}>Reset Password</Link>
+      <div className={styles.loginWrapper}>
+        <div className={styles.loginContent}>
+          <h1 className={styles.loginTitle}>Welcome Back</h1>
+          <p className={styles.loginSubtitle}>Sign in to continue</p>
+
+          {hide && (
+            <div className={styles.alertWrapper}>
+              <Alerts
+                msg={alert?.code ? alert?.code : "Login Success"}
+                severity={alert?.code ? "error" : "success"}
+              />
+            </div>
+          )}
+
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={async (value) => {
+              try {
+                const loginResult = await logIn(value.email, value.password);
+                setAlert(loginResult);
+                setHide(true);
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+          >
+            {() => (
+              <Form className={styles.loginForm}>
+                <div className={styles.formField}>
+                  <Field
+                    label="Email"
+                    name="email"
+                    placeholder="Enter your email"
+                    variant="standard"
+                    color="success"
+                    type="email"
+                    component={MyField}
+                  />
+                </div>
+                <div className={styles.formField}>
+                  <Field
+                    label="Password"
+                    name="password"
+                    placeholder="Enter your password"
+                    variant="standard"
+                    color="success"
+                    type="password"
+                    component={MyField}
+                  />
+                </div>
+                <div className={styles.buttonWrapper}>
+                  <Button type="submit" className={styles.loginButton}>
+                    Sign In
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+
+          <div className={styles.loginFooter}>
+            <Link href="/rest" className={styles.forgotPassword}>
+              Forgot Password?
+            </Link>
+            <p className={styles.registerText}>
+              Don't have an account?{" "}
+              <Link href="/signup" className={styles.registerLink}>
+                Register
+              </Link>
+            </p>
+          </div>
         </div>
-        Do not have an account? <Link href={"/signup"}>Register</Link> now.
       </div>
     </div>
   );
