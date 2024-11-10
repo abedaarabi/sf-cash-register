@@ -99,7 +99,7 @@ const Login: React.FC = () => {
           <div className={styles.loginFooter}>
             <Link href="/rest">Forgot Password?</Link>
             <p className={styles.registerText}>
-              Don't have an account? <Link href="/signup">Register</Link>
+              {/* Don't have an account? <Link href="/signup">Register</Link> */}
             </p>
           </div>
         </div>
