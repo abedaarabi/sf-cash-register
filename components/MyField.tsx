@@ -1,39 +1,30 @@
+import React from 'react';
+import { FieldProps } from 'formik';
 import { TextField, TextFieldProps } from "@mui/material";
-import { FieldProps } from "formik";
-import React from "react";
+
+interface MyFieldProps extends FieldProps {
+  label: string;
+  placeholder: string;
+  type: string;
+}
 
 export const MyField: React.FC<(FieldProps & TextFieldProps) | any> = ({
-  placeholder,
-  label,
   field,
+  label,
+  placeholder,
+  type,
   variant,
   color,
-  type,
-  size,
-  value,
-  width,
-  marginBottom,
-  defaultValue,
-  multiline,
-  rows,
-  required,
-  props,
-}) => {
+}: any) => {
   return (
     <TextField
       {...field}
-      color={color}
-      variant={variant}
       label={label}
       placeholder={placeholder}
       type={type}
-      // value={value}
-      required={required}
-      style={{ width, marginBottom }}
-      defaultValue={defaultValue}
-      multiline={multiline}
-      rows={rows}
-      {...props}
+      variant={variant}
+      color={color}
+      fullWidth
     />
   );
 };
@@ -65,16 +56,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 export const BasicSelect: React.FC<(FieldProps & TextFieldProps) | any> = ({
   props,
   field,
-
   label,
   defaultValue,
 }) => {
-  // const [age, setAge] = React.useState("");
-
-  // const handleChange = (event: SelectChangeEvent) => {
-  //   setAge(event.target.value as string);
-  // };
-
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>

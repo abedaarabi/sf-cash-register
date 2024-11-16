@@ -7,3 +7,6 @@ body {
 }
 
 /* include border and padding in element width and height */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
