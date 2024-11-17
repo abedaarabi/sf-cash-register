@@ -105,94 +105,151 @@ export const GetCloseRegister = ({
         <div style={{ 
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: "1rem",
-          marginBottom: "1.5rem"
+          gap: "1.5rem",
+          marginBottom: "2rem"
         }}>
-          <div>
+          <div style={{
+            backgroundColor: "#ffffff",
+            padding: "1.25rem",
+            borderRadius: "16px",
+            boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
+            border: "1px solid #f1f5f9"
+          }}>
             <h4 style={{
-              color: "#27272a",
-              fontSize: "1rem",
+              color: "#334155",
+              fontSize: "1.1rem",
               fontWeight: "600",
-              marginBottom: "0.5rem"
+              marginBottom: "1rem",
+              borderBottom: "2px solid #e2e8f0",
+              paddingBottom: "0.5rem"
             }}>Payments</h4>
             <div style={{ 
               display: "flex", 
               flexDirection: "column",
-              gap: "0.3rem",
-              fontSize: "0.9rem",
-              color: "#52525b"
+              gap: "0.5rem",
+              fontSize: "0.95rem"
             }}>
-              <span>{`Card 28: ${Number(card_28).toFixed(2)}kr.`}</span>
-              <span>{`Card 43: ${Number(card_43).toFixed(2)}kr.`}</span>
-              <span>{`Mobile Pay: ${Number(mobile_pay).toFixed(2)}kr.`}</span>
-              <span>{`Invoices: ${Number(invoices).toFixed(2)}kr.`}</span>
+              <span style={{ color: "#64748b" }}>{`Card 28: ${Number(card_28).toFixed(2)}kr.`}</span>
+              <span style={{ color: "#64748b" }}>{`Card 43: ${Number(card_43).toFixed(2)}kr.`}</span>
+              <span style={{ color: "#64748b" }}>{`Mobile Pay: ${Number(mobile_pay).toFixed(2)}kr.`}</span>
+              <span style={{ color: "#64748b" }}>{`Invoices: ${Number(invoices).toFixed(2)}kr.`}</span>
+              <span style={{ 
+                color: "#0ea5e9",
+                fontWeight: "600",
+                marginTop: "0.5rem",
+                padding: "0.5rem",
+                backgroundColor: "#f0f9ff",
+                borderRadius: "8px",
+                border: "1px solid #e0f2fe"
+              }}>{`Product Sales: ${Number(productSales).toFixed(2)}kr.`}</span>
             </div>
           </div>
 
-          <div>
+          <div style={{
+            backgroundColor: "#ffffff",
+            padding: "1.25rem",
+            borderRadius: "16px",
+            boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
+            border: "1px solid #f1f5f9"
+          }}>
             <h4 style={{
-              color: "#27272a",
-              fontSize: "1rem",
+              color: "#334155",
+              fontSize: "1.1rem",
               fontWeight: "600",
-              marginBottom: "0.5rem"
+              marginBottom: "1rem",
+              borderBottom: "2px solid #e2e8f0",
+              paddingBottom: "0.5rem"
             }}>Cash Details</h4>
             <div style={{ 
               display: "flex", 
               flexDirection: "column",
-              gap: "0.3rem",
-              fontSize: "0.9rem",
-              color: "#52525b"
+              gap: "0.5rem",
+              fontSize: "0.95rem"
             }}>
-              <span>{`Notes: ${totalNotes.toFixed(2)}kr.`}</span>
-              <span>{`Coins: ${totalCoins.toFixed(2)}kr.`}</span>
-              <span style={{ color: "#577590" }}>{`Needed: ${neededCash.toFixed(2)}kr.`}</span>
+              <span style={{ color: "#64748b" }}>{`Notes: ${totalNotes.toFixed(2)}kr.`}</span>
+              <span style={{ color: "#64748b" }}>{`Coins: ${totalCoins.toFixed(2)}kr.`}</span>
+              <span style={{ 
+                color: "#0369a1",
+                backgroundColor: "#f0f9ff",
+                padding: "0.5rem",
+                borderRadius: "8px",
+                border: "1px solid #e0f2fe"
+              }}>{`Needed: ${neededCash.toFixed(2)}kr.`}</span>
+              <span style={{ 
+                color: "#0ea5e9",
+                fontWeight: "600",
+                backgroundColor: "#f0f9ff",
+                padding: "0.5rem",
+                borderRadius: "8px",
+                border: "1px solid #e0f2fe"
+              }}>{`Close FDC: ${totalCash.toFixed(2)}kr.`}</span>
             </div>
           </div>
         </div>
 
         <div style={{
-          backgroundColor: "#fafafa",
-          padding: "1rem",
-          borderRadius: "12px",
+          backgroundColor: "#ffffff",
+          padding: "1.25rem",
+          borderRadius: "16px",
           marginBottom: "1.5rem",
-          border: "1px solid #f4f4f5"
+          boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
+          border: "1px solid #f1f5f9"
         }}>
           <div style={{ 
             display: "flex", 
             justifyContent: "space-between",
-            marginBottom: "0.5rem",
-            color: "#27272a"
+            marginBottom: "0.75rem",
+            color: "#334155"
           }}>
-            <span>Cash Difference:</span>
+            <span style={{ fontWeight: "500" }}>Cash Difference:</span>
             <span style={{
               color: totalCash + neededCash <= 0 ? "#dc2626" : "#059669",
-              fontWeight: "600"
+              fontWeight: "600",
+              backgroundColor: totalCash + neededCash <= 0 ? "#fef2f2" : "#f0fdf4",
+              padding: "0.25rem 0.75rem",
+              borderRadius: "6px"
             }}>{`${cashDiff.toFixed(2)}kr.`}</span>
           </div>
           <div style={{ 
             display: "flex", 
             justifyContent: "space-between",
-            color: "#27272a"
+            color: "#334155"
           }}>
-            <span>Cash Income:</span>
+            <span style={{ fontWeight: "500" }}>Cash Income:</span>
             <span style={{
               color: incomeCash <= 0 ? "#dc2626" : "#059669",
-              fontWeight: "600"
+              fontWeight: "600",
+              backgroundColor: incomeCash <= 0 ? "#fef2f2" : "#f0fdf4",
+              padding: "0.25rem 0.75rem",
+              borderRadius: "6px"
             }}>{`${Number(incomeCash).toFixed(2)}kr.`}</span>
           </div>
         </div>
 
         {+cashOut && (
           <div style={{
-            backgroundColor: "#fef2f2",
-            padding: "1rem",
-            borderRadius: "12px",
+            backgroundColor: "#ffffff",
+            padding: "1.25rem",
+            borderRadius: "16px",
             marginBottom: "1.5rem",
+            boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
             border: "1px solid #fee2e2"
           }}>
-            <h4 style={{ color: "#dc2626", marginBottom: "0.5rem", fontWeight: "600" }}>Cash Out Details</h4>
-            <p style={{ color: "#ef4444" }}>{`Amount: ${Number(cashOut).toFixed(2)}kr.`}</p>
-            <p style={{ color: "#52525b" }}>{`Reason: ${reason}`}</p>
+            <h4 style={{ 
+              color: "#dc2626", 
+              marginBottom: "0.75rem", 
+              fontWeight: "600",
+              borderBottom: "2px solid #fecaca",
+              paddingBottom: "0.5rem"
+            }}>Cash Out Details</h4>
+            <p style={{ 
+              color: "#ef4444",
+              backgroundColor: "#fef2f2",
+              padding: "0.5rem",
+              borderRadius: "8px",
+              marginBottom: "0.5rem"
+            }}>{`Amount: ${Number(cashOut).toFixed(2)}kr.`}</p>
+            <p style={{ color: "#64748b" }}>{`Reason: ${reason}`}</p>
           </div>
         )}
 

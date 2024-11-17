@@ -4,14 +4,11 @@ import { useRouter } from "next/router";
 import { useAuth } from "../../context/AuthContext";
 import classes from "./main-header.module.css";
 import { admin } from "../../helper/emailAdmin";
-import { style } from "@mui/system";
-import Image from "next/image";
 import React from "react";
 
 const MainHeader = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { user, logout } = useAuth();
-
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -33,87 +30,103 @@ const MainHeader = () => {
   }, [isOpen]);
 
   return (
-    <header
-      className={classes.headerNav}
-      id={isOpen ? classes["nav-responsive"] : ""}
-    >
-      <div className={classes.logo}>
-        <Link href={""}>
-          <h2>Sorte Firkant</h2>
-        </Link>
+    <>
+      <header className={classes.header}>
+        <div className={classes.headerContent}>
+          <div className={classes.logo}>
+            <Link href={""}>
+              <h2>Sorte Firkant</h2>
+            </Link>
+            {user && (
+              <p className={classes.welcomeText}>
+                Welcome, {user?.displayName}
+              </p>
+            )}
+          </div>
 
-        <p style={{ color: "white" }}>
-          {user ? `Hello ${user?.displayName}` : ""}
-        </p>
-      </div>
-
-      <nav className={classes.navigation}>
-        {user && (
-          <h1
-            className={classes.responsiveMenu}
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? "X" : "|||"}
-          </h1>
-        )}
-
-        <ul className={isOpen ? classes["list-responsive"] : classes.list}>
           {user && (
-            <Button
-              onClick={() => {
-                router.push("/drinks");
-                setIsOpen(false);
-              }}
+            <button 
+              className={classes.hamburger}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
             >
-              Drinks
-            </Button>
-          )}
-          {admin.includes(user?.email) && (
-            <>
-              <Button
-                onClick={() => {
-                  router.push("/reports");
-                  setIsOpen(false);
-                }}
-              >
-                Reports
-              </Button>
-              <Button
-                onClick={() => {
-                  router.push("/chart");
-                  setIsOpen(false);
-                }}
-              >
-                Charts
-              </Button>
-
-              <Button
-                onClick={() => {
-                  router.push("/dashboard");
-                  setIsOpen(false);
-                }}
-              >
-                Home
-              </Button>
-              <Button
-                onClick={() => {
-                  router.push("/cashout");
-                  setIsOpen(false);
-                }}
-              >
-                Cash Out
-              </Button>
-            </>
+              <span className={`${classes.bar} ${isOpen ? classes.active : ''}`}></span>
+              <span className={`${classes.bar} ${isOpen ? classes.active : ''}`}></span>
+              <span className={`${classes.bar} ${isOpen ? classes.active : ''}`}></span>
+            </button>
           )}
 
-          {user ? (
-            <Button onClick={handleSignOut}> Log Out</Button>
-          ) : (
-            <Link href={""}>{user ? "Log out" : ""}</Link>
-          )}
-        </ul>
-      </nav>
-    </header>
+          <nav className={`${classes.nav} ${isOpen ? classes.active : ''}`}>
+            <ul className={classes.navList}>
+              {user && (
+                <li>
+                  <Button
+                    onClick={() => {
+                      router.push("/drinks");
+                      setIsOpen(false);
+                    }}
+                  >
+                    Drinks
+                  </Button>
+                </li>
+              )}
+              {admin.includes(user?.email) && (
+                <>
+                  <li>
+                    <Button
+                      onClick={() => {
+                        router.push("/reports");
+                        setIsOpen(false);
+                      }}
+                    >
+                      Reports
+                    </Button>
+                  </li>
+                  <li>
+                    <Button
+                      onClick={() => {
+                        router.push("/chart");
+                        setIsOpen(false);
+                      }}
+                    >
+                      Charts
+                    </Button>
+                  </li>
+                  <li>
+                    <Button
+                      onClick={() => {
+                        router.push("/dashboard");
+                        setIsOpen(false);
+                      }}
+                    >
+                      Home
+                    </Button>
+                  </li>
+                  <li>
+                    <Button
+                      onClick={() => {
+                        router.push("/cashout");
+                        setIsOpen(false);
+                      }}
+                    >
+                      Cash Out
+                    </Button>
+                  </li>
+                </>
+              )}
+              {user && (
+                <li>
+                  <Button onClick={handleSignOut} className={classes.logoutBtn}>
+                    Log Out
+                  </Button>
+                </li>
+              )}
+            </ul>
+          </nav>
+        </div>
+      </header>
+      <div className={classes.headerSpacing}></div>
+    </>
   );
 };
 
