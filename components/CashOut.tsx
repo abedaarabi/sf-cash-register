@@ -55,26 +55,26 @@ const CashOut = () => {
         size: 150,
       },
       {
-        accessorKey: "cashOut", //access nested data with dot notation
+        accessorKey: "cashOut",
         header: "Cash Out",
         size: 150,
-        // AggregatedCell: ({ cell, table }) => (
-        //   <>
+        AggregatedCell: ({ cell, table, row }) => {
+          // Calculate total for this group
+          const groupRows = row.subRows;
+          const groupTotal = groupRows?.reduce((sum, row) => {
+            const amount = Number(row.getValue<string>("cashOut").replace(/[^0-9,-]/g, '').replace(',', '.'));
+            return sum + amount;
+          }, 0) || 0;
 
-        //     {table.getColumn(cell.row.groupingColumnId ?? "").columnDef.header}:{" "}
-        //     <Box
-        //       sx={{ color: "info.main", display: "inline", fontWeight: "bold" }}
-        //     >
-        //       {cell.getValue<number>()}
-        //     </Box>
-        //   </>
-        // ),
-        // Footer: () => (
-        //   <Stack>
-
-        //     <Box color="warning.main">{Math.round(200)}</Box>
-        //   </Stack>
-        // ),
+          return (
+            <Box
+              sx={{ color: "info.main", fontWeight: "bold" }}
+            >
+              {formatToDanishCurrency(groupTotal)}
+            </Box>
+          );
+        },
+        Footer: () => null,
       },
       {
         accessorKey: "Date", //normal accessorKey
