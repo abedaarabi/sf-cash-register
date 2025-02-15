@@ -52,11 +52,11 @@ export const GetCloseRegister = ({
   const payments = { card_28, card_43, mobile_pay, invoices };
   const payment = getTotal(payments);
   const neededCash = payment - prevFDC - productSales;
-  const totalCash = totalCoins + totalNotes;
+  const totalCash = totalCoins + totalNotes - Number(cashOut);
   const incomeCash = totalCoins + totalNotes - prevFDC;
   const cashDiff = totalCash + neededCash;
   const CloseFDC = totalCash - Number(cashOut);
-
+console.log(CloseFDC, "CloseFDC")
   async function updateDone() {
     try {
       setLoading(false);
