@@ -52,7 +52,8 @@ export const GetCloseRegister = ({
   const payments = { card_28, card_43, mobile_pay, invoices };
   const payment = getTotal(payments);
   const neededCash = payment - prevFDC - productSales;
-  const totalCash = totalCoins + totalNotes - Number(cashOut);
+  const totalCash = totalCoins + totalNotes ;
+  const expectedCash  = totalCash - Number(cashOut);
   const incomeCash = totalCoins + totalNotes - prevFDC;
   const cashDiff = totalCash + neededCash;
   const CloseFDC = totalCash - Number(cashOut);
@@ -75,27 +76,34 @@ console.log(CloseFDC, "CloseFDC")
     <div
       style={{
         backgroundColor: isDone ? "rgba(250, 250, 250, 1)" : "rgba(255, 255, 255, 1)",
-        width: "24rem",
-        padding: "1.5rem",
+        width: "100%",
+        maxWidth: "420px",
+        minWidth: "380px",
+        padding: "1rem",
         borderRadius: "16px",
         boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-        margin: "2rem auto",
+        margin: "1rem auto",
         border: `1px solid ${isDone ? "#e4e4e7" : "#f4f4f5"}`,
       }}
     >
       <div>
-        <div style={{ marginBottom: "1.5rem" }}>
+        <div style={{ marginBottom: "1rem" }}>
           <h3 style={{
             color: "#8b5cf6",
-            fontSize: "1.2rem",
+            fontSize: "1rem",
             fontWeight: "600",
             marginBottom: "0.5rem"
           }}>{`Closing Date: ${closingDate}`}</h3>
           <div style={{ 
             display: "flex", 
-            gap: "1rem", 
+            flexDirection: "column",
+            gap: "0.5rem", 
             color: "#71717a",
-            fontSize: "0.9rem" 
+            fontSize: "0.875rem",
+            "@media (min-width: 640px)": {
+              flexDirection: "row",
+              gap: "1rem"
+            }
           }}>
             <span>{`Date: ${Date}`}</span>
             <span>{`Time: ${Time}`}</span>
@@ -104,22 +112,26 @@ console.log(CloseFDC, "CloseFDC")
 
         <div style={{ 
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1.5rem",
-          marginBottom: "2rem"
+          gridTemplateColumns: "1fr",
+          gap: "1rem",
+          marginBottom: "1.5rem",
+          "@media (min-width: 640px)": {
+            gridTemplateColumns: "1fr 1fr",
+            gap: "1.5rem"
+          }
         }}>
           <div style={{
             backgroundColor: "#ffffff",
-            padding: "1.25rem",
-            borderRadius: "16px",
+            padding: "1rem",
+            borderRadius: "12px",
             boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
             border: "1px solid #f1f5f9"
           }}>
             <h4 style={{
               color: "#334155",
-              fontSize: "1.1rem",
+              fontSize: "1rem",
               fontWeight: "600",
-              marginBottom: "1rem",
+              marginBottom: "0.75rem",
               borderBottom: "2px solid #e2e8f0",
               paddingBottom: "0.5rem"
             }}>Payments</h4>
@@ -127,7 +139,7 @@ console.log(CloseFDC, "CloseFDC")
               display: "flex", 
               flexDirection: "column",
               gap: "0.5rem",
-              fontSize: "0.95rem"
+              fontSize: "0.875rem"
             }}>
               <span style={{ color: "#64748b" }}>{`Card 28: ${Number(card_28).toFixed(2)}kr.`}</span>
               <span style={{ color: "#64748b" }}>{`Card 43: ${Number(card_43).toFixed(2)}kr.`}</span>
@@ -147,16 +159,16 @@ console.log(CloseFDC, "CloseFDC")
 
           <div style={{
             backgroundColor: "#ffffff",
-            padding: "1.25rem",
-            borderRadius: "16px",
+            padding: "1rem",
+            borderRadius: "12px",
             boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
             border: "1px solid #f1f5f9"
           }}>
             <h4 style={{
               color: "#334155",
-              fontSize: "1.1rem",
+              fontSize: "1rem",
               fontWeight: "600",
-              marginBottom: "1rem",
+              marginBottom: "0.75rem",
               borderBottom: "2px solid #e2e8f0",
               paddingBottom: "0.5rem"
             }}>Cash Details</h4>
@@ -164,7 +176,7 @@ console.log(CloseFDC, "CloseFDC")
               display: "flex", 
               flexDirection: "column",
               gap: "0.5rem",
-              fontSize: "0.95rem"
+              fontSize: "0.875rem"
             }}>
               <span style={{ color: "#64748b" }}>{`Notes: ${totalNotes.toFixed(2)}kr.`}</span>
               <span style={{ color: "#64748b" }}>{`Coins: ${totalCoins.toFixed(2)}kr.`}</span>
@@ -183,55 +195,74 @@ console.log(CloseFDC, "CloseFDC")
                 borderRadius: "8px",
                 border: "1px solid #e0f2fe"
               }}>{`Close FDC: ${totalCash.toFixed(2)}kr.`}</span>
+              <span style={{ 
+                color: "#6366f1",
+                fontWeight: "600",
+                backgroundColor: "#eef2ff",
+                padding: "0.5rem",
+                borderRadius: "8px",
+                border: "1px solid #e0e7ff",
+                marginTop: "0.25rem"
+              }}>{`Expected Cash: ${expectedCash.toFixed(2)}kr.`}</span>
             </div>
           </div>
         </div>
 
         <div style={{
           backgroundColor: "#ffffff",
-          padding: "1.25rem",
-          borderRadius: "16px",
-          marginBottom: "1.5rem",
+          padding: "1rem",
+          borderRadius: "12px",
+          marginBottom: "1rem",
           boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
           border: "1px solid #f1f5f9"
         }}>
           <div style={{ 
             display: "flex", 
-            justifyContent: "space-between",
-            marginBottom: "0.75rem",
-            color: "#334155"
+            flexDirection: "column",
+            gap: "0.75rem",
+            "@media (min-width: 640px)": {
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }
           }}>
-            <span style={{ fontWeight: "500" }}>Cash Difference:</span>
-            <span style={{
-              color: totalCash + neededCash <= 0 ? "#dc2626" : "#059669",
-              fontWeight: "600",
-              backgroundColor: totalCash + neededCash <= 0 ? "#fef2f2" : "#f0fdf4",
-              padding: "0.25rem 0.75rem",
-              borderRadius: "6px"
-            }}>{`${cashDiff.toFixed(2)}kr.`}</span>
-          </div>
-          <div style={{ 
-            display: "flex", 
-            justifyContent: "space-between",
-            color: "#334155"
-          }}>
-            <span style={{ fontWeight: "500" }}>Cash Income:</span>
-            <span style={{
-              color: incomeCash <= 0 ? "#dc2626" : "#059669",
-              fontWeight: "600",
-              backgroundColor: incomeCash <= 0 ? "#fef2f2" : "#f0fdf4",
-              padding: "0.25rem 0.75rem",
-              borderRadius: "6px"
-            }}>{`${Number(incomeCash).toFixed(2)}kr.`}</span>
+            <div style={{ 
+              display: "flex", 
+              justifyContent: "space-between",
+              color: "#334155"
+            }}>
+              <span style={{ fontWeight: "500" }}>Cash Difference:</span>
+              <span style={{
+                color: totalCash + neededCash <= 0 ? "#dc2626" : "#059669",
+                fontWeight: "600",
+                backgroundColor: totalCash + neededCash <= 0 ? "#fef2f2" : "#f0fdf4",
+                padding: "0.25rem 0.75rem",
+                borderRadius: "6px"
+              }}>{`${cashDiff.toFixed(2)}kr.`}</span>
+            </div>
+            <div style={{ 
+              display: "flex", 
+              justifyContent: "space-between",
+              color: "#334155"
+            }}>
+              <span style={{ fontWeight: "500" }}>Cash Income:</span>
+              <span style={{
+                color: incomeCash <= 0 ? "#dc2626" : "#059669",
+                fontWeight: "600",
+                backgroundColor: incomeCash <= 0 ? "#fef2f2" : "#f0fdf4",
+                padding: "0.25rem 0.75rem",
+                borderRadius: "6px"
+              }}>{`${Number(incomeCash).toFixed(2)}kr.`}</span>
+            </div>
           </div>
         </div>
 
         {+cashOut && (
           <div style={{
             backgroundColor: "#ffffff",
-            padding: "1.25rem",
-            borderRadius: "16px",
-            marginBottom: "1.5rem",
+            padding: "1rem",
+            borderRadius: "12px",
+            marginBottom: "1rem",
             boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
             border: "1px solid #fee2e2"
           }}>
@@ -253,20 +284,30 @@ console.log(CloseFDC, "CloseFDC")
           </div>
         )}
 
-        <div style={{ marginBottom: "1.5rem" }}>
+        <div style={{ marginBottom: "1rem" }}>
           <h4 style={{ 
             color: "#27272a",
             marginBottom: "0.5rem",
-            fontWeight: "600"
+            fontWeight: "600",
+            fontSize: "0.875rem"
           }}>Comments</h4>
           <div style={{
             backgroundColor: "#ffffff",
             padding: "1rem",
-            minHeight: "100px",
+            minHeight: "80px",
+            maxHeight: "160px",
+            overflowY: "auto",
             borderRadius: "12px",
-            border: "1px solid #e4e4e7"
+            border: "1px solid #e4e4e7",
+            width: "100%",
+            boxSizing: "border-box"
           }}>
-            <p style={{ color: "#71717a" }}>{comments || "No Comments!"}</p>
+            <p style={{ 
+              color: "#71717a",
+              fontSize: "0.875rem",
+              margin: 0,
+              wordBreak: "break-word"
+            }}>{comments || "No Comments!"}</p>
           </div>
         </div>
 
@@ -274,19 +315,28 @@ console.log(CloseFDC, "CloseFDC")
           borderTop: "1px solid #e4e4e7",
           paddingTop: "1rem",
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center"
+          flexDirection: "column",
+          gap: "1rem",
+          "@media (min-width: 640px)": {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center"
+          }
         }}>
           <div>
-            <p style={{ color: "#52525b", fontSize: "0.9rem" }}>{`Closed by: ${close_by}`}</p>
+            <p style={{ color: "#52525b", fontSize: "0.875rem" }}>{`Closed by: ${close_by}`}</p>
             {update_by && (
-              <p style={{ color: "#52525b", fontSize: "0.9rem" }}>{`Edit by: ${update_by}`}</p>
+              <p style={{ color: "#52525b", fontSize: "0.875rem" }}>{`Edit by: ${update_by}`}</p>
             )}
           </div>
 
           <div style={{ 
             display: "flex",
-            gap: "0.5rem" 
+            gap: "0.5rem",
+            flexDirection: "column",
+            "@media (min-width: 640px)": {
+              flexDirection: "row"
+            }
           }}>
             {admin.includes(user.email) && (
               !loading ? (
