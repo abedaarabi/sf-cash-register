@@ -1,0 +1,13 @@
+.responsiveContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .responsiveContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+} 

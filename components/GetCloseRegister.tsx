@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import { admin } from "../helper/emailAdmin";
 import { async } from "@firebase/util";
 import { CircularProgress } from "@mui/material";
+import stylesGetCloseRegister from '../styles/GetCloseRegister.module.css';
 
 export const GetCloseRegister = ({
   dailyReport,
@@ -100,10 +101,6 @@ console.log(CloseFDC, "CloseFDC")
             gap: "0.5rem", 
             color: "#71717a",
             fontSize: "0.875rem",
-            "@media (min-width: 640px)": {
-              flexDirection: "row",
-              gap: "1rem"
-            }
           }}>
             <span>{`Date: ${Date}`}</span>
             <span>{`Time: ${Time}`}</span>
@@ -115,10 +112,6 @@ console.log(CloseFDC, "CloseFDC")
           gridTemplateColumns: "1fr",
           gap: "1rem",
           marginBottom: "1.5rem",
-          "@media (min-width: 640px)": {
-            gridTemplateColumns: "1fr 1fr",
-            gap: "1.5rem"
-          }
         }}>
           <div style={{
             backgroundColor: "#ffffff",
@@ -216,15 +209,9 @@ console.log(CloseFDC, "CloseFDC")
           boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
           border: "1px solid #f1f5f9"
         }}>
-          <div style={{ 
+          <div className={stylesGetCloseRegister.responsiveContainer} style={{ 
             display: "flex", 
-            flexDirection: "column",
             gap: "0.75rem",
-            "@media (min-width: 640px)": {
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }
           }}>
             <div style={{ 
               display: "flex", 
@@ -317,11 +304,6 @@ console.log(CloseFDC, "CloseFDC")
           display: "flex",
           flexDirection: "column",
           gap: "1rem",
-          "@media (min-width: 640px)": {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }
         }}>
           <div>
             <p style={{ color: "#52525b", fontSize: "0.875rem" }}>{`Closed by: ${close_by}`}</p>
@@ -334,9 +316,6 @@ console.log(CloseFDC, "CloseFDC")
             display: "flex",
             gap: "0.5rem",
             flexDirection: "column",
-            "@media (min-width: 640px)": {
-              flexDirection: "row"
-            }
           }}>
             {admin.includes(user.email) && (
               !loading ? (
