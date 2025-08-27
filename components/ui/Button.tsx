@@ -6,11 +6,13 @@ export const Button = ({
   onClick,
   disabled,
   style,
+  className,
   ...props
 }: any) => {
+  const mergedClassName = `${classes.btn}${className ? ` ${className}` : ""}`;
   if (href) {
     return (
-      <button className={classes.btn} style={{ ...style }}>
+      <button className={mergedClassName} style={{ ...style }}>
         <Link href={href}>{children}</Link>
       </button>
     );
@@ -18,7 +20,7 @@ export const Button = ({
   return (
     <button
       style={{ ...style }}
-      className={classes.btn}
+      className={mergedClassName}
       onClick={onClick}
       disabled={disabled}
       {...props}

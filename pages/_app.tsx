@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import { ReactQueryDevtools } from "react-query/devtools";
 function MyApp({ Component, pageProps }: AppProps) {
-  const noAuth = ["/", "/login", "/signup", "/rest", "/drinks"];
+  const noAuth = ["/", "/login", "/rest", "/drinks"];
   const router = useRouter();
   const queryClient = new QueryClient();
   return (

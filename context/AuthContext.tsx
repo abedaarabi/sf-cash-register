@@ -57,10 +57,12 @@ export const AuthContextProvider = ({
         signUp,
         signInWithGoogle,
         sendPasswordReset,
+        createUserWithEmailAndPassword,
         setUser,
       }}
     >
-      {loading ? <CircularProgress /> : children}
+      {/* {loading ? <CircularProgress /> : children} */}
+      {children}
     </AuthContext.Provider>
   );
 };

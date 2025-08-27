@@ -34,8 +34,10 @@ const MainHeader = () => {
       <header className={classes.header}>
         <div className={classes.headerContent}>
           <div className={classes.logo}>
-            <Link href={""}>
-              <h2>Sorte Firkant</h2>
+            <Link href="/" legacyBehavior passHref>
+              <a>
+                <h2>Sorte Firkant</h2>
+              </a>
             </Link>
             {user && (
               <p className={classes.welcomeText}>
@@ -45,14 +47,14 @@ const MainHeader = () => {
           </div>
 
           {user && (
-            <button 
-              className={classes.hamburger}
+            <button
+              className={`${classes.hamburger} ${isOpen ? classes.active : ""}`}
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
             >
-              <span className={`${classes.bar} ${isOpen ? classes.active : ''}`}></span>
-              <span className={`${classes.bar} ${isOpen ? classes.active : ''}`}></span>
-              <span className={`${classes.bar} ${isOpen ? classes.active : ''}`}></span>
+              <span className={classes.bar}></span>
+              <span className={classes.bar}></span>
+              <span className={classes.bar}></span>
             </button>
           )}
 
@@ -80,6 +82,16 @@ const MainHeader = () => {
                       }}
                     >
                       Reports
+                    </Button>
+                  </li>
+                  <li>
+                    <Button
+                      onClick={() => {
+                        router.push("/signup");
+                        setIsOpen(false);
+                      }}
+                    >
+                      Add User
                     </Button>
                   </li>
                   <li>

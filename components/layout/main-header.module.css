@@ -11,7 +11,7 @@
 }
 
 .headerSpacing {
-  margin-bottom: 100px;
+  height: 80px;
 }
 
 .headerContent {
@@ -31,10 +31,14 @@
 
 .logo h2 {
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   margin: 0;
   transition: color 0.3s ease;
+}
+
+.logo a {
+  text-decoration: none;
 }
 
 .logo h2:hover {
@@ -44,7 +48,7 @@
 .welcomeText {
   color: #94a3b8;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .nav {
@@ -69,6 +73,7 @@
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   font-weight: 500;
+  font-size: 0.85rem;
   transition: all 0.2s ease;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -101,7 +106,8 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 10;
+  position: relative;
+  z-index: 1001;
 }
 
 .bar {
@@ -127,6 +133,7 @@
     background: rgba(15, 23, 42, 0.98);
     padding-top: 5rem;
     transition: 0.3s ease-in-out;
+    z-index: 1000;
   }
 
   .nav.active {
@@ -147,7 +154,7 @@
   .navList button {
     width: 100%;
     padding: 0.8rem 1.5rem;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .hamburger.active .bar:nth-child(1) {
@@ -168,3 +175,6 @@
     gap: 0.5rem;
   }
 }
+
+/* Exportable utility class to toggle active state via CSS Modules */
+.active { --is-active: 1; }

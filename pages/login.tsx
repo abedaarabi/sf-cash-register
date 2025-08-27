@@ -186,14 +186,14 @@ const Login: React.FC = () => {
               Forgot Password?
             </span>
           </Link>
-          <p className="text-gray-600 mt-2">
+          {/* <p className="text-gray-600 mt-2">
             Don&apos;t have an account?{" "}
             <Link href="/signup">
               <span className="text-blue-600 hover:text-blue-500 font-semibold">
                 Register
               </span>
             </Link>
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

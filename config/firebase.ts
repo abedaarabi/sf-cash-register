@@ -27,6 +27,9 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
 export const db = getFirestore(app);
+// Use a secondary app/auth instance for creating users so the current session is preserved
+const secondaryApp = initializeApp(firebaseConfig, "Secondary");
+const secondaryAuth = getAuth(secondaryApp);
 
 //signInWithGoogle
 
@@ -67,7 +70,7 @@ export const signUp = async (
 ) => {
   try {
     const { user } = await createUserWithEmailAndPassword(
-      auth,
+      secondaryAuth,
       email,
       password
     );
@@ -78,6 +81,8 @@ export const signUp = async (
       email: user.email,
       displayName: displayName,
     });
+    // Sign out from the secondary auth to avoid switching the current user's session
+    await signOut(secondaryAuth);
   } catch (error) {
     console.log(error);
   }
@@ -87,6 +92,8 @@ export const logIn = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
+    console.log(error);
+    
     return error;
   }
 };
