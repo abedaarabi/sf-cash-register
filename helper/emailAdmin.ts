@@ -6,6 +6,7 @@ export const admin = [
   "homaydan@hotmail.com",
   "andrikopoulos1987@gmail.com",
   "giannis.chatzichristou97@gmail.com",
+  "ma@mregnskab.dk"
   // "marcus.ja.jakobsen@gmail.com",
   // "abma@moe.dk",
 ];
