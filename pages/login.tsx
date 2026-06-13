@@ -33,8 +33,14 @@ const Login: React.FC = () => {
   };
 
   React.useEffect(() => {
-    user && router.push("/dashboard");
+    if (user) {
+      router.push("/dashboard");
+    }
   }, [router, user]);
+
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">

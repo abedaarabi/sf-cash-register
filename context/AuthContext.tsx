@@ -17,8 +17,7 @@ import {
   signUp,
   signInWithGoogle,
 } from "../config/firebase";
-import { CircularProgress } from "@mui/material";
-
+import { AuthLoading } from "../components/AuthLoading";
 const AuthContext = createContext<any>({});
 
 export const useAuth = () => useContext(AuthContext);
@@ -52,6 +51,7 @@ export const AuthContextProvider = ({
     <AuthContext.Provider
       value={{
         user,
+        loading,
         logout,
         logIn,
         signUp,
@@ -61,8 +61,7 @@ export const AuthContextProvider = ({
         setUser,
       }}
     >
-      {/* {loading ? <CircularProgress /> : children} */}
-      {children}
+      {loading ? <AuthLoading /> : children}
     </AuthContext.Provider>
   );
 };
