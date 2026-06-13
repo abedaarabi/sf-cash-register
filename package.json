@@ -7,7 +7,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint"
   },
@@ -42,6 +43,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.15.11",
     "@types/node": "^17.0.45",
     "@types/react": "18.0.5",
     "@types/react-dom": "18.0.0",

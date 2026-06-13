@@ -133,6 +133,18 @@ export default async function handler(
       res
         .status(200)
         .json({ message: "Data Fetched successfully!", response: data });
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      const message =
+        error instanceof Error ? error.message : "Unknown database error";
+      res.status(500).json({
+        message: "Failed to fetch data from database.",
+        error: message,
+      });
+    }
+  }
+
+  if (req.method !== "GET" && req.method !== "POST") {
+    res.status(405).json({ message: "Method not allowed" });
   }
 }
