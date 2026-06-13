@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { prisma } from "../../../lib/prisma";
+import { getDatabaseHost, getDatabaseUrl } from "../../../lib/db-env";
+import { getPrismaClient } from "../../../lib/prisma";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,20 +11,25 @@ export default async function handler(
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const hasDatabaseUrl = Boolean(process.env.DATABASE_URL);
+  try {
+    getDatabaseUrl();
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "DATABASE_URL is not set.";
 
-  if (!hasDatabaseUrl) {
     return res.status(500).json({
       ok: false,
-      message: "DATABASE_URL is not set in environment variables.",
+      message,
     });
   }
 
   try {
+    const prisma = getPrismaClient();
     await prisma.$queryRaw`SELECT 1`;
     return res.status(200).json({
       ok: true,
       message: "Database connection successful.",
+      host: getDatabaseHost(),
     });
   } catch (error) {
     const message =
@@ -34,7 +40,9 @@ export default async function handler(
     return res.status(500).json({
       ok: false,
       message,
-      hint: "Check Netlify env vars and DigitalOcean trusted sources (firewall).",
+      host: getDatabaseHost(),
+      hint:
+        "On Dokploy use the MySQL service hostname (not localhost) and remove ssl-mode unless SSL is enabled.",
     });
   }
 }
