@@ -1,14 +1,17 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>Sorte Firkant</title>
-  <defs>
-    <linearGradient id="sfTile" x1="4" y1="2" x2="60" y2="62" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#1F2937" />
-      <stop offset="1" stop-color="#030712" />
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="15" fill="url(#sfTile)" />
-  <rect x="1.25" y="1.25" width="61.5" height="61.5" rx="13.75" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.5" />
-  <path d="M15.5 17h33L34 34.8V44h-4v-9.2z" fill="#FFFFFF" />
-  <rect x="21.5" y="43.5" width="21" height="4.5" rx="2.25" fill="#FFFFFF" />
-  <path d="M15.5 17h33l-5.2 5H20.7z" fill="#6366F1" />
+  <title>Sorte Firkant — Black Square</title>
+  <rect width="64" height="64" rx="14" fill="#F8FAFC" />
+  <rect
+    x="1.25"
+    y="1.25"
+    width="61.5"
+    height="61.5"
+    rx="12.75"
+    stroke="#0F172A"
+    stroke-opacity="0.08"
+    stroke-width="1.5"
+  />
+  <rect x="16" y="16" width="32" height="32" fill="#030712" />
+  <rect x="16" y="16" width="32" height="1.5" fill="#FFFFFF" fill-opacity="0.22" />
+  <rect x="40" y="40" width="6" height="6" fill="#6366F1" />
 </svg>

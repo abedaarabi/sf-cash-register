@@ -12,7 +12,7 @@ export const LandingFooter = () => (
             Sorte Firkant
           </span>
           <span className="block text-xs text-ink-muted">
-            Cash Register · internal tool
+            Black Square · Cash Register
           </span>
         </span>
       </div>

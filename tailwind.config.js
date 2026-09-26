@@ -69,6 +69,10 @@ module.exports = {
           from: { opacity: "0", transform: "translateY(8px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        "slide-in-right": {
+          from: { transform: "translateX(100%)" },
+          to: { transform: "translateX(0)" },
+        },
         "pulse-soft": {
           "0%, 100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.03)" },
@@ -77,6 +81,7 @@ module.exports = {
       animation: {
         "fade-in": "fade-in 0.25s ease-out both",
         "slide-up": "slide-up 0.3s ease-out both",
+        "slide-in-right": "slide-in-right 0.28s cubic-bezier(0.32, 0.72, 0, 1) both",
         "pulse-soft": "pulse-soft 2.4s ease-in-out infinite",
       },
     },
