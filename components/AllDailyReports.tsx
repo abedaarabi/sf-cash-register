@@ -1,63 +1,65 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { admin } from "../helper/emailAdmin";
+import {
+  fetchDailyReportsByRange,
+  sortReportsByClosingDate,
+} from "../helper/fetchDailyReports";
+import { getDefaultClosingDateRange } from "../helper/closingDateRange";
 import { GetCloseRegister } from "./GetCloseRegister";
 import { DateSelector } from "./DateSelector";
 import { PageHeader } from "./ui/PageHeader";
 import { PageLoader } from "./ui/Loading";
 import { IconInfo, IconReport } from "./ui/icons";
-import { getDefaultClosingDateRange } from "../helper/closingDateRange";
-
-const defaultRange = getDefaultClosingDateRange();
 
 export const AllDailyReports = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);
+  const [loadError, setLoadError] = React.useState<string | null>(null);
+  const defaultRange = React.useMemo(() => getDefaultClosingDateRange(), []);
 
-  async function getdate(date: any) {
-    if (!date.startDate || !date.endDate) {
-      alert("select dates");
+  const loadReports = React.useCallback(async (range: typeof defaultRange) => {
+    if (!range.startDate || !range.endDate) {
+      setLoadError("Pick a from and to date.");
+      setLoading(false);
       return;
     }
 
     setLoading(true);
-    const params = new URLSearchParams({
-      startDate: date.startDate,
-      endDate: date.endDate,
-    });
+    setLoadError(null);
 
     try {
-      const res = await fetch(`/api/dailyreports/report?${params}`);
-      const body = await res.json();
-      if (!res.ok) {
-        alert(body.message || "Could not load reports for those dates.");
-        return;
-      }
-
-      const result = (body.response ?? []).sort(
-        (a: { closingDate: string }, b: { closingDate: string }) =>
-          a.closingDate.localeCompare(b.closingDate)
+      const result = sortReportsByClosingDate(
+        await fetchDailyReportsByRange(range)
       );
       setDailyReport(result);
     } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") {
+        return;
+      }
       console.error(err);
-      alert("Could not load reports for those dates.");
+      setDailyReport([]);
+      setLoadError(
+        err instanceof Error
+          ? err.message
+          : "Could not load reports for those dates."
+      );
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
   const { user } = useAuth();
 
   React.useEffect(() => {
-    getdate(defaultRange);
-  }, []);
+    loadReports(defaultRange);
+  }, [defaultRange, loadReports]);
 
   if (loading) {
     return <PageLoader label="Loading reports…" />;
   }
 
-  const isAdmin = admin.includes(user.email);
+  const isAdmin = user?.email && admin.includes(user.email);
   const fakeArr = (
     isAdmin ? dailyReport.slice(1) : [dailyReport[dailyReport.length - 1]]
   ).filter(Boolean);
@@ -74,9 +76,15 @@ export const AllDailyReports = () => {
         icon={<IconReport className="h-5 w-5" />}
       />
 
+      {loadError ? (
+        <div className="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          {loadError}
+        </div>
+      ) : null}
+
       {isAdmin && (
         <div className="mb-6">
-          <DateSelector getdate={getdate} defaultRange={defaultRange} />
+          <DateSelector getdate={loadReports} defaultRange={defaultRange} />
         </div>
       )}
 
@@ -87,8 +95,9 @@ export const AllDailyReports = () => {
           </span>
           <p className="text-base font-semibold text-ink">No reports yet</p>
           <p className="max-w-sm text-sm text-ink-muted">
-            Closed registers will show up here as soon as the first report is
-            submitted.
+            {isAdmin
+              ? "No closings in this date range. Try widening the dates or check that reports use YYYY-MM-DD closing dates."
+              : "Closed registers will show up here as soon as the first report is submitted."}
           </p>
         </div>
       ) : (

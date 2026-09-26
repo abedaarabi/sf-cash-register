@@ -4,6 +4,10 @@ import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 
 import { getDefaultClosingDateRange } from "../../helper/closingDateRange";
+import {
+  fetchDailyReportsByRange,
+  sortReportsByClosingDate,
+} from "../../helper/fetchDailyReports";
 import { DateSelector } from "../DateSelector";
 import { PageHeader } from "../ui/PageHeader";
 import { StatTile } from "../ui/Stat";
@@ -37,60 +41,55 @@ const chartOptions = {
   },
 };
 
-const defaultRange = getDefaultClosingDateRange();
+const emptyChart = { label: [] as string[], data: [] as number[], total: 0 };
+
+function toChartState(rows: { closingDate: string; productSales?: unknown }[]) {
+  const chartLabel = rows.map((item) => item.closingDate);
+  const chartDataset = rows.map((item) => Number(item.productSales));
+  const totalItems = chartDataset.reduce(
+    (sum: number, item: number) => sum + item,
+    0
+  );
+  return { label: chartLabel, data: chartDataset, total: totalItems };
+}
 
 const IncomeChart = () => {
-  const [dailyReport, setDailyReport] = React.useState([]) as any;
+  const [dailyReport, setDailyReport] = React.useState(emptyChart);
   const [loading, setLoading] = React.useState(true);
+  const [loadError, setLoadError] = React.useState<string | null>(null);
+  const defaultRange = React.useMemo(() => getDefaultClosingDateRange(), []);
 
-  async function getdate(date: any) {
-    if (!date.startDate || !date.endDate) {
-      alert("select dates");
+  const loadChart = React.useCallback(async (range: typeof defaultRange) => {
+    if (!range.startDate || !range.endDate) {
+      setLoadError("Pick a from and to date.");
+      setLoading(false);
       return;
     }
 
     setLoading(true);
-    const params = new URLSearchParams({
-      startDate: date.startDate,
-      endDate: date.endDate,
-    });
+    setLoadError(null);
 
     try {
-      const res = await fetch(`/api/dailyreports/report?${params}`);
-      const body = await res.json();
-      if (!res.ok) {
-        alert(body.message || "Could not load reports for those dates.");
-        return;
-      }
-
-      const result = (body.response ?? []).sort(
-        (a: { closingDate: string }, b: { closingDate: string }) =>
-          a.closingDate.localeCompare(b.closingDate)
+      const result = sortReportsByClosingDate(
+        await fetchDailyReportsByRange(range)
       );
-
-      const chartLabel = result.map((item: any) => item.closingDate);
-      const chartDataset = result.map((item: any) => Number(item.productSales));
-      const totalItems = chartDataset.reduce(
-        (sum: number, item: number) => sum + item,
-        0
-      );
-
-      setDailyReport({
-        label: chartLabel,
-        data: chartDataset,
-        total: totalItems,
-      });
+      setDailyReport(toChartState(result));
     } catch (err) {
       console.error(err);
-      alert("Could not load reports for those dates.");
+      setDailyReport(emptyChart);
+      setLoadError(
+        err instanceof Error
+          ? err.message
+          : "Could not load reports for those dates."
+      );
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
   React.useEffect(() => {
-    getdate(defaultRange);
-  }, []);
+    loadChart(defaultRange);
+  }, [defaultRange, loadChart]);
 
   return (
     <div className="app-shell">
@@ -101,8 +100,14 @@ const IncomeChart = () => {
       />
 
       <div className="mb-6">
-        <DateSelector getdate={getdate} defaultRange={defaultRange} />
+        <DateSelector getdate={loadChart} defaultRange={defaultRange} />
       </div>
+
+      {loadError ? (
+        <div className="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          {loadError}
+        </div>
+      ) : null}
 
       {loading ? (
         <PageLoader label="Crunching numbers…" />
