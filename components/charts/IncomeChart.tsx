@@ -3,6 +3,7 @@ import { Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 
+import { getDefaultClosingDateRange } from "../../helper/closingDateRange";
 import { DateSelector } from "../DateSelector";
 import { PageHeader } from "../ui/PageHeader";
 import { StatTile } from "../ui/Stat";
@@ -36,78 +37,59 @@ const chartOptions = {
   },
 };
 
+const defaultRange = getDefaultClosingDateRange();
+
 const IncomeChart = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);
 
-  function getdate(date: any) {
+  async function getdate(date: any) {
     if (!date.startDate || !date.endDate) {
-      return alert("select dates");
-    } else {
-      setLoading(true);
-      const startDate = date.startDate;
-      const endDate = date.endDate;
+      alert("select dates");
+      return;
+    }
 
-      fetch(
-        `/api/dailyreports/report?startDate=${startDate}&endDate=${endDate} `
-      )
-        .then((res) => res.json())
-        .then(({ response }) => {
-          const result = response.sort(
-            (a: Date, b: Date) =>
-              // @ts-ignore
-              new Date(a.closingDate) - new Date(b.closingDate)
-          );
+    setLoading(true);
+    const params = new URLSearchParams({
+      startDate: date.startDate,
+      endDate: date.endDate,
+    });
 
-          const chartLabel = result.map((item: any) => item.closingDate);
-          const chartDataset = result.map((item: any) => {
-            return Number(item.productSales);
-          });
+    try {
+      const res = await fetch(`/api/dailyreports/report?${params}`);
+      const body = await res.json();
+      if (!res.ok) {
+        alert(body.message || "Could not load reports for those dates.");
+        return;
+      }
 
-          const totalItems = chartDataset.reduce(
-            (sum: any, item: any) => sum + item
-          );
+      const result = (body.response ?? []).sort(
+        (a: { closingDate: string }, b: { closingDate: string }) =>
+          a.closingDate.localeCompare(b.closingDate)
+      );
 
-          setDailyReport({
-            label: chartLabel,
-            data: chartDataset,
-            total: totalItems,
-          });
-          setLoading(false);
-        })
+      const chartLabel = result.map((item: any) => item.closingDate);
+      const chartDataset = result.map((item: any) => Number(item.productSales));
+      const totalItems = chartDataset.reduce(
+        (sum: number, item: number) => sum + item,
+        0
+      );
 
-        .catch((err) => console.log(err));
+      setDailyReport({
+        label: chartLabel,
+        data: chartDataset,
+        total: totalItems,
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Could not load reports for those dates.");
+    } finally {
+      setLoading(false);
     }
   }
 
   React.useEffect(() => {
-    fetch(`/api/dailyreports/report`)
-      .then((res) => res.json())
-      .then(({ response }) => {
-        const result = response.sort(
-          (a: Date, b: Date) =>
-            // @ts-ignore
-            new Date(a.closingDate) - new Date(b.closingDate)
-        );
-
-        const chartLabel = result.map((item: any) => item.closingDate);
-        const chartDataset = result.map((item: any) => {
-          return Number(item.productSales);
-        });
-
-        const totalItems = chartDataset.reduce(
-          (sum: any, item: any) => sum + item
-        );
-
-        setDailyReport({
-          label: chartLabel,
-          data: chartDataset,
-          total: totalItems,
-        });
-        setLoading(false);
-      })
-
-      .catch((err) => console.log(err));
+    getdate(defaultRange);
   }, []);
 
   return (
@@ -119,7 +101,7 @@ const IncomeChart = () => {
       />
 
       <div className="mb-6">
-        <DateSelector getdate={getdate} />
+        <DateSelector getdate={getdate} defaultRange={defaultRange} />
       </div>
 
       {loading ? (
@@ -135,9 +117,13 @@ const IncomeChart = () => {
             />
             <StatTile
               label="Period"
-              value={`${dailyReport.label[0]} → ${
-                dailyReport.label[dailyReport.label.length - 1]
-              }`}
+              value={
+                dailyReport.label.length
+                  ? `${dailyReport.label[0]} → ${
+                      dailyReport.label[dailyReport.label.length - 1]
+                    }`
+                  : "No closings in range"
+              }
               tone="sky"
               icon={<IconCalendar className="h-5 w-5" />}
               hint={`${dailyReport.label.length} closing days`}

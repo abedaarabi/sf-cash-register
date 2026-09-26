@@ -3,8 +3,18 @@ import TextField from "@mui/material/TextField";
 import { Button } from "./ui/Button";
 import { IconFilter } from "./ui/icons";
 
-export function DateSelector({ getdate }: any) {
-  const [date, setDate] = React.useState({ startDate: "", endDate: "" }) as any;
+type DateRange = { startDate: string; endDate: string };
+
+export function DateSelector({
+  getdate,
+  defaultRange,
+}: {
+  getdate?: (range: DateRange) => void;
+  defaultRange?: DateRange;
+}) {
+  const [date, setDate] = React.useState<DateRange>(
+    defaultRange ?? { startDate: "", endDate: "" }
+  );
 
   return (
     <div className="card flex flex-col gap-3 p-4 sm:flex-row sm:items-end">

@@ -2,6 +2,11 @@
 // const prisma = new PrismaClient();
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import {
+  getDefaultClosingDateRange,
+  isValidClosingDateRange,
+  normalizeClosingDateParam,
+} from "../../../helper/closingDateRange";
 import { prisma } from "../../../lib/prisma";
 
 export default async function handler(
@@ -93,16 +98,12 @@ export default async function handler(
   }
 
   if (req.method === "GET") {
-    const { startDate, endDate } = req.query as {
-      startDate: string;
-      endDate: string;
-    };
-    const day = +startDate?.split("-")[2] - 1;
-    const month = startDate?.split("-")[1];
-    const year = startDate?.split("-")[0];
-
-    const start = `${year}-${month}-${day}`;
-    console.log(start);
+    const startDate = normalizeClosingDateParam(
+      req.query.startDate as string | undefined
+    );
+    const endDate = normalizeClosingDateParam(
+      req.query.endDate as string | undefined
+    );
 
     try {
       let data;
@@ -111,22 +112,32 @@ export default async function handler(
           where: { id: +id },
         });
       } else if (!startDate && !endDate) {
+        const { startDate: defaultStart, endDate: defaultEnd } =
+          getDefaultClosingDateRange();
         data = await prisma.dailyReport.findMany({
-          orderBy: { closingDate: "desc" },
-          take: 5,
+          where: {
+            closingDate: {
+              gte: defaultStart,
+              lte: defaultEnd,
+            },
+          },
+          orderBy: { closingDate: "asc" },
         });
+      } else if (!isValidClosingDateRange(startDate, endDate)) {
+        res.status(400).json({
+          message:
+            "Invalid date range. Use YYYY-MM-DD for both startDate and endDate.",
+        });
+        return;
       } else {
         data = await prisma.dailyReport.findMany({
           where: {
             closingDate: {
-              // gte: "2022-04-27",
-              // lte: "2022-05-05",
-              //@ts-ignore
-              gte: new Date(start),
-              //@ts-ignore
-              lte: new Date(endDate),
+              gte: startDate,
+              lte: endDate,
             },
           },
+          orderBy: { closingDate: "asc" },
         });
       }
 

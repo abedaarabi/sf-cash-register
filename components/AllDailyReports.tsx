@@ -6,49 +6,51 @@ import { DateSelector } from "./DateSelector";
 import { PageHeader } from "./ui/PageHeader";
 import { PageLoader } from "./ui/Loading";
 import { IconInfo, IconReport } from "./ui/icons";
+import { getDefaultClosingDateRange } from "../helper/closingDateRange";
+
+const defaultRange = getDefaultClosingDateRange();
 
 export const AllDailyReports = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);
 
-  function getdate(date: any) {
+  async function getdate(date: any) {
     if (!date.startDate || !date.endDate) {
-      return alert("select dates");
-    } else {
-      const startDate = date.startDate;
-      const endDate = date.endDate;
+      alert("select dates");
+      return;
+    }
 
-      fetch(
-        `/api/dailyreports/report?startDate=${startDate}&endDate=${endDate} `
-      )
-        .then((res) => res.json())
-        .then(({ response }) => {
-          setDailyReport(response || []);
-          setLoading(false);
-        })
+    setLoading(true);
+    const params = new URLSearchParams({
+      startDate: date.startDate,
+      endDate: date.endDate,
+    });
 
-        .catch((err) => console.log(err));
+    try {
+      const res = await fetch(`/api/dailyreports/report?${params}`);
+      const body = await res.json();
+      if (!res.ok) {
+        alert(body.message || "Could not load reports for those dates.");
+        return;
+      }
+
+      const result = (body.response ?? []).sort(
+        (a: { closingDate: string }, b: { closingDate: string }) =>
+          a.closingDate.localeCompare(b.closingDate)
+      );
+      setDailyReport(result);
+    } catch (err) {
+      console.error(err);
+      alert("Could not load reports for those dates.");
+    } finally {
+      setLoading(false);
     }
   }
 
   const { user } = useAuth();
 
   React.useEffect(() => {
-    fetch(`/api/dailyreports/report`)
-      .then((res) => res.json())
-      .then(({ response }) => {
-        const result = response.sort(
-          (a: Date, b: Date) =>
-            // @ts-ignore
-            new Date(a.closingDate) - new Date(b.closingDate)
-        );
-
-        setDailyReport(result || []);
-
-        setLoading(false);
-      })
-
-      .catch((err) => console.log(err));
+    getdate(defaultRange);
   }, []);
 
   if (loading) {
@@ -74,7 +76,7 @@ export const AllDailyReports = () => {
 
       {isAdmin && (
         <div className="mb-6">
-          <DateSelector getdate={getdate} />
+          <DateSelector getdate={getdate} defaultRange={defaultRange} />
         </div>
       )}
 
