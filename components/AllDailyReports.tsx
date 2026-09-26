@@ -1,10 +1,11 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { admin } from "../helper/emailAdmin";
-import styles from "../styles/Home.module.css";
 import { GetCloseRegister } from "./GetCloseRegister";
-import CircularProgress from "@mui/material/CircularProgress";
 import { DateSelector } from "./DateSelector";
+import { PageHeader } from "./ui/PageHeader";
+import { PageLoader } from "./ui/Loading";
+import { IconInfo, IconReport } from "./ui/icons";
 
 export const AllDailyReports = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
@@ -22,8 +23,6 @@ export const AllDailyReports = () => {
       )
         .then((res) => res.json())
         .then(({ response }) => {
-          console.log(response);
-
           setDailyReport(response || []);
           setLoading(false);
         })
@@ -53,84 +52,102 @@ export const AllDailyReports = () => {
   }, []);
 
   if (loading) {
-    return (
-      <h2 className={styles.container}>
-        <CircularProgress />
-      </h2>
-    );
+    return <PageLoader label="Loading reports…" />;
   }
 
-  const fakeArr = admin.includes(user.email)
-    ? dailyReport.slice(1)
-    : [dailyReport[dailyReport.length - 1]];
+  const isAdmin = admin.includes(user.email);
+  const fakeArr = (
+    isAdmin ? dailyReport.slice(1) : [dailyReport[dailyReport.length - 1]]
+  ).filter(Boolean);
 
   return (
-    <div>
-      <div
-        style={{
-          marginLeft: "5rem",
-        }}
-      >
-        {admin.includes(user.email) && <DateSelector getdate={getdate} />}
-      </div>
-      <div className={styles.reports}>
-        {fakeArr.map((report: any, index: any) => {
-          const firstItem = index >= 0 && dailyReport[index];
+    <div className="app-shell">
+      <PageHeader
+        title="Daily reports"
+        subtitle={
+          isAdmin
+            ? "Every closed register, newest filtered by date range"
+            : "Your latest closed register"
+        }
+        icon={<IconReport className="h-5 w-5" />}
+      />
 
-          const countCoins = {
-            twenty_kr: report.twenty_kr,
-            ten_kr: report.ten_kr,
-            five_kr: report.five_kr,
-            two_kr: report.two_kr,
-            one_kr: report.one_kr,
-            half_kr: report.half_kr,
-          };
+      {isAdmin && (
+        <div className="mb-6">
+          <DateSelector getdate={getdate} />
+        </div>
+      )}
 
-          const countNote = {
-            one_thousand_kr: report.one_thousand_kr,
-            five_hundred_kr: report.five_hundred_kr,
-            two_hundred_kr: report.two_hundred_kr,
-            one_hundred_kr: report.one_hundred_kr,
-            fifty_kr: report.fifty_kr,
-          };
+      {fakeArr.length === 0 ? (
+        <div className="card flex flex-col items-center gap-3 p-10 text-center">
+          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+            <IconInfo className="h-6 w-6" />
+          </span>
+          <p className="text-base font-semibold text-ink">No reports yet</p>
+          <p className="max-w-sm text-sm text-ink-muted">
+            Closed registers will show up here as soon as the first report is
+            submitted.
+          </p>
+        </div>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {fakeArr.map((report: any, index: any) => {
+            const firstItem = index >= 0 && dailyReport[index];
 
-          const prevcountCoins = {
-            twenty_kr: firstItem.twenty_kr,
-            ten_kr: firstItem.ten_kr,
-            five_kr: firstItem.five_kr,
-            two_kr: firstItem.two_kr,
-            one_kr: firstItem.one_kr,
-            half_kr: firstItem.half_kr,
-          };
+            const countCoins = {
+              twenty_kr: report.twenty_kr,
+              ten_kr: report.ten_kr,
+              five_kr: report.five_kr,
+              two_kr: report.two_kr,
+              one_kr: report.one_kr,
+              half_kr: report.half_kr,
+            };
 
-          const prevcountNote = {
-            one_thousand_kr: firstItem.one_thousand_kr,
-            five_hundred_kr: firstItem.five_hundred_kr,
-            two_hundred_kr: firstItem.two_hundred_kr,
-            one_hundred_kr: firstItem.one_hundred_kr,
-            fifty_kr: firstItem.fifty_kr,
-          };
+            const countNote = {
+              one_thousand_kr: report.one_thousand_kr,
+              five_hundred_kr: report.five_hundred_kr,
+              two_hundred_kr: report.two_hundred_kr,
+              one_hundred_kr: report.one_hundred_kr,
+              fifty_kr: report.fifty_kr,
+            };
 
-          const prevCoins = getTotal(prevcountCoins);
-          const prevNotes = getTotal(prevcountNote);
+            const prevcountCoins = {
+              twenty_kr: firstItem.twenty_kr,
+              ten_kr: firstItem.ten_kr,
+              five_kr: firstItem.five_kr,
+              two_kr: firstItem.two_kr,
+              one_kr: firstItem.one_kr,
+              half_kr: firstItem.half_kr,
+            };
 
-          const coins = getTotal(countCoins);
-          const notes = getTotal(countNote);
+            const prevcountNote = {
+              one_thousand_kr: firstItem.one_thousand_kr,
+              five_hundred_kr: firstItem.five_hundred_kr,
+              two_hundred_kr: firstItem.two_hundred_kr,
+              one_hundred_kr: firstItem.one_hundred_kr,
+              fifty_kr: firstItem.fifty_kr,
+            };
 
-          const prevFDC = prevCoins + prevNotes - (firstItem?.cashOut || 0);
+            const prevCoins = getTotal(prevcountCoins);
+            const prevNotes = getTotal(prevcountNote);
 
-          return (
-            <div key={report.id}>
+            const coins = getTotal(countCoins);
+            const notes = getTotal(countNote);
+
+            const prevFDC = prevCoins + prevNotes - (firstItem?.cashOut || 0);
+
+            return (
               <GetCloseRegister
+                key={report.id}
                 dailyReport={report}
                 prevFDC={prevFDC}
                 totalCoins={coins}
                 totalNotes={notes}
               />
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

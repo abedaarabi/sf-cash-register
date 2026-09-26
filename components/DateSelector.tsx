@@ -1,76 +1,46 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button } from "@mui/material";
+import { Button } from "./ui/Button";
+import { IconFilter } from "./ui/icons";
 
 export function DateSelector({ getdate }: any) {
   const [date, setDate] = React.useState({ startDate: "", endDate: "" }) as any;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        marginTop: "0.5rem",
-        alignItems: "center",
-        justifyContent: "space-around",
-        flexDirection: "column",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-
-          alignItems: "baseline",
-          justifyContent: "space-around",
-        }}
-      >
+    <div className="card flex flex-col gap-3 p-4 sm:flex-row sm:items-end">
+      <div className="grid flex-1 gap-3 sm:grid-cols-2">
         <TextField
-          style={{ padding: " 0 5px" }}
-          type={"date"}
+          label="From"
+          type="date"
+          size="small"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
           value={date?.startDate}
           onChange={(e: any) => {
             setDate({ ...date, startDate: e.target.value });
           }}
         />
         <TextField
-          style={{ marginTop: "0.5rem" }}
-          type={"date"}
+          label="To"
+          type="date"
+          size="small"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
           value={date?.endDate}
           onChange={(e: any) => {
             setDate({ ...date, endDate: e.target.value });
           }}
         />
       </div>
-      <div>
-        <Button onClick={() => getdate(date)}>Filter By Date</Button>
-      </div>
+      <Button
+        variant="secondary"
+        icon={<IconFilter className="h-4 w-4" />}
+        onClick={() => getdate && getdate(date)}
+        className="sm:w-auto"
+        fullWidth
+      >
+        Filter by date
+      </Button>
     </div>
   );
-}
-
-{
-  /* <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label="Start Date"
-            value={date?.startDate}
-            onChange={(newValue: string | null) => {
-              setDate({ ...date, startDate: newValue });
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-      </div>
-
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          label="End Date"
-          value={date?.endDate}
-          onChange={(newValue: string | null) => {
-            setDate({ ...date, endDate: newValue });
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider> */
 }

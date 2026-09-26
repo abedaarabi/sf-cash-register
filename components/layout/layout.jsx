@@ -1,12 +1,10 @@
-import { Fragment } from "react";
 import MainHeader from "./main-header";
 
 export const Layout = (props) => {
   return (
-    <Fragment>
+    <div className="flex min-h-screen flex-col">
       <MainHeader />
-
-      <main> {props.children}</main>
-    </Fragment>
+      <main className="flex-1">{props.children}</main>
+    </div>
   );
 };

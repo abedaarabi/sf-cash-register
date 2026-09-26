@@ -3,8 +3,15 @@ import { Field, Form, Formik } from "formik";
 import React from "react";
 import { MyField } from "../components/MyField";
 import { Alerts } from "../components/Alerts";
+import { AuthShell } from "../components/auth/AuthShell";
+import {
+  IconLock,
+  IconMail,
+  IconUser,
+  IconUserPlus,
+} from "../components/ui/icons";
+import { Spinner } from "../components/ui/Loading";
 import { useAuth } from "../context/AuthContext";
-import Link from "next/link";
 import Head from "next/head";
 import * as Yup from "yup";
 
@@ -18,19 +25,18 @@ const SignUp: React.FC = () => {
   const { signUp } = useAuth();
   const [successMsg, setSuccessMsg] = React.useState("");
   const [errorMsg, setErrorMsg] = React.useState("");
-  
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
+    <>
       <Head>
         <title>Sorte Firkant - Add User</title>
       </Head>
 
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-800">Add New User</h1>
-          <p className="text-gray-600 mb-6">Create an account for a team member</p>
-        </div>
-
+      <AuthShell
+        badge="Team management"
+        title="Add new user"
+        subtitle="Create an account for a team member"
+      >
         <Formik
           initialValues={{ email: "", password: "", displayName: "" }}
           validationSchema={SignUpSchema}
@@ -47,64 +53,65 @@ const SignUp: React.FC = () => {
             }
           }}
         >
-          {() => (
-            <Form className="space-y-6">
+          {({ isSubmitting }) => (
+            <Form className="space-y-5">
               {successMsg && (
-                <div className="flex justify-center">
-                  <Alerts severity="success" msg={successMsg} />
-                </div>
+                <Alerts
+                  severity="success"
+                  msg={successMsg}
+                  onClose={() => setSuccessMsg("")}
+                />
               )}
               {errorMsg && (
-                <div className="flex justify-center">
-                  <Alerts severity="error" msg={errorMsg} />
-                </div>
+                <Alerts
+                  severity="error"
+                  msg={errorMsg}
+                  onClose={() => setErrorMsg("")}
+                />
               )}
-              <div>
-                <Field
-                  label="Name"
-                  name="displayName"
-                  placeholder="Enter user's name"
-                  variant="standard"
-                  color="success"
-                  component={MyField}
-                />
-              </div>
-              <div>
-                <Field
-                  label="Email"
-                  name="email"
-                  placeholder="Enter user's email"
-                  variant="standard"
-                  color="success"
-                  type="email"
-                  component={MyField}
-                />
-              </div>
-              <div>
-                <Field
-                  label="Password"
-                  name="password"
-                  placeholder="Set a password"
-                  variant="standard"
-                  color="success"
-                  type="password"
-                  component={MyField}
-                />
-              </div>
-
-              <div>
-                <Button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-500 transition"
-                >
-                  Add User
-                </Button>
-              </div>
+              <Field
+                label="Name"
+                name="displayName"
+                placeholder="Enter user's name"
+                startIcon={<IconUser className="h-5 w-5 text-ink-subtle" />}
+                component={MyField}
+              />
+              <Field
+                label="Email"
+                name="email"
+                placeholder="Enter user's email"
+                type="email"
+                startIcon={<IconMail className="h-5 w-5 text-ink-subtle" />}
+                component={MyField}
+              />
+              <Field
+                label="Password"
+                name="password"
+                placeholder="Set a password"
+                type="password"
+                startIcon={<IconLock className="h-5 w-5 text-ink-subtle" />}
+                component={MyField}
+              />
+              <Button
+                type="submit"
+                size="lg"
+                fullWidth
+                disabled={isSubmitting}
+                icon={
+                  isSubmitting ? (
+                    <Spinner className="h-4 w-4 border-white/40 border-t-white" />
+                  ) : (
+                    <IconUserPlus className="h-4 w-4" />
+                  )
+                }
+              >
+                {isSubmitting ? "Creating…" : "Add User"}
+              </Button>
             </Form>
           )}
         </Formik>
-      </div>
-    </div>
+      </AuthShell>
+    </>
   );
 };
 

@@ -6,6 +6,9 @@ import { MyField } from "../components/MyField";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "../components/ui/Button";
 import { Alerts } from "../components/Alerts";
+import { AuthShell } from "../components/auth/AuthShell";
+import { IconArrowRight, IconLock, IconMail } from "../components/ui/icons";
+import { Spinner } from "../components/ui/Loading";
 import Head from "next/head";
 import * as Yup from "yup";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,17 +23,12 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
-  const { user, logIn, signInWithGoogle } = useAuth();
+  const { user, logIn } = useAuth();
   const router = useRouter();
   const [alert, setAlert] = React.useState<{
-    type: 'success' | 'error';
+    type: "success" | "error";
     message: string;
   } | null>(null);
-
-  const loginWithGoogle = async () => {
-    await signInWithGoogle();
-    router.push("/dashboard");
-  };
 
   React.useEffect(() => {
     if (user) {
@@ -43,7 +41,7 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
+    <>
       <Head>
         <title>Sorte Firkant - Login</title>
       </Head>
@@ -51,81 +49,31 @@ const Login: React.FC = () => {
       <AnimatePresence>
         {alert && (
           <motion.div
-            initial={{ opacity: 0, y: -100 }}
+            initial={{ opacity: 0, y: -24 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -100 }}
-            className="fixed top-4 right-4 z-50"
+            exit={{ opacity: 0, y: -24 }}
+            className="fixed inset-x-4 top-4 z-50 sm:left-auto sm:right-6 sm:w-96"
           >
-            <div
-              className={`rounded-lg p-4 shadow-lg ${
-                alert.type === 'success'
-                  ? 'bg-green-50 border border-green-200'
-                  : 'bg-red-50 border border-red-200'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                {alert.type === 'success' ? (
-                  <svg
-                    className="w-5 h-5 text-green-500"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M5 13l4 4L19 7"></path>
-                  </svg>
-                ) : (
-                  <svg
-                    className="w-5 h-5 text-red-500"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M6 18L18 6M6 6l12 12"></path>
-                  </svg>
-                )}
-                <p
-                  className={`text-sm font-medium ${
-                    alert.type === 'success' ? 'text-green-800' : 'text-red-800'
-                  }`}
-                >
-                  {alert.message}
-                </p>
-                <button
-                  onClick={() => setAlert(null)}
-                  className={`ml-auto text-${
-                    alert.type === 'success' ? 'green' : 'red'
-                  }-700 hover:opacity-70`}
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M6 18L18 6M6 6l12 12"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
+            <Alerts
+              severity={alert.type}
+              msg={alert.message}
+              onClose={() => setAlert(null)}
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
-          <p className="text-gray-600 mb-6">Sign in to continue</p>
-        </div>
-
+      <AuthShell
+        title="Welcome back"
+        subtitle="Sign in to open and close the register"
+        footer={
+          <Link href="/rest">
+            <a className="font-semibold text-brand-600 transition hover:text-brand-700">
+              Forgot your password?
+            </a>
+          </Link>
+        }
+      >
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={LoginSchema}
@@ -133,16 +81,16 @@ const Login: React.FC = () => {
             try {
               await logIn(values.email, values.password);
               setAlert({
-                type: 'success',
-                message: 'Login successful! Redirecting...'
+                type: "success",
+                message: "Login successful! Redirecting...",
               });
               setTimeout(() => {
                 router.push("/dashboard");
               }, 1500);
             } catch (error: any) {
               setAlert({
-                type: 'error',
-                message: error.message || 'Login failed. Please try again.'
+                type: "error",
+                message: error.message || "Login failed. Please try again.",
               });
             } finally {
               setSubmitting(false);
@@ -150,59 +98,44 @@ const Login: React.FC = () => {
           }}
         >
           {({ isSubmitting }) => (
-            <Form className="space-y-6">
-              <div>
-                <Field
-                  label="Email"
-                  name="email"
-                  placeholder="Enter your email"
-                  variant="standard"
-                  color="success"
-                  type="email"
-                  component={MyField}
-                />
-              </div>
-              <div>
-                <Field
-                  label="Password"
-                  name="password"
-                  placeholder="Enter your password"
-                  variant="standard"
-                  color="success"
-                  type="password"
-                  component={MyField}
-                />
-              </div>
-              <div>
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-500 transition disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'Signing in...' : 'Sign In'}
-                </Button>
-              </div>
+            <Form className="space-y-5">
+              <Field
+                label="Email"
+                name="email"
+                placeholder="you@sortefirkant.dk"
+                type="email"
+                startIcon={<IconMail className="h-5 w-5 text-ink-subtle" />}
+                component={MyField}
+              />
+              <Field
+                label="Password"
+                name="password"
+                placeholder="Enter your password"
+                type="password"
+                startIcon={<IconLock className="h-5 w-5 text-ink-subtle" />}
+                component={MyField}
+              />
+              <Button
+                type="submit"
+                size="lg"
+                fullWidth
+                disabled={isSubmitting}
+                icon={
+                  isSubmitting ? (
+                    <Spinner className="h-4 w-4 border-white/40 border-t-white" />
+                  ) : null
+                }
+                trailingIcon={
+                  isSubmitting ? null : <IconArrowRight className="h-4 w-4" />
+                }
+              >
+                {isSubmitting ? "Signing in…" : "Sign In"}
+              </Button>
             </Form>
           )}
         </Formik>
-
-        <div className="mt-6 text-center">
-          <Link href="/rest">
-            <span className="text-blue-600 hover:text-blue-500">
-              Forgot Password?
-            </span>
-          </Link>
-          {/* <p className="text-gray-600 mt-2">
-            Don&apos;t have an account?{" "}
-            <Link href="/signup">
-              <span className="text-blue-600 hover:text-blue-500 font-semibold">
-                Register
-              </span>
-            </Link>
-          </p> */}
-        </div>
-      </div>
-    </div>
+      </AuthShell>
+    </>
   );
 };
 

@@ -1,20 +1,20 @@
-import { Button } from "@mui/material";
-import { Router, useRouter } from "next/router";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
 
 import { RegisterHours } from "../components/DailyRegiste";
 
-import styles from "../styles/Home.module.css";
 const Dashboard = () => {
   const router = useRouter();
 
   const { id } = router.query;
   return (
-    <div>
-      <div>
-        <RegisterHours id={id} />
-      </div>
-    </div>
+    <>
+      <Head>
+        <title>Sorte Firkant - Register</title>
+      </Head>
+      <RegisterHours id={id} />
+    </>
   );
 };
 

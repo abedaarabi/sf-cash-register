@@ -1,12 +1,41 @@
 import React from "react";
-import { Line, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
-import { CircularProgress } from "@mui/material";
 
-import styles from "../../styles/Home.module.css";
 import { DateSelector } from "../DateSelector";
+import { PageHeader } from "../ui/PageHeader";
+import { StatTile } from "../ui/Stat";
+import { PageLoader } from "../ui/Loading";
+import { IconCalendar, IconChart, IconReceipt } from "../ui/icons";
+
 Chart.register(CategoryScale);
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: "#0F172A",
+      padding: 12,
+      cornerRadius: 12,
+      titleFont: { weight: "600" as const },
+    },
+  },
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: { color: "#94A3B8", maxRotation: 0, autoSkipPadding: 16 },
+    },
+    y: {
+      border: { display: false },
+      grid: { color: "#E2E8F0" },
+      ticks: { color: "#94A3B8" },
+    },
+  },
+};
+
 const IncomeChart = () => {
   const [dailyReport, setDailyReport] = React.useState([]) as any;
   const [loading, setLoading] = React.useState(true);
@@ -51,7 +80,6 @@ const IncomeChart = () => {
     }
   }
 
-  React.useEffect(() => {}, [loading]);
   React.useEffect(() => {
     fetch(`/api/dailyreports/report`)
       .then((res) => res.json())
@@ -83,57 +111,61 @@ const IncomeChart = () => {
   }, []);
 
   return (
-    <div className={styles.charts}>
-      <DateSelector getdate={getdate} />
+    <div className="app-shell">
+      <PageHeader
+        title="Income overview"
+        subtitle="Product sales per closed register"
+        icon={<IconChart className="h-5 w-5" />}
+      />
+
+      <div className="mb-6">
+        <DateSelector getdate={getdate} />
+      </div>
 
       {loading ? (
-        <CircularProgress />
+        <PageLoader label="Crunching numbers…" />
       ) : (
         <>
-          <div className={styles.charts}>
-            <h2 style={{ color: "#6d6875" }}>
-              Total: {convertCurrencyToal(dailyReport.total)} kr
-              {/* Total:   {Number.parseFloat(dailyReport.total).toFixed(2)} kr */}
-            </h2>
-            <p style={{ color: "#6d6875" }}>
-              From: {dailyReport.label[0]} To:
-              {dailyReport.label[dailyReport.label.length - 1]}
-            </p>
+          <div className="mb-6 grid gap-4 sm:grid-cols-2">
+            <StatTile
+              label="Total income"
+              value={convertCurrencyToal(dailyReport.total)}
+              tone="brand"
+              icon={<IconReceipt className="h-5 w-5" />}
+            />
+            <StatTile
+              label="Period"
+              value={`${dailyReport.label[0]} → ${
+                dailyReport.label[dailyReport.label.length - 1]
+              }`}
+              tone="sky"
+              icon={<IconCalendar className="h-5 w-5" />}
+              hint={`${dailyReport.label.length} closing days`}
+            />
           </div>
 
-          <Bar
-            height={window.innerWidth < 450 ? 85 : 35}
-            width={window.innerWidth < 450 ? 100 : 120}
-            datasetIdKey="id"
-            data={{
-              labels: dailyReport.label,
-              datasets: [
-                {
-                  label: "Income",
-                  data: dailyReport.data,
-                  //@ts-ignore
-                  backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    "rgba(75, 192, 192, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                    "rgba(255, 159, 64, 0.2)",
+          <div className="card p-4 sm:p-6">
+            <div className="h-72 w-full sm:h-96">
+              <Bar
+                datasetIdKey="id"
+                options={chartOptions as any}
+                data={{
+                  labels: dailyReport.label,
+                  datasets: [
+                    {
+                      label: "Income",
+                      data: dailyReport.data,
+                      backgroundColor: "rgba(99, 102, 241, 0.85)",
+                      hoverBackgroundColor: "rgba(67, 56, 202, 0.95)",
+                      borderRadius: 8,
+                      borderSkipped: false,
+                      maxBarThickness: 48,
+                    },
                   ],
-                  //@ts-ignore
-                  borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)",
-                    "rgba(255, 159, 64, 1)",
-                  ],
-                  borderWidth: 1,
-                },
-              ],
-            }}
-          />
+                }}
+              />
+            </div>
+          </div>
         </>
       )}
     </div>

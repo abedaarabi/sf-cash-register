@@ -1,19 +1,17 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import { faAngleRight, faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Typography from "@mui/material/Typography";
-
-import { useAuth } from "../context/AuthContext";
-import styles from "../styles/Home.module.css";
-import { Button } from "./ui/Button";
-import { admin } from "../helper/emailAdmin";
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { Box } from "@mui/material";
-import Image from "next/image";
+import { useAuth } from "../context/AuthContext";
+import { admin } from "../helper/emailAdmin";
+import { Button } from "./ui/Button";
+import {
+  IconChevronDown,
+  IconChevronRight,
+  IconCocktail,
+  IconPencil,
+  IconTrash,
+} from "./ui/icons";
+
 export function Drinks({
   img,
   name,
@@ -25,7 +23,7 @@ export function Drinks({
 }: any) {
   const { user } = useAuth();
   const [isHide, setIsHide] = React.useState(false);
-  const arrow = isHide ? faAngleDown : faAngleRight;
+  const [imageFailed, setImageFailed] = React.useState(false);
 
   const deleteDrinkById = async (id: any) => {
     return await axios.delete("api/drinks/drink", {
@@ -52,128 +50,110 @@ export function Drinks({
     mutate(id);
   };
 
-  return (
-    <Card sx={{ maxWidth: 350 }}>
-      {/* <CardMedia
-        component="img"
-        alt={name}
-        height="200"
-         width="250"
-        image={img}
-      /> */}
+  const canManage =
+    admin.includes(user?.email) || user?.email === "yas.kh24@gmail.com";
 
-      <Box
-        component="img"
-        sx={{
-          height: 233,
-          width: 350,
-          // maxHeight: { xs: 200, md: 167 },
-          // maxWidth: { xs: 350, md: 250 },
-        }}
-        alt={name}
-        src={img}
-      />
-      <CardContent>
-        <Typography
-          gutterBottom
-          variant={"body2"}
-          component="div"
-          color={"#343a40"}
-        >
-          {name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" component="div">
-          {description}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          marginTop={"1rem"}
-          component="div"
-        >
-          {(admin.includes(user?.email) ||
-            user?.email === "yas.kh24@gmail.com") && (
-            <div
-              style={{
-                marginBottom: "15px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-evenly",
+  return (
+    <article className="card-interactive flex h-full flex-col overflow-hidden">
+      <div className="relative aspect-[3/2] w-full overflow-hidden bg-gradient-to-br from-brand-100 to-sky-100">
+        {img && !imageFailed ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={img}
+            alt={name}
+            loading="lazy"
+            onError={() => setImageFailed(true)}
+            className="h-full w-full object-cover transition duration-500 hover:scale-105"
+          />
+        ) : (
+          <span className="flex h-full w-full items-center justify-center text-brand-400">
+            <IconCocktail className="h-12 w-12" />
+          </span>
+        )}
+        <span className="pill absolute right-3 top-3 bg-surface-inverted/80 text-white backdrop-blur">
+          {prise} kr
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        <div>
+          <h3 className="text-base font-bold tracking-tight text-ink">{name}</h3>
+          <p className="mt-1 line-clamp-3 text-sm text-ink-muted">
+            {description}
+          </p>
+        </div>
+
+        {user && (
+          <div className="mt-auto">
+            <button
+              type="button"
+              onClick={() => setIsHide(!isHide)}
+              aria-expanded={isHide}
+              className="flex w-full items-center justify-between gap-2 rounded-xl bg-surface-sunken px-3 py-2.5 text-sm font-semibold text-ink transition hover:bg-brand-50 hover:text-brand-700"
+            >
+              Recipe
+              <span className="text-ink-muted">
+                {isHide ? (
+                  <IconChevronDown className="h-4 w-4" />
+                ) : (
+                  <IconChevronRight className="h-4 w-4" />
+                )}
+              </span>
+            </button>
+
+            {isHide && (
+              <div className="mt-3 animate-fade-in space-y-3 rounded-xl border border-line bg-surface-muted/60 p-3">
+                <ul className="space-y-1.5">
+                  {rRecipe?.map((item: string, idx: any) => (
+                    <li
+                      key={idx}
+                      className="flex gap-2 text-sm text-ink-muted before:mt-1.5 before:h-1.5 before:w-1.5 before:shrink-0 before:rounded-full before:bg-brand-400"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                {preparation && (
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wide text-ink-muted">
+                      Preparation
+                    </p>
+                    <p className="mt-1 text-sm text-ink-muted">{preparation}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {canManage && (
+          <div className="flex gap-2 border-t border-line pt-3">
+            <Button
+              size="sm"
+              variant="secondary"
+              className="flex-1"
+              icon={<IconPencil className="h-4 w-4" />}
+              href={{
+                pathname: `/drinkspanel`,
+                query: {
+                  id: id,
+                },
               }}
             >
-              <Button
-                style={{
-                  width: "4rem",
-                  backgroundColor: "#555b6e",
-                }}
-                href={{
-                  pathname: `/drinkspanel`,
-                  query: {
-                    id: id,
-                  },
-                }}
-              >
-                Edit
-              </Button>
-              <Button
-                style={{
-                  width: "4rem",
-                  backgroundColor: "#a53860",
-                }}
-                onClick={() => deleteDrink(id)}
-              >
-                Delete
-              </Button>
-            </div>
-          )}
-          {user && (
-            <div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <h3 style={{ paddingRight: "5px" }}>Recipe </h3>
-                <FontAwesomeIcon
-                  className="arrow"
-                  icon={arrow}
-                  size="lg"
-                  color={"#343a40"}
-                  onClick={() => {
-                    setIsHide(!isHide);
-                  }}
-                />
-              </div>
-
-              {isHide && (
-                <div>
-                  <ul>
-                    {rRecipe?.map((i: string, idx: any) => (
-                      <li key={idx}>{i}</li>
-                    ))}
-                  </ul>
-                  <div>
-                    <p style={{ color: "#9a8c98" }}>Preparation:</p>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      component="div"
-                    >
-                      {preparation}
-                    </Typography>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </Typography>
-
-        <Typography
-          gutterBottom
-          component="div"
-          color={"#6c757d"}
-          marginTop={"1rem"}
-          variant={"body2"}
-        >
-          Prise: {prise} kr
-        </Typography>
-      </CardContent>
-    </Card>
+              Edit
+            </Button>
+            <Button
+              size="sm"
+              variant="danger"
+              className="flex-1"
+              icon={<IconTrash className="h-4 w-4" />}
+              onClick={() => deleteDrink(id)}
+            >
+              Delete
+            </Button>
+          </div>
+        )}
+      </div>
+    </article>
   );
 }

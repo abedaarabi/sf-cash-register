@@ -1,14 +1,14 @@
 import React from "react";
-import { Drinks } from "../components/Drinks";
-
-import { CircularProgress, debounce, TextField } from "@mui/material";
-const recipes = require("../data/recipes.json");
-
-import styles from "../styles/Home.module.css";
 import Head from "next/head";
-import { Alerts } from "../components/Alerts";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
 import { useQuery } from "react-query";
+import { Drinks } from "../components/Drinks";
+import { Alerts } from "../components/Alerts";
 import { Button } from "../components/ui/Button";
+import { PageHeader } from "../components/ui/PageHeader";
+import { PageLoader } from "../components/ui/Loading";
+import { IconCocktail, IconPlus, IconSearch } from "../components/ui/icons";
 import { admin } from "../helper/emailAdmin";
 import { useAuth } from "../context/AuthContext";
 
@@ -18,7 +18,7 @@ const getDrinks = async () => {
 
 const DrinlsRecipe = () => {
   const { user } = useAuth();
-  const { isLoading, isError, data, error } = useQuery("drinks", getDrinks);
+  const { isLoading, data } = useQuery("drinks", getDrinks);
 
   const [filterRecipes, setFilterRecipes] = React.useState("");
 
@@ -51,63 +51,73 @@ const DrinlsRecipe = () => {
   );
 
   if (isLoading || !data) {
-    return (
-      <div className={styles.container}>
-        <CircularProgress />
-      </div>
-    );
+    return <PageLoader label="Loading drinks…" />;
   }
 
+  const canManage =
+    admin.includes(user?.email) || user?.email === "yas.kh24@gmail.com";
+
   return (
-    <div>
+    <div className="app-shell">
       <Head>
         <title>Drinks</title>
       </Head>
 
-      <div className={styles.recipesSearsh}>
-        <TextField
-          id="standard-basic"
-          label="Search For Drink"
-          variant="standard"
-          // value={filterRecipes}
-          onChange={handelInput}
-        />
-
-        {(admin.includes(user?.email) ||
-          user?.email === "yas.kh24@gmail.com") && (
-          <div style={{ marginTop: "1rem" }}>
+      <PageHeader
+        title="Drinks menu"
+        subtitle={`${resultRecipes.length} recipe${
+          resultRecipes.length === 1 ? "" : "s"
+        } available`}
+        icon={<IconCocktail className="h-5 w-5" />}
+        actions={
+          canManage ? (
             <Button
-              style={{
-                backgroundColor: "#013a63",
-              }}
+              icon={<IconPlus className="h-4 w-4" />}
               href={{
                 pathname: `/drinkspanel`,
               }}
             >
-              Add new Drink
+              Add new drink
             </Button>
-          </div>
-        )}
+          ) : null
+        }
+      />
+
+      <div className="card mb-6 p-3 sm:p-4">
+        <TextField
+          label="Search for a drink"
+          placeholder="Mojito, Negroni…"
+          size="small"
+          fullWidth
+          onChange={handelInput}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <IconSearch className="h-5 w-5 text-ink-subtle" />
+              </InputAdornment>
+            ),
+          }}
+        />
       </div>
-      <div className={styles.recipes}>
-        {resultRecipes.length === 0 ? (
-          <Alerts severity="info" msg="Drink is not found" />
-        ) : (
-          resultRecipes.map((recipe: any) => (
-            <div key={recipe.id} className={styles.recipesCard}>
-              <Drinks
-                id={recipe.id}
-                name={recipe.name}
-                img={recipe.image}
-                description={recipe.description}
-                prise={recipe.price}
-                recipe={recipe.recipe}
-                preparation={recipe.preparation}
-              />
-            </div>
-          ))
-        )}
-      </div>
+
+      {resultRecipes.length === 0 ? (
+        <Alerts severity="info" msg="Drink is not found" />
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {resultRecipes.map((recipe: any) => (
+            <Drinks
+              key={recipe.id}
+              id={recipe.id}
+              name={recipe.name}
+              img={recipe.image}
+              description={recipe.description}
+              prise={recipe.price}
+              recipe={recipe.recipe}
+              preparation={recipe.preparation}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

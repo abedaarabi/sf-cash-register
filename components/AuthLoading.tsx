@@ -1,9 +1,5 @@
-import { CircularProgress } from "@mui/material";
+import { PageLoader } from "./ui/Loading";
 
 export function AuthLoading() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
-      <CircularProgress />
-    </div>
-  );
+  return <PageLoader label="Checking your session…" />;
 }

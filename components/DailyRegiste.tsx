@@ -1,12 +1,23 @@
-import React, { useEffect, useRef } from "react";
-// import { Button, Icon } from "@mui/material";
+import React, { useRef } from "react";
 import { Button } from "./ui/Button";
 import { Field, Form, Formik } from "formik";
 
 import { BasicSelect, DateINput, MyField } from "./MyField";
 import { useAuth } from "../context/AuthContext";
-import styles from "../styles/Home.module.css";
 import { Alerts } from "./Alerts";
+import { PageHeader } from "./ui/PageHeader";
+import { SectionCard } from "./ui/Card";
+import { StatTile } from "./ui/Stat";
+import { PageLoader, Spinner } from "./ui/Loading";
+import {
+  IconBanknote,
+  IconCalculator,
+  IconCard,
+  IconCoins,
+  IconHome,
+  IconNote,
+  IconReceipt,
+} from "./ui/icons";
 
 import {
   countCoins,
@@ -17,8 +28,23 @@ import {
 } from "../helper/inputshelper";
 
 import { useRouter } from "next/router";
-import { CircularProgress, TextField } from "@mui/material";
 import { convertCurrencyToal } from "./charts/IncomeChart";
+
+const FieldGrid = ({ items }: any) => (
+  <div className="grid grid-cols-2 gap-3 sm:grid-cols-1">
+    {items.map(({ label, name, placeholder }: any) => (
+      <Field
+        key={name.toString()}
+        label={label}
+        name={name}
+        placeholder={placeholder}
+        type="text"
+        size="small"
+        component={MyField}
+      />
+    ))}
+  </div>
+);
 
 export const RegisterHours = ({ id }: any) => {
   const { user } = useAuth();
@@ -26,7 +52,6 @@ export const RegisterHours = ({ id }: any) => {
   const valueRef = useRef() as any;
   const [dailyUpdate, setDailyUpdate] = React.useState(null) as any;
   const [totalCountedCash, setTotalCountedCash] = React.useState(0) as any;
-  const [x, setX] = React.useState(null) as any;
 
   const [loading, setLoading] = React.useState(true);
   const [fdc, setFdc] = React.useState(null) as any;
@@ -38,7 +63,6 @@ export const RegisterHours = ({ id }: any) => {
       .then((res) => res.json())
       .then(({ response }) => {
         setFdc(response[0]);
-        // setFdc(response[response.length - 1]);
         const byId = response.find((item: any) => item.id === +id);
 
         setDailyUpdate(byId);
@@ -53,20 +77,6 @@ export const RegisterHours = ({ id }: any) => {
 
     return () => clearTimeout(time);
   }, [addReport, router]);
-
-  // useEffect(() => {
-  //   const values = valueRef.current?.values;
-  //   let total = 0;
-  //   for (const key in values as any) {
-  //     const element = +values[key];
-
-  //     if (element) {
-  //       total += element * money[key];
-  //     }
-  //   }
-
-  //   setTotalCountedCash(total);
-  // }, [valueRef.current?.values, x]);
 
   async function addCommentHandlerPrisma(inputsValue: any) {
     return await fetch("/api/dailyreports/report/", {
@@ -87,11 +97,7 @@ export const RegisterHours = ({ id }: any) => {
   }
 
   if (loading) {
-    return (
-      <h2 className={styles.container}>
-        <CircularProgress />
-      </h2>
-    );
+    return <PageLoader label="Loading register…" />;
   }
 
   const Coins = {
@@ -120,21 +126,15 @@ export const RegisterHours = ({ id }: any) => {
 
   if (id) {
     const {
-      Date,
-      Time,
       card_28,
       card_43,
       cashOut,
-      close_by,
       closingDate,
       comments,
-      done,
-      employeId,
       fifty_kr,
       five_hundred_kr,
       five_kr,
       half_kr,
-      id,
       invoices,
       mobile_pay,
       one_hundred_kr,
@@ -147,7 +147,6 @@ export const RegisterHours = ({ id }: any) => {
       twenty_kr,
       two_hundred_kr,
       two_kr,
-      update_by,
     } = dailyUpdate;
 
     formikvalues = {
@@ -177,237 +176,172 @@ export const RegisterHours = ({ id }: any) => {
     formikvalues = Statevalues;
   }
 
+  const countCash = () => {
+    const values = valueRef.current.values;
+
+    let total = 0;
+    for (const key in values as any) {
+      const element = +values[key];
+
+      if (element && money[key]) {
+        total += element * money[key];
+      }
+    }
+    setTotalCountedCash(total);
+  };
+
   return (
-    <div className={styles.container}>
-      <div className={styles.zoom}>
-        <h4 style={{ margin: "auto", color: "white" }}>
-          {/* Opening FDC: {opening && opening.toFixed(2)}kr.  */}
-          Opening FDC: {opening && convertCurrencyToal(opening)}
-        </h4>
-      </div>
-      <div style={{}}>
-        <Button
-          style={{
-            backgroundColor: "#6d6875",
-            color: "white",
+    <div className="app-shell">
+      <PageHeader
+        title={id ? "Edit register report" : "Close register"}
+        subtitle={
+          id
+            ? "Update the numbers of an existing closing report"
+            : "Count the drawer, log the sales and close the day"
+        }
+        icon={<IconHome className="h-5 w-5" />}
+      />
 
-            marginTop: "5px",
-          }}
-          onClick={() => {
-            const values = valueRef.current.values;
-
-            let total = 0;
-            for (const key in values as any) {
-              const element = +values[key];
-
-              if (element && money[key]) {
-                total += element * money[key];
-              }
-            }
-            setTotalCountedCash(total);
-            console.log(+valueRef.current.values["1000s"] * 1000);
-          }}
-        >
-          Count Cash
-        </Button>
-        <h4> {convertCurrencyToal(totalCountedCash)}</h4>
+      <div className="mb-6 grid gap-4 sm:grid-cols-2">
+        <StatTile
+          label="Opening FDC"
+          value={convertCurrencyToal(opening)}
+          tone="amber"
+          icon={<IconBanknote className="h-5 w-5" />}
+          hint="From the previous shift"
+        />
+        <StatTile
+          label="Counted cash"
+          value={convertCurrencyToal(totalCountedCash)}
+          tone="brand"
+          icon={<IconCalculator className="h-5 w-5" />}
+          hint="Notes and coins below"
+          action={
+            <Button variant="secondary" size="sm" onClick={countCash}>
+              Count
+            </Button>
+          }
+        />
       </div>
 
-      <div className={styles.inputsContainer}>
-        <Formik
-          initialValues={formikvalues}
-          innerRef={valueRef}
-          onSubmit={async (value) => {
-            try {
-              if (!value.productSales) {
-                alert("Fill Product Sales Inputs");
-              } else {
-                setIsAddReport(true);
-                const response = await addCommentHandlerPrisma(value);
-                setAddReport(response.message);
-                setIsAddReport(false);
-              }
-            } catch (error) {
-              console.log(error);
+      <Formik
+        initialValues={formikvalues}
+        innerRef={valueRef}
+        onSubmit={async (value) => {
+          try {
+            if (!value.productSales) {
+              alert("Fill Product Sales Inputs");
+            } else {
+              setIsAddReport(true);
+              const response = await addCommentHandlerPrisma(value);
+              setAddReport(response.message);
+              setIsAddReport(false);
             }
-          }}
-        >
-          {() => (
-            <Form
-              onChange={(e: any) => {
-                // setX(e.target.value);
-              }}
-            >
-              <div>
-                <div className={styles.selsePyament}>
-                  <div className={styles.sales}>
-                    <p>Sales</p>
-                    {sales.map(({ label, name, placeholder }: any) => (
-                      <div key={name.toString()}>
-                        <Field
-                          label={label}
-                          name={name}
-                          placeholder={placeholder}
-                          variant="outlined"
-                          color="success"
-                          type="text"
-                          width={"8rem"}
-                          marginBottom={"1rem"}
-                          component={MyField}
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div style={{ paddingLeft: "5px" }}>
-                    <p>Payments</p>
-                    {payments.map(({ label, name, placeholder }: any) => (
-                      <div key={name.toString()}>
-                        <Field
-                          label={label}
-                          name={name}
-                          placeholder={placeholder}
-                          variant="outlined"
-                          color="success"
-                          type="text"
-                          width={"8rem"}
-                          marginBottom={"1rem"}
-                          component={MyField}
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div style={{ paddingLeft: "5px" }}>
-                    <p>Count Coins</p>
-
-                    {countCoins.map(({ label, name, placeholder }: any) => {
-                      return (
-                        <div key={name.toString()}>
-                          <Field
-                            label={label}
-                            name={name}
-                            placeholder={placeholder}
-                            variant="outlined"
-                            color="success"
-                            type="text"
-                            width={"8rem"}
-                            marginBottom={"1rem"}
-                            component={MyField}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div style={{ paddingLeft: "5px" }}>
-                    <p>Count Note</p>
-                    {countNote.map(({ label, name, placeholder }: any) => (
-                      <div key={name.toString()}>
-                        <Field
-                          label={label}
-                          name={name}
-                          placeholder={placeholder}
-                          variant="outlined"
-                          color="success"
-                          type="text"
-                          width={"8rem"}
-                          marginBottom={"1rem"}
-                          component={MyField}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.cashOutReason}>
-                <div style={{ marginRight: "5px" }}>
-                  <Field
-                    name="cashOut"
-                    placeholder="Cash out"
-                    label="Cash out"
-                    variant="outlined"
-                    color="error"
-                    type="text"
-                    width={"8rem"}
-                    component={MyField}
-                  />
-                </div>
-
-                <div>
-                  <Field
-                    name="reason"
-                    placeholder="Reason"
-                    label="Reason"
-                    variant="outlined"
-                    color="secondary"
-                    type="text"
-                    // width={"8rem"}
-                    // marginBottom={"1rem"}
-                    component={BasicSelect}
-                  />
-                </div>
-
-                <div style={{ marginLeft: "5px" }}>
-                  <Field
-                    placeholder="Date"
-                    name="closingDate"
-                    label="date"
-                    color="success"
-                    updateDone
-                    type="date"
-                    component={DateINput}
-                    required={true}
-                  />
-                </div>
-              </div>
-
-              <div className={styles.alert}>
-                {addReport && (
-                  <Alerts
-                    msg={addReport}
-                    severity={
-                      addReport === "Data Added successfully!"
-                        ? "success"
-                        : "error"
-                    }
-                  />
-                )}
-                <div style={{ margin: "10px 240px" }}>
-                  {isAddReport && <CircularProgress />}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+      >
+        {() => (
+          <Form className="space-y-6">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <SectionCard
+                title="Sales"
+                icon={<IconReceipt className="h-4 w-4" />}
               >
-                <div>
-                  <Field
-                    name="comments"
-                    placeholder="comments"
-                    label="comments"
-                    multiline
-                    rows={5}
-                    variant="outlined"
-                    color="success"
-                    type="textArea"
-                    width={"24rem"}
-                    marginBottom={"1rem"}
-                    component={MyField}
-                    required={false}
-                  />
-                </div>
-                <Button type="submit">Close Register</Button>
+                <FieldGrid items={sales} />
+              </SectionCard>
+              <SectionCard
+                title="Payments"
+                icon={<IconCard className="h-4 w-4" />}
+              >
+                <FieldGrid items={payments} />
+              </SectionCard>
+              <SectionCard
+                title="Count Coins"
+                icon={<IconCoins className="h-4 w-4" />}
+              >
+                <FieldGrid items={countCoins} />
+              </SectionCard>
+              <SectionCard
+                title="Count Notes"
+                icon={<IconNote className="h-4 w-4" />}
+              >
+                <FieldGrid items={countNote} />
+              </SectionCard>
+            </div>
+
+            <SectionCard
+              title="Cash out & closing date"
+              icon={<IconBanknote className="h-4 w-4" />}
+            >
+              <div className="grid gap-4 sm:grid-cols-3">
+                <Field
+                  name="cashOut"
+                  placeholder="Cash out"
+                  label="Cash out"
+                  color="error"
+                  type="text"
+                  size="small"
+                  component={MyField}
+                />
+                <Field
+                  name="reason"
+                  placeholder="Reason"
+                  label="Reason"
+                  type="text"
+                  component={BasicSelect}
+                />
+                <Field
+                  placeholder="Date"
+                  name="closingDate"
+                  label="Closing date"
+                  type="date"
+                  component={DateINput}
+                  required={true}
+                />
               </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
+            </SectionCard>
+
+            <SectionCard title="Comments" icon={<IconNote className="h-4 w-4" />}>
+              <Field
+                name="comments"
+                placeholder="Anything worth noting about this shift?"
+                label="Comments"
+                multiline
+                rows={5}
+                type="textArea"
+                component={MyField}
+                required={false}
+              />
+            </SectionCard>
+
+            {addReport && (
+              <Alerts
+                msg={addReport}
+                severity={
+                  addReport === "Data Added successfully!" ? "success" : "error"
+                }
+              />
+            )}
+
+            <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:justify-end">
+              <Button
+                type="submit"
+                size="lg"
+                disabled={isAddReport}
+                icon={
+                  isAddReport ? (
+                    <Spinner className="h-4 w-4 border-white/40 border-t-white" />
+                  ) : null
+                }
+              >
+                {isAddReport ? "Saving…" : "Close Register"}
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

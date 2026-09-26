@@ -1,10 +1,11 @@
 import React, { useMemo } from "react";
 import {
   MaterialReactTable,
-  useMaterialReactTable,
   type MRT_ColumnDef,
 } from "material-react-table";
-import { Box, Stack, darken } from "@mui/material";
+import { Box } from "@mui/material";
+import { PageHeader } from "./ui/PageHeader";
+import { IconBanknote } from "./ui/icons";
 
 type DailyReport = {
   cashOut: string;
@@ -95,19 +96,14 @@ const CashOut = () => {
     []
   );
 
-  //   const table = useMaterialReactTable({
-  //     columns,
-  //     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-  //   });
-
   return (
-    <Box
-      sx={{
-        width: "90%",
-        margin: "auto",
-        marginTop: "20px",
-      }}
-    >
+    <div className="app-shell">
+      <PageHeader
+        title="Cash out"
+        subtitle="Every withdrawal grouped by reason"
+        icon={<IconBanknote className="h-5 w-5" />}
+      />
+
       <MaterialReactTable
         enableStickyFooter
         enableColumnFilterModes
@@ -117,23 +113,25 @@ const CashOut = () => {
         data={cash || []}
         columns={columns}
         state={{ isLoading: cashIsLoading }}
-        initialState={{ grouping: ["reason"] }}
+        initialState={{ grouping: ["reason"], density: "compact" }}
         enableStickyHeader
         pageCount={60}
         muiTablePaperProps={{
+          elevation: 0,
           sx: {
-            // borderRadius: "10px",
-            overflowX: "scroll",
+            borderRadius: "1.125rem",
+            border: "1px solid #E2E8F0",
+            overflow: "hidden",
           },
         }}
-        //expand all groups by default
-        //an array of columns to group by by default (can be multiple)
-
+        muiTableHeadCellProps={{
+          sx: { backgroundColor: "#F8FAFC", fontWeight: 700 },
+        }}
         muiTableContainerProps={{
-          sx: { overflowX: "scroll" },
+          sx: { maxHeight: "70vh", overflowX: "auto" },
         }}
       />
-    </Box>
+    </div>
   );
 };
 function formatToDanishCurrency(amount: number): string {
